@@ -1,12 +1,12 @@
-using System;
-using Code;
-using UnityEngine;
 using Zenject;
 
-public class GameSceneInstaller : MonoInstaller
+namespace Code
 {
-    public override void InstallBindings()
+    public class GameSceneInstaller : MonoInstaller
     {
-        Container.Bind<IInputSystem>().To<InputSystem>().FromNew().AsSingle().NonLazy();
+        public override void InstallBindings()
+        {
+            Container.Bind<IInputSystem>().To<InputSystem>().FromNew().AsSingle().NonLazy();
+        }
     }
 }
