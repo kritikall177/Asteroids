@@ -8,18 +8,14 @@ namespace Code
     public class MovementSystem : MonoBehaviour
     {
         [SerializeField] private Rigidbody2D _rigidbody2D;
-        
-        [SerializeField] private float _maxSpeed = 10f;
-        [SerializeField] private float _minSpeed = 0f;
-        [SerializeField] private float _accelerationRate = 1f;
-        [SerializeField] private float _decelerationRate = 1f;
+        [SerializeField] private float _screenWrapBuffer = 50f;
         
         private IInputSystem _inputSystem;
         
-        private float _currentSpeed = 0f;
-        private Vector3 _moveDir = Vector3.zero;
-        private Vector3 _currentMoveDir = Vector3.zero;
-        private Vector3 _rotateDir;
+        private bool _isMoving;
+        private Vector2 _lookDir;
+        private float _screenWidth;
+        private float _screenHeight;
 
         [Inject]
         public void Construct(IInputSystem inputSystem)
@@ -27,57 +23,61 @@ namespace Code
             _inputSystem = inputSystem;
             _inputSystem.OnMoveEvent += MoveVector;
             _inputSystem.OnLookEvent += RotationVector;
+            _screenWidth = Screen.width / _screenWrapBuffer;
+            _screenHeight = Screen.height / _screenWrapBuffer;
         }
         
-        private void Update()
+        private void FixedUpdate()
         {
             HandleMovement();
             HandleRotation();
+            ScreenWarping();
         }
 
         private void RotationVector(Vector2 position)
         {
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(position);
-            _rotateDir = new Vector2(mousePosition.x - transform.position.x,
+            _lookDir = new Vector2(mousePosition.x - transform.position.x,
                 mousePosition.y - transform.position.y);
-            Debug.Log(_rotateDir);
         }
 
         private void MoveVector(Vector2 vector)
         {
-            // Обновляем направление движения, если получаем ненулевое значение
-            _moveDir = transform.TransformDirection(new Vector3(0f, vector.y > 0 ? 1f : 0f, 0f));
-            if (_moveDir != Vector3.zero)
-                _currentMoveDir = _moveDir;
+            _isMoving = vector.y > 0;
         }
 
         private void HandleMovement()
         {
-            // Ускоряем объект, если нажата кнопка движения
-            if (_moveDir.y > 0)
-            {
-                _currentSpeed += _accelerationRate * Time.deltaTime;
-            }
-            else
-            {
-                // Плавно снижаем скорость при отпускании кнопки
-                _currentSpeed -= _decelerationRate * Time.deltaTime;
-            }
-
-            // Ограничиваем текущую скорость
-            _currentSpeed = Mathf.Clamp(_currentSpeed, _minSpeed, _maxSpeed);
-
-            // Используем _currentMoveDir для продолжения движения по инерции
-            transform.position += _currentMoveDir * _currentSpeed * Time.deltaTime;
-
-            // Останавливаем объект, если его скорость близка к нулю
-            if (_currentSpeed <= _minSpeed)
-                _currentMoveDir = Vector3.zero;
+            if (_isMoving) _rigidbody2D.AddForce(_lookDir);
         }
 
         private void HandleRotation()
         {
-            transform.up = _rotateDir;
+            transform.up = _lookDir;
+        }
+
+        //потом будет глобал скрипт для всех объектов 
+        private void ScreenWarping()
+        {
+            Vector2 newPos = transform.position;
+            if (transform.position.y >= _screenHeight)
+            {
+                newPos.y = -_screenHeight;
+            }
+            if (transform.position.y <= -_screenHeight)
+            {
+                newPos.y = _screenHeight;
+            }
+            if (transform.position.x >= _screenWidth)
+            {
+                newPos.x = -_screenWidth;
+            }
+            if (transform.position.x <= -_screenWidth)
+            {
+                newPos.x = _screenWidth;
+            }
+
+            transform.position = newPos;
         }
 
         private void OnDestroy()
