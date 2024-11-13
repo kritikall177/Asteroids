@@ -9,6 +9,8 @@ namespace Code
         private readonly InputSystem_Actions _inputSystemActions;
         public event Action<Vector2> OnMoveEvent;
         public event Action<Vector2> OnLookEvent;
+        public event Action<float> OnAttackEvent;
+        public event Action<float> OnHeavyAttackEvent;
         
         
         
@@ -28,7 +30,12 @@ namespace Code
 
         public void OnAttack(InputAction.CallbackContext context)
         {
-            
+            OnAttackEvent?.Invoke(context.ReadValue<float>());
+        }
+
+        public void OnHeavyAttack(InputAction.CallbackContext context)
+        {
+            OnHeavyAttackEvent?.Invoke(context.ReadValue<float>());
         }
 
         public void OnInteract(InputAction.CallbackContext context)
@@ -66,5 +73,7 @@ namespace Code
     {
         public event Action<Vector2> OnMoveEvent;
         public event Action<Vector2> OnLookEvent;
+        public event Action<float> OnAttackEvent;
+        public event Action<float> OnHeavyAttackEvent;
     }
 }
