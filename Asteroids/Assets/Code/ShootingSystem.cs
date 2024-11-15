@@ -7,15 +7,13 @@ namespace Code
 {
     public class ShootingSystem : MonoBehaviour
     {
+        [SerializeField] private GameObject _laserGameObject;
+        
         [SerializeField] private int _maxLaserCharge = 2;
         [SerializeField] private int _laserCharge = 2;
         [SerializeField] private float _laserActiveTime = 0.5f;
         [SerializeField] private int _laserRestoreTime = 20;
-        [SerializeField] private int _bulletSpeed = 10;
-        
-        [SerializeField] private GameObject _laserGameObject;
-        
-        
+
         private BulletsPool _bulletsPool;
         private IInputSystem _inputSystem;
 
@@ -77,7 +75,7 @@ namespace Code
         private void BulletAttack()
         {
             Bullet bullet = _bulletsPool.Spawn();
-            bullet.Launch(transform.position, _direction, _bulletSpeed);
+            bullet.Launch(transform.position, _direction);
         }
     }
 }

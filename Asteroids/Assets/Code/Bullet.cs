@@ -8,6 +8,7 @@ namespace Code
     {
         [SerializeField] private Rigidbody2D _rigidbody2D;
         [SerializeField] private float _despawnTime = 1f;
+        [SerializeField] private float _bulletSpeed = 10f;
         
         private BulletsPool _bulletsPool;
 
@@ -17,10 +18,10 @@ namespace Code
             _bulletsPool = bulletsPool;
         }
 
-        public void Launch(Vector2 shootPosition, Vector2 shootDirection, float bulletSpeed = 1f)
+        public void Launch(Vector2 shootPosition, Vector2 shootDirection)
         {
             transform.position = shootPosition;
-            _rigidbody2D.AddForce(shootDirection * bulletSpeed, ForceMode2D.Impulse);
+            _rigidbody2D.AddForce(shootDirection * _bulletSpeed, ForceMode2D.Impulse);
             StartCoroutine(DespawnTimer());
         }
 
@@ -28,6 +29,14 @@ namespace Code
         {
             yield return new WaitForSeconds(_despawnTime);
             _bulletsPool.Despawn(this);
+        }
+        
+        private void OnTriggerEnter2D(Collider2D collider)
+        {
+            if (collider.gameObject.CompareTag("Destructible"))
+            {
+                _bulletsPool.Despawn(this);
+            }
         }
 
         public void OnDespawned()

@@ -3,6 +3,7 @@
 public class ScreenBorderCollider : MonoBehaviour
 {
     [SerializeField] private EdgeCollider2D _edgeCollider;
+    
     [SerializeField] private float _screenWrapBuffer = 1f;
 
     private float _screenWidth;
@@ -31,7 +32,7 @@ public class ScreenBorderCollider : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.gameObject.CompareTag("Teleportable"))
+        if (collider.gameObject.layer == LayerMask.NameToLayer("Teleportable"))
         {
             ScreenWrapping(collider);
         }

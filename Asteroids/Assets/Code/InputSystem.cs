@@ -7,6 +7,7 @@ namespace Code
     public class InputSystem : IInputSystem, InputSystem_Actions.IPlayerActions
     {
         private readonly InputSystem_Actions _inputSystemActions;
+        
         public event Action<Vector2> OnMoveEvent;
         public event Action<Vector2> OnLookEvent;
         public event Action<float> OnAttackEvent;
