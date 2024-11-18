@@ -420,7 +420,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bullet: {fileID: 2361375947918942359, guid: 6056688dce85491459e1857cad21fdb4, type: 3}
   _asteroid: {fileID: 9120638456958331870, guid: 54364263a4b1f9745b3c3901cecd8a9f, type: 3}
-  _asteroidRespawnSystem: {fileID: 1719763795}
+  _flyingSaucer: {fileID: 1024567994243681835, guid: f85d6a30986640843bd8d85c0750b50c, type: 3}
+  respawnSystem: {fileID: 1719763795}
 --- !u!1 &1719763793
 GameObject:
   m_ObjectHideFlags: 0
@@ -432,7 +433,7 @@ GameObject:
   - component: {fileID: 1719763794}
   - component: {fileID: 1719763795}
   m_Layer: 0
-  m_Name: AsteroidRespawnSystem
+  m_Name: RespawnSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -465,6 +466,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae532ad5381d4522a7ad0f75db184d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _respawnAsteroidTime: 5
+  _respawnSaucerTime: 10
+  _spawnRange: 2
+  _maxAsteroidCount: 5
+  _maxSoucerCount: 2
 --- !u!1001 &19417890217749109
 PrefabInstance:
   m_ObjectHideFlags: 0

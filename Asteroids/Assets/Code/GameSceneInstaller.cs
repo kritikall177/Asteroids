@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 namespace Code
@@ -7,14 +8,16 @@ namespace Code
     {
         [SerializeField] private Bullet _bullet;
         [SerializeField] private Asteroid _asteroid;
-        [SerializeField] private AsteroidRespawnSystem _asteroidRespawnSystem;
+        [SerializeField] private FlyingSaucer _flyingSaucer;
+        [FormerlySerializedAs("_asteroidRespawnSystem")] [SerializeField] private RespawnSystem respawnSystem;
         
         public override void InstallBindings()
         {
             Container.Bind<IInputSystem>().To<InputSystem>().FromNew().AsSingle().NonLazy();
-            Container.Bind<AsteroidRespawnSystem>().FromInstance(_asteroidRespawnSystem).AsSingle().NonLazy();
+            Container.Bind<RespawnSystem>().FromInstance(respawnSystem).AsSingle().NonLazy();
             Container.BindMemoryPool<Bullet, BulletsPool>().FromComponentInNewPrefab(_bullet);
             Container.BindMemoryPool<Asteroid, AsteroidPool>().FromComponentInNewPrefab(_asteroid);
+            Container.BindMemoryPool<FlyingSaucer, SaucerPool>().FromComponentInNewPrefab(_flyingSaucer);
         }
     }
 }

@@ -40,15 +40,10 @@ namespace Code
         
         private void OnTriggerEnter2D(Collider2D collider)
         {
-            if (!_isDestroyed && collider.gameObject.CompareTag("Projectile"))
+            if (!_isDestroyed && (collider.gameObject.CompareTag("Projectile") || collider.gameObject.CompareTag("Player")))
             {
                 _isDestroyed = true;
                 DestroyAsteroid();
-            }
-            if (!_isDestroyed && collider.gameObject.CompareTag("Player"))
-            {
-                _isDestroyed = true;
-                UnityEditor.EditorApplication.isPlaying = false;
             }
         }
 
