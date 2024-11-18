@@ -1,17 +1,20 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Code.Signals;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Zenject;
 
 namespace Code
 {
+    //это можно было бы сделать не монобехом, если заменить карутины, но это скорее всего нужно пользоваться асинхронкой,
+    //или взять костыль с карутинами с гитхаба под зенжектвоский ITickable
     public class RespawnSystem : MonoBehaviour
     {
         [SerializeField] private int _respawnAsteroidTime = 5;
         [SerializeField] private int _respawnSaucerTime = 10;
-        [SerializeField] private float _spawnRange = 2f;
+        [SerializeField] private float _spawnRange = 4f;
         [SerializeField] private int _maxAsteroidCount = 5;
         [SerializeField] private int _maxSoucerCount = 2;
         
@@ -32,6 +35,11 @@ namespace Code
             _signalBus.Subscribe<GameOverSignal>(DisableSpawn);
             _signalBus.Subscribe<GameStartSignal>(EnableSpawn);
             
+            SetupSpawnPoints();
+        }
+
+        private void SetupSpawnPoints()
+        {
             Vector2 screenBottomLeft = Camera.main.ScreenToWorldPoint(new Vector2(0, 0));
             Vector2 screenTopRight = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
             
@@ -40,7 +48,14 @@ namespace Code
             _spawnPosition.Add(new Vector2(screenTopRight.x - _spawnRange, screenTopRight.y - _spawnRange));
             _spawnPosition.Add(new Vector2(screenTopRight.x - _spawnRange, screenBottomLeft.y + _spawnRange));
         }
-        
+
+        private void EnableSpawn()
+        {
+            AsteroidSpawn();
+            StartCoroutine(StartRespawn(AsteroidSpawn, _respawnAsteroidTime));
+            StartCoroutine(StartRespawn(SaucerRespawn, _respawnSaucerTime));
+        }
+
         private IEnumerator StartRespawn(Action spawnAction, float respawnDelay)
         {
             while (true)
@@ -57,7 +72,7 @@ namespace Code
             var asteroid = _asteroidPool.Spawn();
             asteroid.Launch(_spawnPosition[UnityEngine.Random.Range(0, _spawnPosition.Count)]);
         }
-        
+
         private void SaucerRespawn()
         {
             if(_saucerPool.NumActive >= _maxSoucerCount) return;
@@ -71,14 +86,7 @@ namespace Code
             _asteroidPool.DespawnAll();
             _saucerPool.DespawnAll();
         }
-        
-        private void EnableSpawn()
-        {
-            AsteroidSpawn();
-            StartCoroutine(StartRespawn(AsteroidSpawn, _respawnAsteroidTime));
-            StartCoroutine(StartRespawn(SaucerRespawn, _respawnSaucerTime));
-        }
-        
+
         public void OnDestroy()
         {
             StopAllCoroutines();

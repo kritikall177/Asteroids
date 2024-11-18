@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1304549594859565852}
   - component: {fileID: 3303029088224770295}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Circle (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5125452905516118160}
   - component: {fileID: 6186011280845678072}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Circle (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -186,7 +186,7 @@ GameObject:
   - component: {fileID: 2945669559375759803}
   - component: {fileID: 9120638456958331870}
   - component: {fileID: 6435021126974054850}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Asteroid
   m_TagString: Destructible
   m_Icon: {fileID: 0}
@@ -232,17 +232,17 @@ CircleCollider2D:
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 0
   m_ForceReceiveLayers:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 0
   m_ContactCaptureLayers:
     serializedVersion: 2
     m_Bits: 4294967295
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -261,11 +261,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rigidbody2D: {fileID: 6435021126974054850}
-  _collider2D: {fileID: 2945669559375759803}
   _littleAsteroidScaleSize: 0.5
   _asteroidSpeed: 10
   _littleAsteroidSpeed: 13
   _fragmentsCount: 2
+  _scoreCount: 40
 --- !u!50 &6435021126974054850
 Rigidbody2D:
   serializedVersion: 5
@@ -303,7 +303,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4168804253020623303}
   - component: {fileID: 466243753730828007}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Circle (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -390,7 +390,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4002255362824401690}
   - component: {fileID: 2745454529833124677}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -1,4 +1,5 @@
 ﻿using System;
+using Code.Signals;
 using UnityEngine;
 using Zenject;
 
@@ -15,10 +16,11 @@ namespace Code
         {
             _signalBus = signalBus;
         }
-
-        private void OnTriggerEnter2D(Collider2D collider)
+        
+        private void OnCollisionEnter2D(Collision2D other)
         {
-            if (collider.gameObject.CompareTag("Destructible"))
+            
+            if (other.gameObject.CompareTag("Destructible"))
             {
                 _signalBus.Fire<GameOverSignal>();
             }

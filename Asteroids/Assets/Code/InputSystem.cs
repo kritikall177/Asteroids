@@ -38,36 +38,6 @@ namespace Code
         {
             OnHeavyAttackEvent?.Invoke(context.ReadValue<float>());
         }
-
-        public void OnInteract(InputAction.CallbackContext context)
-        {
-            
-        }
-
-        public void OnCrouch(InputAction.CallbackContext context)
-        {
-            
-        }
-
-        public void OnJump(InputAction.CallbackContext context)
-        {
-            
-        }
-
-        public void OnPrevious(InputAction.CallbackContext context)
-        {
-            
-        }
-
-        public void OnNext(InputAction.CallbackContext context)
-        {
-           
-        }
-
-        public void OnSprint(InputAction.CallbackContext context)
-        {
-           
-        }
     }
 
     public interface IInputSystem

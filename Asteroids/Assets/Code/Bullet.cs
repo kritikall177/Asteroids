@@ -12,6 +12,8 @@ namespace Code
         [SerializeField] private float _bulletSpeed = 10f;
         
         private BulletsPool _bulletsPool;
+        
+        private bool _isDestroyed;
 
         [Inject]
         public void Construct(BulletsPool bulletsPool)
@@ -21,6 +23,7 @@ namespace Code
 
         public void Launch(Vector2 shootPosition, Vector2 shootDirection)
         {
+            _isDestroyed = false;
             transform.position = shootPosition;
             _rigidbody2D.AddForce(shootDirection * _bulletSpeed, ForceMode2D.Impulse);
             StartCoroutine(DespawnTimer());
@@ -31,11 +34,12 @@ namespace Code
             yield return new WaitForSeconds(_despawnTime);
             _bulletsPool.Despawn(this);
         }
-        
-        private void OnTriggerEnter2D(Collider2D collider)
+
+        private void OnCollisionEnter2D(Collision2D other)
         {
-            if (collider.gameObject.CompareTag("Destructible"))
+            if (!_isDestroyed && other.gameObject.CompareTag("Destructible"))
             {
+                _isDestroyed = true;
                 _bulletsPool.Despawn(this);
             }
         }

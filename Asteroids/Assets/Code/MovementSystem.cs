@@ -1,10 +1,12 @@
 ﻿using System;
+using Code.Signals;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Zenject;
 
 namespace Code
 {
+    // Здесь тоже можно было обойтись обычным ITickable или перенсти часть логики в SpaceShip, но я поздновато об этом подумал
     public class MovementSystem : MonoBehaviour
     {
         [SerializeField] private Rigidbody2D _rigidbody2D;
@@ -24,6 +26,7 @@ namespace Code
             _inputSystem = inputSystem;
             _inputSystem.OnMoveEvent += MoveVector;
             _inputSystem.OnLookEvent += RotationVector;
+            
             _signalBus = signalBus;
             _signalBus.Subscribe<GameStartSignal>(StartMoving);
             _signalBus.Subscribe<GameOverSignal>(StopMoving);
@@ -34,6 +37,12 @@ namespace Code
             if (!_isPlaying) return;
             HandleMovement();
             HandleRotation();
+            SendData();
+        }
+
+        private void SendData()
+        {
+            _signalBus.Fire(new UpdateTransformSignal(transform.position, transform.eulerAngles.z));
         }
 
         private void RotationVector(Vector2 position)
@@ -50,10 +59,8 @@ namespace Code
 
         private void HandleMovement()
         {
-            if (_isMoving)
-            {
+            if (_isMoving) 
                 _rigidbody2D.AddForce(_lookDir * _acceleration);
-            }
         }
 
         private void HandleRotation()
@@ -72,6 +79,7 @@ namespace Code
             transform.position = Vector3.zero;
             transform.eulerAngles = Vector3.zero;
             _rigidbody2D.linearVelocity = Vector2.zero;
+            _rigidbody2D.angularVelocity = 0f;
         }
 
         private void OnDestroy()

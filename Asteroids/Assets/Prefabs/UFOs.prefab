@@ -185,7 +185,7 @@ GameObject:
   - component: {fileID: 4612877220744593274}
   - component: {fileID: 1762142407312211008}
   - component: {fileID: 6291048207793501932}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: AggroZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -270,13 +270,13 @@ GameObject:
   - component: {fileID: 84460790863687271}
   - component: {fileID: 1024567994243681835}
   - component: {fileID: 5443616531426415299}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: UFOs
   m_TagString: Destructible
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8030537951010601818
 Transform:
   m_ObjectHideFlags: 0
@@ -315,10 +315,10 @@ CapsuleCollider2D:
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 0
   m_ForceReceiveLayers:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 0
   m_ContactCaptureLayers:
     serializedVersion: 2
     m_Bits: 4294967295

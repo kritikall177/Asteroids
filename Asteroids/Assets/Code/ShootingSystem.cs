@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Code.Signals;
 using UnityEngine;
 using Zenject;
 
@@ -28,6 +29,7 @@ namespace Code
             _inputSystem.OnAttackEvent += Attack;
             _inputSystem.OnHeavyAttackEvent += HeavyAttack;
             _inputSystem.OnLookEvent += ShootDirection;
+            
             _bulletsPool = bulletsPool;
             _signalBus = signalBus;
             
@@ -38,9 +40,9 @@ namespace Code
         private void EnableShoot()
         {
             _canShoot = true;
+            _signalBus.Fire(new UpdateLaserCountSignal(_laserCharge));
         }
 
-        // Отключаем возможность стрелять при окончании игры
         private void DisableShoot()
         {
             _canShoot = false;
@@ -86,6 +88,7 @@ namespace Code
         {
             _laserGameObject.SetActive(true);
             _laserCharge -= 1;
+            _signalBus.Fire(new UpdateLaserCountSignal(_laserCharge));
             
             yield return new WaitForSeconds(_laserActiveTime);
             
@@ -96,7 +99,11 @@ namespace Code
         {
             yield return new WaitForSeconds(_laserRestoreTime);
 
-            if (_laserCharge < _maxLaserCharge) _laserCharge += 1;
+            if (_laserCharge < _maxLaserCharge)
+            {
+                _laserCharge += 1;
+                _signalBus.Fire(new UpdateLaserCountSignal(_laserCharge));
+            }
         }
         
         private void BulletAttack()
