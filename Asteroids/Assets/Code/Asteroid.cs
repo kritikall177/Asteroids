@@ -40,10 +40,16 @@ namespace Code
         
         private void OnTriggerEnter2D(Collider2D collider)
         {
-            if (!_isDestroyed && (collider.gameObject.CompareTag("Projectile") || collider.gameObject.CompareTag("Player")))
+            switch (_isDestroyed)
             {
-                _isDestroyed = true;
-                DestroyAsteroid();
+                case false when collider.gameObject.CompareTag("Projectile"):
+                    _isDestroyed = true;
+                    DestroyAsteroid();
+                    break;
+                case false when collider.gameObject.CompareTag("Player"):
+                    _isDestroyed = true;
+                    _asteroidPool.Despawn(this);
+                    break;
             }
         }
 

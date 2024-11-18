@@ -54,6 +54,7 @@ namespace Code
         {
             if (!_isDestroyed && (collider.gameObject.CompareTag("Projectile") || collider.gameObject.CompareTag("Player")))
             {
+                
                 _isDestroyed = true;
                 _saucerPool.Despawn(this);
             }
@@ -61,6 +62,7 @@ namespace Code
 
         public void OnDespawned()
         {
+            _isEnemyDetect = false;
             _targetTransform = null;
             _rigidbody2D.linearVelocity = Vector2.zero;
         }

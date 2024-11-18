@@ -12,20 +12,26 @@ namespace Code
         [SerializeField] private float _acceleration = 10f;
         
         private IInputSystem _inputSystem;
+        private SignalBus _signalBus;
         
+        private bool _isPlaying = true;
         private bool _isMoving;
         private Vector2 _lookDir;
 
         [Inject]
-        public void Construct(IInputSystem inputSystem)
+        public void Construct(IInputSystem inputSystem, SignalBus signalBus)
         {
             _inputSystem = inputSystem;
             _inputSystem.OnMoveEvent += MoveVector;
             _inputSystem.OnLookEvent += RotationVector;
+            _signalBus = signalBus;
+            _signalBus.Subscribe<GameStartSignal>(StartMoving);
+            _signalBus.Subscribe<GameOverSignal>(StopMoving);
         }
         
         private void FixedUpdate()
         {
+            if (!_isPlaying) return;
             HandleMovement();
             HandleRotation();
         }
@@ -53,6 +59,19 @@ namespace Code
         private void HandleRotation()
         {
             transform.up = _lookDir;
+        }
+
+        private void StartMoving()
+        {
+            _isPlaying = true;
+        }
+        
+        private void StopMoving()
+        {
+            _isPlaying = false;
+            transform.position = Vector3.zero;
+            transform.eulerAngles = Vector3.zero;
+            _rigidbody2D.linearVelocity = Vector2.zero;
         }
 
         private void OnDestroy()

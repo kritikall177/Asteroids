@@ -147,9 +147,10 @@ GameObject:
   - component: {fileID: 7878551768149114286}
   - component: {fileID: 2810133626548749112}
   - component: {fileID: 6463712271364492869}
+  - component: {fileID: 436074404141545695}
   m_Layer: 6
   m_Name: Spaceship
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -303,6 +304,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rigidbody2D: {fileID: 7878551768149114286}
   _acceleration: 10
+--- !u!114 &436074404141545695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5522821112183980017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94c25b1df6b14ef5b9873bac67c564a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rigidbody2D: {fileID: 7878551768149114286}
 --- !u!1 &6046958200000519543
 GameObject:
   m_ObjectHideFlags: 0

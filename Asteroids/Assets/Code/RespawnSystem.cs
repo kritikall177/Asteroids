@@ -17,15 +17,20 @@ namespace Code
         
         private AsteroidPool _asteroidPool;
         private SaucerPool _saucerPool;
+        private SignalBus _signalBus;
 
         private List<Vector2> _spawnPosition = new List<Vector2>();
 
 
         [Inject]
-        public void Construct(AsteroidPool asteroidPool, SaucerPool saucerPool)
+        public void Construct(AsteroidPool asteroidPool, SaucerPool saucerPool, SignalBus signalBus)
         {
             _asteroidPool = asteroidPool;
             _saucerPool = saucerPool;
+            _signalBus = signalBus;
+            
+            _signalBus.Subscribe<GameOverSignal>(DisableSpawn);
+            _signalBus.Subscribe<GameStartSignal>(EnableSpawn);
             
             Vector2 screenBottomLeft = Camera.main.ScreenToWorldPoint(new Vector2(0, 0));
             Vector2 screenTopRight = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
@@ -34,11 +39,6 @@ namespace Code
             _spawnPosition.Add(new Vector2(screenBottomLeft.x + _spawnRange, screenTopRight.y - _spawnRange));
             _spawnPosition.Add(new Vector2(screenTopRight.x - _spawnRange, screenTopRight.y - _spawnRange));
             _spawnPosition.Add(new Vector2(screenTopRight.x - _spawnRange, screenBottomLeft.y + _spawnRange));
-
-            AsteroidSpawn();
-            
-            StartCoroutine(StartRespawn(AsteroidSpawn, _respawnAsteroidTime));
-            StartCoroutine(StartRespawn(SaucerRespawn, _respawnSaucerTime));
         }
         
         private IEnumerator StartRespawn(Action spawnAction, float respawnDelay)
@@ -65,6 +65,20 @@ namespace Code
             saucer.Launch(_spawnPosition[UnityEngine.Random.Range(0, _spawnPosition.Count)]);
         }
 
+        private void DisableSpawn()
+        {
+            StopAllCoroutines();
+            _asteroidPool.DespawnAll();
+            _saucerPool.DespawnAll();
+        }
+        
+        private void EnableSpawn()
+        {
+            AsteroidSpawn();
+            StartCoroutine(StartRespawn(AsteroidSpawn, _respawnAsteroidTime));
+            StartCoroutine(StartRespawn(SaucerRespawn, _respawnSaucerTime));
+        }
+        
         public void OnDestroy()
         {
             StopAllCoroutines();
