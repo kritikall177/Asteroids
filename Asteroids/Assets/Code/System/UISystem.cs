@@ -19,7 +19,7 @@ namespace Code
         private int _score = 0;
         private Vector2 _position = Vector2.zero;
         private int _rotation = 0;
-        private int _laserCount; //в ресетUI достать количество лазеров с класса
+        private int _laserCount;
 
         [Inject]
         public void Construct(SignalBus signalBus)
