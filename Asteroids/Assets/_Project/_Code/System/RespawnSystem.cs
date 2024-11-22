@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using _Project._Code.MemoryPools;
 using Code.Signals;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -69,8 +70,7 @@ namespace Code
         private void AsteroidSpawn()
         {
             if(_asteroidPool.NumActive >= _maxAsteroidCount) return;
-            var asteroid = _asteroidPool.Spawn();
-            asteroid.Launch(_spawnPosition[UnityEngine.Random.Range(0, _spawnPosition.Count)]);
+            _asteroidPool.Spawn(_spawnPosition[UnityEngine.Random.Range(0, _spawnPosition.Count)], false);
         }
 
         private void SaucerRespawn()
