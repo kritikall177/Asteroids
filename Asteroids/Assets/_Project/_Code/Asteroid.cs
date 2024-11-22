@@ -25,10 +25,9 @@ namespace Code
         private bool _isDestroyed;
 
         [Inject]
-        public void Construct(AsteroidPool asteroidPool, SignalBus signalBus)
+        public void Construct(SignalBus signalBus)
         {
             _signalBus = signalBus;
-            _asteroidPool = asteroidPool;
         }
 
         private void OnEnable()
@@ -51,6 +50,11 @@ namespace Code
                 _asteroidPool.Despawn(this);
                 
             }
+        }
+
+        public void SetPool(AsteroidPool asteroidPool)
+        {
+            _asteroidPool = asteroidPool;
         }
     }
 }

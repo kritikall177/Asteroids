@@ -22,6 +22,7 @@ namespace Code
             Container.Bind<RespawnSystem>().FromInstance(respawnSystem).AsSingle().NonLazy();
             
             Container.BindMemoryPool<Bullet, BulletsPool>().FromComponentInNewPrefab(_bullet);
+            Container.BindMemoryPool<Asteroid, LittleAsteroidPool>().FromComponentInNewPrefab(_asteroid);
             Container.BindMemoryPool<Asteroid, AsteroidPool>().FromComponentInNewPrefab(_asteroid);
             Container.BindMemoryPool<FlyingSaucer, SaucerPool>().FromComponentInNewPrefab(_flyingSaucer);
         }
