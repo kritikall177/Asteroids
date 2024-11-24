@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
+using _Project._Code.MemoryPools;
 using UnityEngine;
 using Zenject;
 
-namespace Code
+namespace _Project._Code
 {
     public class Bullet : MonoBehaviour
     {

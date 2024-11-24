@@ -1,8 +1,6 @@
-﻿using System.Numerics;
-
-namespace Code.Signals
+﻿namespace _Project._Code.Signals
 {
-    public class GameOverSignal
+    public struct GameOverSignal
     {
         
     }

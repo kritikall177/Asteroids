@@ -1,6 +1,6 @@
-﻿namespace Code.Signals
+﻿namespace _Project._Code.Signals
 {
-    public class GameStartSignal
+    public struct GameStartSignal
     {
         
     }

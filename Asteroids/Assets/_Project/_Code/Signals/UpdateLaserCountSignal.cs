@@ -1,6 +1,6 @@
-﻿namespace Code.Signals
+﻿namespace _Project._Code.Signals
 {
-    public class UpdateLaserCountSignal
+    public struct UpdateLaserCountSignal
     {
         public int LaserCount;
         

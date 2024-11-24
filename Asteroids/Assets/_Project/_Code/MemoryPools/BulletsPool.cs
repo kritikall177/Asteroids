@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+﻿using Code;
 using Zenject;
 
-namespace Code
+namespace _Project._Code.MemoryPools
 {
     public class BulletsPool : MemoryPool<Bullet>
     {

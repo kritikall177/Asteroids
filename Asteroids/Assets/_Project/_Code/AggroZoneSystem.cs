@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using Code;
+using UnityEngine;
 
-namespace Code
+namespace _Project._Code
 {
     public class AggroZoneSystem : MonoBehaviour
     {
@@ -8,11 +9,9 @@ namespace Code
         [SerializeField] private FlyingSaucer _flyingSaucer;
         [SerializeField] private float _triggerRadius = 3f;
 
-        private void Start()
-        {
+        private void Start() => 
             _collider2D.radius = _triggerRadius;
-        }
-        
+
         private void OnTriggerEnter2D(Collider2D collider)
         {
             if (collider.gameObject.CompareTag("Player")) 

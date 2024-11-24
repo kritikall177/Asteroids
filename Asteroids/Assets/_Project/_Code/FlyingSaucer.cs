@@ -1,19 +1,18 @@
-﻿using System;
-using Code.Signals;
+﻿using _Project._Code.MemoryPools;
+using _Project._Code.Signals;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Zenject;
 using Random = UnityEngine.Random;
 
-namespace Code
+namespace _Project._Code
 {
     public class FlyingSaucer : MonoBehaviour
     {
         [SerializeField] private AggroZoneSystem _aggroZone;
         [SerializeField] private Rigidbody2D _rigidbody2D;
 
-        [SerializeField] private float _SaucerSpeed = 10f;
-        [SerializeField] private int _scoreCount  = 80;
+        [SerializeField] private float _saucerSpeed = 10f;
+        [SerializeField] private int _scoreCount = 80;
 
         private SaucerPool _saucerPool;
         private SignalBus _signalBus;
@@ -21,12 +20,19 @@ namespace Code
         private Transform _targetTransform;
         private bool _isDestroyed;
         private bool _isEnemyDetect;
+        
+        private Transform _cachedTransform;
 
         [Inject]
         public void Construct(SaucerPool saucerPool, SignalBus signalBus)
         {
             _signalBus = signalBus;
             _saucerPool = saucerPool;
+        }
+
+        private void Awake()
+        {
+            _cachedTransform = transform;
         }
 
         public void FixedUpdate()
@@ -36,8 +42,8 @@ namespace Code
 
         public void Launch(Vector2 spawnPosition)
         {
-            transform.position = spawnPosition;
-            _rigidbody2D.AddForce(Random.insideUnitCircle.normalized * _SaucerSpeed, ForceMode2D.Impulse);
+            _cachedTransform.position = spawnPosition;
+            _rigidbody2D.AddForce(Random.insideUnitCircle.normalized * _saucerSpeed, ForceMode2D.Impulse);
         }
 
         public void SetTarget(Transform targetTransform)
@@ -48,7 +54,6 @@ namespace Code
 
         private void OnCollisionEnter2D(Collision2D other)
         {
-            
             if (!_isDestroyed && (other.gameObject.CompareTag("Projectile") || other.gameObject.CompareTag("Player")))
             {
                 _isDestroyed = true;
@@ -59,8 +64,11 @@ namespace Code
 
         private void СhasingTarget()
         {
-            if (_isEnemyDetect) 
-                _rigidbody2D.linearVelocity = (_targetTransform.position - transform.position).normalized * _SaucerSpeed;
+            if (_isEnemyDetect)
+            {
+                Vector2 direction = (_targetTransform.position - _cachedTransform.position).normalized;
+                _rigidbody2D.linearVelocity = direction * _saucerSpeed;
+            }
         }
 
         public void OnDespawned()

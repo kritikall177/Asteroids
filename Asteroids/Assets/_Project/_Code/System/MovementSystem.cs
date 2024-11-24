@@ -1,24 +1,23 @@
-﻿using System;
-using Code.Signals;
+﻿using _Project._Code.Signals;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using Zenject;
 
-namespace Code
+namespace _Project._Code.System
 {
-    // Здесь тоже можно было обойтись обычным ITickable или перенсти часть логики в SpaceShip, но я поздновато об этом подумал
     public class MovementSystem : MonoBehaviour
     {
         [SerializeField] private Rigidbody2D _rigidbody2D;
-        
         [SerializeField] private float _acceleration = 10f;
-        
+
         private IInputSystem _inputSystem;
         private SignalBus _signalBus;
         
         private bool _isPlaying = true;
         private bool _isMoving;
         private Vector2 _lookDir;
+        
+        private Camera _mainCamera;
+        private Transform _cachedTransform;
 
         [Inject]
         public void Construct(IInputSystem inputSystem, SignalBus signalBus)
@@ -30,6 +29,12 @@ namespace Code
             _signalBus = signalBus;
             _signalBus.Subscribe<GameStartSignal>(StartMoving);
             _signalBus.Subscribe<GameOverSignal>(StopMoving);
+        }
+
+        private void Awake()
+        {
+            _mainCamera = Camera.main;
+            _cachedTransform = transform;
         }
 
         private void OnDestroy()
@@ -48,19 +53,19 @@ namespace Code
 
         private void SendData()
         {
-            _signalBus.Fire(new UpdateTransformSignal(transform.position, transform.eulerAngles.z));
+            _signalBus.Fire(new UpdateTransformSignal(_cachedTransform.position, _cachedTransform.eulerAngles.z));
         }
 
         private void RotationVector(Vector2 position)
         {
-            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(position);
-            _lookDir = new Vector2(mousePosition.x - transform.position.x,
-                mousePosition.y - transform.position.y).normalized;
+            Vector3 mousePosition = _mainCamera.ScreenToWorldPoint(position);
+            _lookDir = new Vector2(mousePosition.x - _cachedTransform.position.x,
+                mousePosition.y - _cachedTransform.position.y).normalized;
         }
 
-        private void MoveVector(Vector2 vector)
+        private void MoveVector(bool isMoving)
         {
-            _isMoving = vector.y > 0;
+            _isMoving = isMoving;
         }
 
         private void HandleMovement()
@@ -71,7 +76,7 @@ namespace Code
 
         private void HandleRotation()
         {
-            transform.up = _lookDir;
+            _cachedTransform.up = _lookDir;
         }
 
         private void StartMoving()
@@ -82,8 +87,8 @@ namespace Code
         private void StopMoving()
         {
             _isPlaying = false;
-            transform.position = Vector3.zero;
-            transform.eulerAngles = Vector3.zero;
+            _cachedTransform.position = Vector3.zero;
+            _cachedTransform.eulerAngles = Vector3.zero;
             _rigidbody2D.linearVelocity = Vector2.zero;
             _rigidbody2D.angularVelocity = 0f;
         }

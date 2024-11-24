@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace Code.Signals
+namespace _Project._Code.Signals
 {
-    public class UpdateTransformSignal
+    public struct UpdateTransformSignal
     {
         public Vector3 Position;
         public float Rotation;

@@ -2,16 +2,16 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Code
+namespace _Project._Code.System
 {
     public class InputSystem : IInputSystem, InputSystem_Actions.IPlayerActions
     {
         private readonly InputSystem_Actions _inputSystemActions;
         
-        public event Action<Vector2> OnMoveEvent;
+        public event Action<bool> OnMoveEvent;
         public event Action<Vector2> OnLookEvent;
-        public event Action<float> OnAttackEvent;
-        public event Action<float> OnHeavyAttackEvent;
+        public event Action<bool> OnAttackEvent;
+        public event Action<bool> OnHeavyAttackEvent;
         
         
         
@@ -24,27 +24,15 @@ namespace Code
         }
         
         public void OnMove(InputAction.CallbackContext context) => 
-            OnMoveEvent?.Invoke(context.ReadValue<Vector2>());
+            OnMoveEvent?.Invoke(context.ReadValueAsButton());
 
         public void OnLook(InputAction.CallbackContext context) => 
             OnLookEvent?.Invoke(context.ReadValue<Vector2>());
 
-        public void OnAttack(InputAction.CallbackContext context)
-        {
-            OnAttackEvent?.Invoke(context.ReadValue<float>());
-        }
+        public void OnAttack(InputAction.CallbackContext context) => 
+            OnAttackEvent?.Invoke(context.ReadValueAsButton());
 
-        public void OnHeavyAttack(InputAction.CallbackContext context)
-        {
-            OnHeavyAttackEvent?.Invoke(context.ReadValue<float>());
-        }
-    }
-
-    public interface IInputSystem
-    {
-        public event Action<Vector2> OnMoveEvent;
-        public event Action<Vector2> OnLookEvent;
-        public event Action<float> OnAttackEvent;
-        public event Action<float> OnHeavyAttackEvent;
+        public void OnHeavyAttack(InputAction.CallbackContext context) => 
+            OnHeavyAttackEvent?.Invoke(context.ReadValueAsButton());
     }
 }

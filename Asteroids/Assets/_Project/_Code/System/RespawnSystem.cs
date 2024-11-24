@@ -2,15 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using _Project._Code.MemoryPools;
-using Code.Signals;
+using _Project._Code.Signals;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Zenject;
 
-namespace Code
+namespace _Project._Code.System
 {
-    //это можно было бы сделать не монобехом, если заменить карутины, но это скорее всего нужно пользоваться асинхронкой,
-    //или взять костыль с карутинами с гитхаба под зенжектвоский ITickable
     public class RespawnSystem : MonoBehaviour
     {
         [SerializeField] private int _respawnAsteroidTime = 5;
@@ -18,13 +15,15 @@ namespace Code
         [SerializeField] private float _spawnRange = 4f;
         [SerializeField] private int _maxAsteroidCount = 5;
         [SerializeField] private int _maxSoucerCount = 2;
-        
+
         private AsteroidPool _asteroidPool;
         private SaucerPool _saucerPool;
         private SignalBus _signalBus;
 
+        private Camera _mainCamera;
+        private Transform _cachedTransform;
+        
         private List<Vector2> _spawnPosition = new List<Vector2>();
-
 
         [Inject]
         public void Construct(AsteroidPool asteroidPool, SaucerPool saucerPool, SignalBus signalBus)
@@ -32,18 +31,25 @@ namespace Code
             _asteroidPool = asteroidPool;
             _saucerPool = saucerPool;
             _signalBus = signalBus;
-            
+
             _signalBus.Subscribe<GameOverSignal>(DisableSpawn);
             _signalBus.Subscribe<GameStartSignal>(EnableSpawn);
+            
             
             SetupSpawnPoints();
         }
 
+        private void Awake()
+        {
+            _mainCamera = Camera.main; // Кэшируем ссылку на камеру
+            _cachedTransform = transform; // Кэшируем transform
+        }
+
         private void SetupSpawnPoints()
         {
-            Vector2 screenBottomLeft = Camera.main.ScreenToWorldPoint(new Vector2(0, 0));
-            Vector2 screenTopRight = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
-            
+            Vector2 screenBottomLeft = _mainCamera.ScreenToWorldPoint(new Vector2(0, 0));
+            Vector2 screenTopRight = _mainCamera.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
+
             _spawnPosition.Add(new Vector2(screenBottomLeft.x + _spawnRange, screenBottomLeft.y + _spawnRange));
             _spawnPosition.Add(new Vector2(screenBottomLeft.x + _spawnRange, screenTopRight.y - _spawnRange));
             _spawnPosition.Add(new Vector2(screenTopRight.x - _spawnRange, screenTopRight.y - _spawnRange));
@@ -62,20 +68,19 @@ namespace Code
             while (true)
             {
                 yield return new WaitForSeconds(respawnDelay);
-
                 spawnAction?.Invoke();
             }
         }
 
         private void AsteroidSpawn()
         {
-            if(_asteroidPool.NumActive >= _maxAsteroidCount) return;
+            if (_asteroidPool.NumActive >= _maxAsteroidCount) return;
             _asteroidPool.Spawn(_spawnPosition[UnityEngine.Random.Range(0, _spawnPosition.Count)], false);
         }
 
         private void SaucerRespawn()
         {
-            if(_saucerPool.NumActive >= _maxSoucerCount) return;
+            if (_saucerPool.NumActive >= _maxSoucerCount) return;
             var saucer = _saucerPool.Spawn();
             saucer.Launch(_spawnPosition[UnityEngine.Random.Range(0, _spawnPosition.Count)]);
         }
@@ -87,7 +92,7 @@ namespace Code
             _saucerPool.DespawnAll();
         }
 
-        public void OnDestroy()
+        private void OnDestroy()
         {
             StopAllCoroutines();
         }

@@ -1,13 +1,9 @@
-﻿using Zenject;
+﻿using Code;
+using Zenject;
 
-namespace Code.Factories
+namespace _Project._Code.Factories
 {
     public class AsteroidFactory : PlaceholderFactory<float, Asteroid>
-    {
-        
-    }
-    
-    public class SaucerFactory
     {
         
     }

@@ -1,11 +1,9 @@
-﻿using System;
-using _Project._Code.MemoryPools;
-using Code.Factories;
-using Code.Signals;
+﻿using _Project._Code.MemoryPools;
+using _Project._Code.Signals;
 using UnityEngine;
 using Zenject;
 
-namespace Code
+namespace _Project._Code
 {
     public class Asteroid : MonoBehaviour
     {

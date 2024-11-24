@@ -1,9 +1,8 @@
-﻿using System;
-using Code.Signals;
+﻿using _Project._Code.Signals;
 using UnityEngine;
 using Zenject;
 
-namespace Code
+namespace _Project._Code
 {
     public class SpaceShip : MonoBehaviour
     {

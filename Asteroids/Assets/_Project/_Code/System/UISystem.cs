@@ -1,13 +1,11 @@
-﻿using System;
-using Code.Signals;
+﻿using _Project._Code.Signals;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-namespace Code
+namespace _Project._Code.System
 {
-    //
     public class UISystem : MonoBehaviour
     {
         [SerializeField] private TMP_Text _stats;

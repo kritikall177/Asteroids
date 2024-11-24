@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Code
+namespace _Project._Code
 {
     public class ScreenBorderCollider : MonoBehaviour
     {
@@ -11,12 +11,16 @@ namespace Code
         private float _screenWidth;
         private float _screenHeight;
 
+        private Camera _mainCamera;
+
         private void Awake()
         {
+            _mainCamera = Camera.main;
+            
             UpdateCollider();
         
-            Vector2 screenBottomLeft = Camera.main.ScreenToWorldPoint(new Vector2(0, 0));
-            Vector2 screenTopRight = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
+            Vector2 screenBottomLeft = _mainCamera.ScreenToWorldPoint(new Vector2(0, 0)); // Используем кешированную камеру
+            Vector2 screenTopRight = _mainCamera.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height)); // Используем кешированную камеру
         
             _screenWidth = Mathf.Abs(screenTopRight.x - screenBottomLeft.x) / 2;
             _screenHeight = Mathf.Abs(screenTopRight.y - screenBottomLeft.y) / 2;
@@ -24,10 +28,10 @@ namespace Code
 
         private void UpdateCollider()
         {
-            Vector2 bottomLeft = Camera.main.ScreenToWorldPoint(new Vector2(0, 0));
-            Vector2 topLeft = Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height));
-            Vector2 topRight = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
-            Vector2 bottomRight = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0));
+            Vector2 bottomLeft = _mainCamera.ScreenToWorldPoint(new Vector2(0, 0));
+            Vector2 topLeft = _mainCamera.ScreenToWorldPoint(new Vector2(0, Screen.height));
+            Vector2 topRight = _mainCamera.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
+            Vector2 bottomRight = _mainCamera.ScreenToWorldPoint(new Vector2(Screen.width, 0));
 
             _edgeCollider.points = new Vector2[] { bottomLeft, topLeft, topRight, bottomRight, bottomLeft };
         }

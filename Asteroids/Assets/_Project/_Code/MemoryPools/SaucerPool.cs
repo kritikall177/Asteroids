@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+using Code;
 using Zenject;
 
-namespace Code
+namespace _Project._Code.MemoryPools
 {
     public class SaucerPool : MemoryPool<FlyingSaucer>
     {
