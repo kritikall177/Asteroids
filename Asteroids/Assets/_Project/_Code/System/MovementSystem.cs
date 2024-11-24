@@ -31,7 +31,13 @@ namespace Code
             _signalBus.Subscribe<GameStartSignal>(StartMoving);
             _signalBus.Subscribe<GameOverSignal>(StopMoving);
         }
-        
+
+        private void OnDestroy()
+        {
+            _inputSystem.OnMoveEvent -= MoveVector;
+            _inputSystem.OnLookEvent -= RotationVector;
+        }
+
         private void FixedUpdate()
         {
             if (!_isPlaying) return;
@@ -72,7 +78,7 @@ namespace Code
         {
             _isPlaying = true;
         }
-        
+
         private void StopMoving()
         {
             _isPlaying = false;
@@ -80,12 +86,6 @@ namespace Code
             transform.eulerAngles = Vector3.zero;
             _rigidbody2D.linearVelocity = Vector2.zero;
             _rigidbody2D.angularVelocity = 0f;
-        }
-
-        private void OnDestroy()
-        {
-            _inputSystem.OnMoveEvent -= MoveVector;
-            _inputSystem.OnLookEvent -= RotationVector;
         }
     }
 }

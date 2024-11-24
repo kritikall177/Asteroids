@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Code.Signals;
 using UnityEngine;
 using Zenject;
@@ -36,7 +37,14 @@ namespace Code
             _signalBus.Subscribe<GameStartSignal>(EnableShoot);
             _signalBus.Subscribe<GameOverSignal>(DisableShoot);
         }
-        
+
+        private void OnDestroy()
+        {
+            _inputSystem.OnAttackEvent -= Attack;
+            _inputSystem.OnHeavyAttackEvent -= HeavyAttack;
+            _inputSystem.OnLookEvent -= ShootDirection;
+        }
+
         private void EnableShoot()
         {
             _canShoot = true;
