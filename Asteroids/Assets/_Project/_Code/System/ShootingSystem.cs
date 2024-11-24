@@ -22,7 +22,6 @@ namespace _Project._Code.System
 
 
         private Vector2 _direction;
-        private bool _canShoot = true;
         
         private Camera _mainCamera;
         private Transform _cachedTransform;
@@ -61,13 +60,11 @@ namespace _Project._Code.System
 
         private void EnableShoot()
         {
-            _canShoot = true;
             _signalBus.Fire(new UpdateLaserCountSignal(_laserCharge));
         }
 
         private void DisableShoot()
         {
-            _canShoot = false;
             _asyncProcessor.StopAllCoroutines();
             _laserGameObject.SetActive(false);
             _laserCharge = 2;
@@ -75,7 +72,7 @@ namespace _Project._Code.System
 
         private void Attack(bool isAttack)
         {
-            if (_canShoot && isAttack)
+            if (isAttack)
             {
                 BulletAttack();
             }
@@ -83,7 +80,7 @@ namespace _Project._Code.System
 
         private void HeavyAttack(bool isAttack)
         {
-            if (_canShoot && isAttack)
+            if (isAttack)
             {
                 LaserAttack();
             }
@@ -91,8 +88,6 @@ namespace _Project._Code.System
 
         private void ShootDirection(Vector2 position)
         {
-            if (!_canShoot) return;
-
             Vector3 mousePosition = _mainCamera.ScreenToWorldPoint(position);
             _direction = new Vector2(mousePosition.x - _cachedTransform.position.x,
                 mousePosition.y - _cachedTransform.position.y).normalized;

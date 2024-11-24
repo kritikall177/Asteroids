@@ -18,7 +18,7 @@ namespace _Project._Code
             SignalBusInstaller.Install(Container);
             DeclareSignals();
 
-            Container.Bind<IInputSystem>().To<InputSystem>().FromNew().AsSingle().NonLazy();
+            Container.BindInterfacesTo<InputSystem>().FromNew().AsSingle().NonLazy();
             Container.Bind<SpaceShip>().FromInstance(_spaceShip).AsSingle().NonLazy();
             Container.BindInterfacesTo<MovementSystem>().FromNew().AsSingle().NonLazy();
             Container.Bind<AsyncProcessor>().FromNewComponentOnNewGameObject().AsSingle();
