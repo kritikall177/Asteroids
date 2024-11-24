@@ -8,41 +8,51 @@ using Zenject;
 
 namespace _Project._Code.System
 {
-    public class RespawnSystem : MonoBehaviour
+    public class RespawnSystem : IInitializable, IDisposable
     {
-        [SerializeField] private int _respawnAsteroidTime = 5;
-        [SerializeField] private int _respawnSaucerTime = 10;
-        [SerializeField] private float _spawnRange = 4f;
-        [SerializeField] private int _maxAsteroidCount = 5;
-        [SerializeField] private int _maxSoucerCount = 2;
-
         private AsteroidPool _asteroidPool;
         private SaucerPool _saucerPool;
         private SignalBus _signalBus;
-
-        private Camera _mainCamera;
-        private Transform _cachedTransform;
+        private AsyncProcessor _asyncProcessor;
         
+        private int _respawnAsteroidTime = 5;
+        private int _respawnSaucerTime = 10;
+        private float _spawnRange = 4f;
+        private int _maxAsteroidCount = 5;
+        private int _maxSoucerCount = 2;
+        
+        private Camera _mainCamera;
         private List<Vector2> _spawnPosition = new List<Vector2>();
 
         [Inject]
-        public void Construct(AsteroidPool asteroidPool, SaucerPool saucerPool, SignalBus signalBus)
+        public RespawnSystem(AsteroidPool asteroidPool, SaucerPool saucerPool, SignalBus signalBus, AsyncProcessor asyncProcessor)
         {
             _asteroidPool = asteroidPool;
             _saucerPool = saucerPool;
             _signalBus = signalBus;
+            _asyncProcessor = asyncProcessor;
+        }
 
+        public void Initialize()
+        {
             _signalBus.Subscribe<GameOverSignal>(DisableSpawn);
             _signalBus.Subscribe<GameStartSignal>(EnableSpawn);
             
+            _mainCamera = Camera.main;
             
             SetupSpawnPoints();
         }
 
-        private void Awake()
+        public void Dispose()
         {
-            _mainCamera = Camera.main; // Кэшируем ссылку на камеру
-            _cachedTransform = transform; // Кэшируем transform
+            _asyncProcessor.StopAllCoroutines();
+        }
+
+        private void DisableSpawn()
+        {
+            _asyncProcessor.StopAllCoroutines();
+            _asteroidPool.DespawnAll();
+            _saucerPool.DespawnAll();
         }
 
         private void SetupSpawnPoints()
@@ -59,17 +69,15 @@ namespace _Project._Code.System
         private void EnableSpawn()
         {
             AsteroidSpawn();
-            StartCoroutine(StartRespawn(AsteroidSpawn, _respawnAsteroidTime));
-            StartCoroutine(StartRespawn(SaucerRespawn, _respawnSaucerTime));
+            _asyncProcessor.StartCoroutine(StartRespawn(AsteroidSpawn, _respawnAsteroidTime));
+            _asyncProcessor.StartCoroutine(StartRespawn(SaucerRespawn, _respawnSaucerTime));
         }
 
         private IEnumerator StartRespawn(Action spawnAction, float respawnDelay)
         {
-            while (true)
-            {
-                yield return new WaitForSeconds(respawnDelay);
-                spawnAction?.Invoke();
-            }
+            yield return new WaitForSeconds(respawnDelay);
+            spawnAction?.Invoke();
+            _asyncProcessor.StartCoroutine(StartRespawn(spawnAction, respawnDelay));
         }
 
         private void AsteroidSpawn()
@@ -83,18 +91,6 @@ namespace _Project._Code.System
             if (_saucerPool.NumActive >= _maxSoucerCount) return;
             var saucer = _saucerPool.Spawn();
             saucer.Launch(_spawnPosition[UnityEngine.Random.Range(0, _spawnPosition.Count)]);
-        }
-
-        private void DisableSpawn()
-        {
-            StopAllCoroutines();
-            _asteroidPool.DespawnAll();
-            _saucerPool.DespawnAll();
-        }
-
-        private void OnDestroy()
-        {
-            StopAllCoroutines();
         }
     }
 }

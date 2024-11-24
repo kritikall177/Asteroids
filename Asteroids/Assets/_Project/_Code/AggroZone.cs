@@ -1,9 +1,8 @@
-﻿using Code;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace _Project._Code
 {
-    public class AggroZoneSystem : MonoBehaviour
+    public class AggroZone : MonoBehaviour
     {
         [SerializeField] private CircleCollider2D _collider2D;
         [SerializeField] private FlyingSaucer _flyingSaucer;

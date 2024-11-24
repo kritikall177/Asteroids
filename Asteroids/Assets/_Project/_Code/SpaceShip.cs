@@ -7,7 +7,10 @@ namespace _Project._Code
     public class SpaceShip : MonoBehaviour
     {
         [SerializeField] private Rigidbody2D _rigidbody2D;
-        
+        [SerializeField] private GameObject _laserGameObject;
+        public Rigidbody2D Rigidbody2D => _rigidbody2D;
+        public GameObject LaserGameObject => _laserGameObject;
+
         private SignalBus _signalBus;
 
         [Inject]

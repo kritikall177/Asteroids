@@ -1,19 +1,17 @@
-using _Project._Code;
 using _Project._Code.MemoryPools;
 using _Project._Code.Signals;
 using _Project._Code.System;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Zenject;
 
-namespace Code
+namespace _Project._Code
 {
     public class GameSceneInstaller : MonoInstaller
     {
         [SerializeField] private Bullet _bullet;
         [SerializeField] private Asteroid _asteroid;
         [SerializeField] private FlyingSaucer _flyingSaucer;
-        [FormerlySerializedAs("_asteroidRespawnSystem")] [SerializeField] private RespawnSystem respawnSystem;
+        [SerializeField] private SpaceShip _spaceShip;
         
         public override void InstallBindings()
         {
@@ -21,7 +19,11 @@ namespace Code
             DeclareSignals();
 
             Container.Bind<IInputSystem>().To<InputSystem>().FromNew().AsSingle().NonLazy();
-            Container.Bind<RespawnSystem>().FromInstance(respawnSystem).AsSingle().NonLazy();
+            Container.Bind<SpaceShip>().FromInstance(_spaceShip).AsSingle().NonLazy();
+            Container.BindInterfacesTo<MovementSystem>().FromNew().AsSingle().NonLazy();
+            Container.Bind<AsyncProcessor>().FromNewComponentOnNewGameObject().AsSingle();
+            Container.BindInterfacesTo<RespawnSystem>().FromNew().AsSingle().NonLazy();
+            Container.BindInterfacesTo<ShootingSystem>().FromNew().AsSingle().NonLazy();
             
             Container.BindMemoryPool<Bullet, BulletsPool>().FromComponentInNewPrefab(_bullet);
             Container.BindMemoryPool<Asteroid, LittleAsteroidPool>().FromComponentInNewPrefab(_asteroid);

@@ -1,23 +1,25 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using _Project._Code.MemoryPools;
 using _Project._Code.Signals;
-using Code;
 using UnityEngine;
 using Zenject;
 
 namespace _Project._Code.System
 {
-    public class ShootingSystem : MonoBehaviour
+    public class ShootingSystem : IInitializable, IDisposable
     {
-        [SerializeField] private GameObject _laserGameObject;
-        [SerializeField] private int _maxLaserCharge = 2;
-        [SerializeField] private int _laserCharge = 2;
-        [SerializeField] private float _laserActiveTime = 0.5f;
-        [SerializeField] private int _laserRestoreTime = 20;
-
         private BulletsPool _bulletsPool;
         private IInputSystem _inputSystem;
         private SignalBus _signalBus;
+        private AsyncProcessor _asyncProcessor;
+        
+        private GameObject _laserGameObject;
+        private int _maxLaserCharge = 2;
+        private int _laserCharge = 2;
+        private float _laserActiveTime = 0.5f;
+        private int _laserRestoreTime = 20;
+
 
         private Vector2 _direction;
         private bool _canShoot = true;
@@ -26,27 +28,31 @@ namespace _Project._Code.System
         private Transform _cachedTransform;
 
         [Inject]
-        public void Construct(IInputSystem inputSystem, BulletsPool bulletsPool, SignalBus signalBus)
+        public ShootingSystem(IInputSystem inputSystem, BulletsPool bulletsPool, SignalBus signalBus,
+            AsyncProcessor asyncProcessor, SpaceShip spaceShip)
         {
             _inputSystem = inputSystem;
+            _bulletsPool = bulletsPool;
+            _signalBus = signalBus;
+            _asyncProcessor = asyncProcessor;
+
+            _cachedTransform = spaceShip.transform;
+            _laserGameObject = spaceShip.LaserGameObject;
+        }
+
+        public void Initialize()
+        {
             _inputSystem.OnAttackEvent += Attack;
             _inputSystem.OnHeavyAttackEvent += HeavyAttack;
             _inputSystem.OnLookEvent += ShootDirection;
-
-            _bulletsPool = bulletsPool;
-            _signalBus = signalBus;
-
+            
             _signalBus.Subscribe<GameStartSignal>(EnableShoot);
             _signalBus.Subscribe<GameOverSignal>(DisableShoot);
-        }
-
-        private void Awake()
-        {
+            
             _mainCamera = Camera.main;
-            _cachedTransform = transform;
         }
 
-        private void OnDestroy()
+        public void Dispose()
         {
             _inputSystem.OnAttackEvent -= Attack;
             _inputSystem.OnHeavyAttackEvent -= HeavyAttack;
@@ -62,7 +68,8 @@ namespace _Project._Code.System
         private void DisableShoot()
         {
             _canShoot = false;
-            StopAllCoroutines();
+            _asyncProcessor.StopAllCoroutines();
+            _laserGameObject.SetActive(false);
             _laserCharge = 2;
         }
 
@@ -95,8 +102,8 @@ namespace _Project._Code.System
         {
             if (_laserCharge > 0 && !_laserGameObject.activeSelf)
             {
-                StartCoroutine(ActivateLaser());
-                StartCoroutine(RestoreLaser());
+                _asyncProcessor.StartCoroutine(ActivateLaser());
+                _asyncProcessor.StartCoroutine(RestoreLaser());
             }
         }
 

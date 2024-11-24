@@ -232,7 +232,6 @@ GameObject:
   - component: {fileID: 8268633631937736341}
   - component: {fileID: 7878551768149114286}
   - component: {fileID: 2810133626548749112}
-  - component: {fileID: 6463712271364492869}
   - component: {fileID: 436074404141545695}
   m_Layer: 7
   m_Name: Spaceship
@@ -324,20 +323,6 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.59
---- !u!114 &6463712271364492869
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5522821112183980017}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a636ec058980465b9b133dbad60ac415, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _rigidbody2D: {fileID: 7878551768149114286}
-  _acceleration: 10
 --- !u!114 &436074404141545695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -351,6 +336,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rigidbody2D: {fileID: 7878551768149114286}
+  _laserGameObject: {fileID: 4052617839953116262}
 --- !u!1 &6046958200000519543
 GameObject:
   m_ObjectHideFlags: 0
@@ -621,7 +607,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7622539825225860313}
-  - component: {fileID: 3664955412182308706}
   m_Layer: 0
   m_Name: ShootingSystem
   m_TagString: Untagged
@@ -645,20 +630,3 @@ Transform:
   - {fileID: 9085687113941266029}
   m_Father: {fileID: 8268633631937736341}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3664955412182308706
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9092919020524633993}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c74590927fe842329daa6e18269f3c1e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _laserGameObject: {fileID: 4052617839953116262}
-  _maxLaserCharge: 2
-  _laserCharge: 2
-  _laserActiveTime: 0.5
-  _laserRestoreTime: 20

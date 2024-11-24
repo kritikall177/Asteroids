@@ -8,7 +8,7 @@ namespace _Project._Code
 {
     public class FlyingSaucer : MonoBehaviour
     {
-        [SerializeField] private AggroZoneSystem _aggroZone;
+        [SerializeField] private AggroZone _aggroZone;
         [SerializeField] private Rigidbody2D _rigidbody2D;
 
         [SerializeField] private float _saucerSpeed = 10f;

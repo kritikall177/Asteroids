@@ -1,4 +1,5 @@
-﻿using _Project._Code.Signals;
+﻿using System;
+using _Project._Code.Signals;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -23,12 +24,15 @@ namespace _Project._Code.System
         public void Construct(SignalBus signalBus)
         {
             _signalBus = signalBus;
+        }
+
+        private void Start()
+        {
             _signalBus.Subscribe<GameStartSignal>(ResetUI);
             _signalBus.Subscribe<GameOverSignal>(ShowGameOverUI);
             _signalBus.Subscribe<UpdateTransformSignal>(UpdatePlayerPosition);
             _signalBus.Subscribe<AddScoreSignal>(AddScore);
             _signalBus.Subscribe<UpdateLaserCountSignal>(UpdateLaserCount);
-            
             _resetButton.onClick.AddListener(RestartGame);
         }
 
