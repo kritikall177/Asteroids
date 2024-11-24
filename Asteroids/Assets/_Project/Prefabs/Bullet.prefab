@@ -130,6 +130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rigidbody2D: {fileID: 7502808587745938843}
+  _collider: {fileID: 5977846358880994199}
   _despawnTime: 5
   _bulletSpeed: 30
 --- !u!58 &5977846358880994199

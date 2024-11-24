@@ -276,7 +276,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8030537951010601818
 Transform:
   m_ObjectHideFlags: 0
@@ -346,7 +346,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _aggroZone: {fileID: 6291048207793501932}
   _rigidbody2D: {fileID: 5443616531426415299}
-  _SaucerSpeed: 15
+  _collider: {fileID: 84460790863687271}
+  _saucerSpeed: 10
+  _scoreCount: 80
 --- !u!50 &5443616531426415299
 Rigidbody2D:
   serializedVersion: 5

@@ -10,6 +10,7 @@ namespace _Project._Code
     {
         [SerializeField] private AggroZone _aggroZone;
         [SerializeField] private Rigidbody2D _rigidbody2D;
+        [SerializeField] private Collider2D _collider;
 
         [SerializeField] private float _saucerSpeed = 10f;
         [SerializeField] private int _scoreCount = 80;
@@ -18,7 +19,6 @@ namespace _Project._Code
         private SignalBus _signalBus;
         
         private Transform _targetTransform;
-        private bool _isDestroyed;
         private bool _isEnemyDetect;
         
         private Transform _cachedTransform;
@@ -42,6 +42,7 @@ namespace _Project._Code
 
         public void Launch(Vector2 spawnPosition)
         {
+            _collider.enabled = true;
             _cachedTransform.position = spawnPosition;
             _rigidbody2D.AddForce(Random.insideUnitCircle.normalized * _saucerSpeed, ForceMode2D.Impulse);
         }
@@ -54,9 +55,9 @@ namespace _Project._Code
 
         private void OnCollisionEnter2D(Collision2D other)
         {
-            if (!_isDestroyed && (other.gameObject.CompareTag("Projectile") || other.gameObject.CompareTag("Player")))
+            if (_collider.enabled && (other.gameObject.CompareTag("Projectile") || other.gameObject.CompareTag("Player")))
             {
-                _isDestroyed = true;
+                _collider.enabled = false;
                 _signalBus.Fire(new AddScoreSignal(_scoreCount));
                 _saucerPool.Despawn(this);
             }

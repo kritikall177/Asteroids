@@ -8,19 +8,20 @@ namespace _Project._Code
     public class Asteroid : MonoBehaviour
     {
         [SerializeField] private Rigidbody2D _rigidbody2D;
+        [SerializeField] private Collider2D _collider;
+
 
         public Rigidbody2D Rigidbody2D
         {
             get => _rigidbody2D;
             private set => _rigidbody2D = value;
         }
-        
+
         [SerializeField] private int _scoreCount  = 40;
-        
+
         private AsteroidPool _asteroidPool;
         private SignalBus _signalBus;
 
-        private bool _isDestroyed;
 
         [Inject]
         public void Construct(SignalBus signalBus)
@@ -30,20 +31,20 @@ namespace _Project._Code
 
         private void OnEnable()
         {
-            _isDestroyed = false;
+            _collider.enabled = true;
         }
 
         private void OnCollisionEnter2D(Collision2D other)
         {
-            if (!_isDestroyed && other.gameObject.CompareTag("Projectile"))
+            if (_collider.enabled && other.gameObject.CompareTag("Projectile"))
             {
-                _isDestroyed = true;
+                _collider.enabled = false;
                 _signalBus.Fire(new AddScoreSignal(_scoreCount));
                 _asteroidPool.Despawn(this);
             }
-            else if (!_isDestroyed && other.gameObject.CompareTag("Player"))
+            else if (other.gameObject.CompareTag("Player"))
             {
-                _isDestroyed = true;
+                _collider.enabled = false;
                 _signalBus.Fire(new AddScoreSignal(_scoreCount));
                 _asteroidPool.Despawn(this);
                 

@@ -261,11 +261,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rigidbody2D: {fileID: 6435021126974054850}
-  _littleAsteroidScaleSize: 0.5
-  _asteroidSpeed: 10
-  _littleAsteroidSpeed: 13
-  _fragmentsCount: 2
   _scoreCount: 40
+  _collider: {fileID: 2945669559375759803}
 --- !u!50 &6435021126974054850
 Rigidbody2D:
   serializedVersion: 5
