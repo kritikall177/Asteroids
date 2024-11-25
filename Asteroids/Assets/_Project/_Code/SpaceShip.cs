@@ -1,10 +1,11 @@
-﻿using _Project._Code.Signals;
+﻿using _Project._Code.CollisionComponents;
+using _Project._Code.Signals;
 using UnityEngine;
 using Zenject;
 
 namespace _Project._Code
 {
-    public class SpaceShip : MonoBehaviour
+    public class SpaceShip : MonoBehaviour, IPlayerComponent
     {
         [SerializeField] private Rigidbody2D _rigidbody2D;
         [SerializeField] private GameObject _laserGameObject;
@@ -21,7 +22,7 @@ namespace _Project._Code
         
         private void OnCollisionEnter2D(Collision2D other)
         {
-            if (other.gameObject.CompareTag("Destructible"))
+            if (other.gameObject.TryGetComponent<IDestructibleComponent>(out _))
             {
                 _signalBus.Fire<GameOverSignal>();
             }

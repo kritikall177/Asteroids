@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections;
+using _Project._Code.CollisionComponents;
 using _Project._Code.MemoryPools;
 using UnityEngine;
 using Zenject;
 
 namespace _Project._Code
 {
-    public class Bullet : MonoBehaviour
+    public class Bullet : MonoBehaviour, IProjectileComponent
     {
         [SerializeField] private Rigidbody2D _rigidbody2D;
         [SerializeField] private Collider2D _collider;
@@ -32,7 +33,7 @@ namespace _Project._Code
         
         private void OnCollisionEnter2D(Collision2D other)
         {
-            if (_collider.enabled && other.gameObject.CompareTag("Destructible"))
+            if (_collider.enabled && other.gameObject.TryGetComponent<IDestructibleComponent>(out _))
             {
                 _collider.enabled = false;
                 _bulletsPool.Despawn(this);

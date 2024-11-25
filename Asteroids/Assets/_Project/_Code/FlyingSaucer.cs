@@ -1,4 +1,5 @@
 ﻿using System;
+using _Project._Code.CollisionComponents;
 using _Project._Code.MemoryPools;
 using _Project._Code.Signals;
 using UnityEngine;
@@ -7,7 +8,7 @@ using Random = UnityEngine.Random;
 
 namespace _Project._Code
 {
-    public class FlyingSaucer : MonoBehaviour
+    public class FlyingSaucer : MonoBehaviour, IDestructibleComponent
     {
         [SerializeField] private Rigidbody2D _rigidbody2D;
         [SerializeField] private Collider2D _collider;
@@ -38,7 +39,8 @@ namespace _Project._Code
 
         private void OnCollisionEnter2D(Collision2D other)
         {
-            if (_collider.enabled && (other.gameObject.CompareTag("Projectile") || other.gameObject.CompareTag("Player")))
+            if (_collider.enabled && (other.gameObject.TryGetComponent<IProjectileComponent>(out _) ||
+                                      other.gameObject.TryGetComponent<IPlayerComponent>(out _)))
             {
                 _collider.enabled = false;
                 _signalBus.Fire(new AddScoreSignal(_scoreCount));
