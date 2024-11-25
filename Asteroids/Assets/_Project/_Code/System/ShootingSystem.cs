@@ -126,8 +126,7 @@ namespace _Project._Code.System
 
         private void BulletAttack()
         {
-            Bullet bullet = _bulletsPool.Spawn();
-            bullet.Launch(_cachedTransform.position, _direction);
+            _bulletsPool.Spawn(_cachedTransform.position, _direction);
         }
     }
 }

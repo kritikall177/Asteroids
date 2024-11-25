@@ -1,12 +1,35 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 using Zenject;
 
 namespace _Project._Code.MemoryPools
 {
-    public class SaucerPool : MemoryPool<FlyingSaucer>
+    public class SaucerPool : MemoryPool<Vector2, FlyingSaucer>
     {
-        private List<FlyingSaucer> _activeSaucers = new List<FlyingSaucer>();
+        private float _saucerSpeed = 10f;
         
+        private List<FlyingSaucer> _activeSaucers = new List<FlyingSaucer>();
+
+        protected override void OnSpawned(FlyingSaucer saucer)
+        {
+            saucer.gameObject.SetActive(true);
+            _activeSaucers.Add(saucer);
+        }
+
+        protected override void Reinitialize(Vector2 spawnPosition, FlyingSaucer saucer)
+        {
+            saucer.transform.position = spawnPosition;
+            saucer.Rigidbody2D.AddForce(Random.insideUnitCircle.normalized * _saucerSpeed, ForceMode2D.Impulse);
+        }
+
+        protected override void OnDespawned(FlyingSaucer saucer)
+        {
+            saucer.gameObject.SetActive(false);
+            _activeSaucers.Remove(saucer);
+            saucer.Rigidbody2D.linearVelocity = Vector2.zero;
+            saucer.Rigidbody2D.angularVelocity = 0f;
+        }
+
         public void DespawnAll()
         {
             var list = new List<FlyingSaucer>(_activeSaucers);
@@ -15,19 +38,6 @@ namespace _Project._Code.MemoryPools
             {
                 Despawn(saucer);
             }
-        }
-        
-        protected override void OnSpawned(FlyingSaucer saucer)
-        {
-            saucer.gameObject.SetActive(true);
-            _activeSaucers.Add(saucer);
-        }
-
-        protected override void OnDespawned(FlyingSaucer saucer)
-        {
-            saucer.gameObject.SetActive(false);
-            _activeSaucers.Remove(saucer);
-            saucer.OnDespawned();
         }
     }
 }

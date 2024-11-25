@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace _Project._Code.System
 {
-    public interface IInputSystem
+    public interface IInputSystem   
     {
         public event Action<bool> OnMoveEvent;
         public event Action<Vector2> OnLookEvent;

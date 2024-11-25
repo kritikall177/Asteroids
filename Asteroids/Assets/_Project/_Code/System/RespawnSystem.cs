@@ -89,8 +89,7 @@ namespace _Project._Code.System
         private void SaucerRespawn()
         {
             if (_saucerPool.NumActive >= _maxSoucerCount) return;
-            var saucer = _saucerPool.Spawn();
-            saucer.Launch(_spawnPosition[UnityEngine.Random.Range(0, _spawnPosition.Count)]);
+            _saucerPool.Spawn(_spawnPosition[UnityEngine.Random.Range(0, _spawnPosition.Count)]);
         }
     }
 }

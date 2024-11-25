@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using _Project._Code.MemoryPools;
 using UnityEngine;
 using Zenject;
@@ -9,8 +10,12 @@ namespace _Project._Code
     {
         [SerializeField] private Rigidbody2D _rigidbody2D;
         [SerializeField] private Collider2D _collider;
-        [SerializeField] private float _despawnTime = 1f;
-        [SerializeField] private float _bulletSpeed = 10f;
+        
+        public Rigidbody2D Rigidbody2D
+        {
+            get => _rigidbody2D;
+            private set => _rigidbody2D = value;
+        }
         
         private BulletsPool _bulletsPool;
 
@@ -20,20 +25,11 @@ namespace _Project._Code
             _bulletsPool = bulletsPool;
         }
 
-        public void Launch(Vector2 shootPosition, Vector2 shootDirection)
+        private void OnEnable()
         {
             _collider.enabled = true;
-            transform.position = shootPosition;
-            _rigidbody2D.AddForce(shootDirection * _bulletSpeed, ForceMode2D.Impulse);
-            StartCoroutine(DespawnTimer());
         }
-
-        private IEnumerator DespawnTimer()
-        {
-            yield return new WaitForSeconds(_despawnTime);
-            _bulletsPool.Despawn(this);
-        }
-
+        
         private void OnCollisionEnter2D(Collision2D other)
         {
             if (_collider.enabled && other.gameObject.CompareTag("Destructible"))
@@ -42,12 +38,5 @@ namespace _Project._Code
                 _bulletsPool.Despawn(this);
             }
         }
-
-        public void OnDespawned()
-        {
-            _rigidbody2D.linearVelocity = Vector2.zero;
-            StopCoroutine(DespawnTimer());
-        }
-        
     }
 }

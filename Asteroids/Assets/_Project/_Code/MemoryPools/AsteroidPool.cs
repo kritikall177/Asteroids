@@ -28,16 +28,16 @@ namespace _Project._Code.MemoryPools
             asteroid.SetPool(this);
         }
 
-        protected override void Reinitialize(Vector2 spawnPosition, bool isLittle, Asteroid asteroid)
-        {
-            asteroid.transform.position = spawnPosition;
-            asteroid.Rigidbody2D.AddForce(Random.insideUnitCircle.normalized * AsteroidSpeed, ForceMode2D.Impulse);
-        }
-
         protected override void OnSpawned(Asteroid asteroid)
         {
             asteroid.gameObject.SetActive(true);
             ActiveAsteroids.Add(asteroid);
+        }
+
+        protected override void Reinitialize(Vector2 spawnPosition, bool isLittle, Asteroid asteroid)
+        {
+            asteroid.transform.position = spawnPosition;
+            asteroid.Rigidbody2D.AddForce(Random.insideUnitCircle.normalized * AsteroidSpeed, ForceMode2D.Impulse);
         }
 
         protected override void OnDespawned(Asteroid asteroid)
