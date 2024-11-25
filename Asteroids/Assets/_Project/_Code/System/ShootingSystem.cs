@@ -41,8 +41,8 @@ namespace _Project._Code.System
 
         public void Initialize()
         {
-            _inputSystem.OnAttackEvent += Attack;
-            _inputSystem.OnHeavyAttackEvent += HeavyAttack;
+            _inputSystem.OnAttackEvent += BulletAttack;
+            _inputSystem.OnHeavyAttackEvent += LaserAttack;
             _inputSystem.OnLookEvent += ShootDirection;
             
             _signalBus.Subscribe<GameStartSignal>(EnableShoot);
@@ -53,8 +53,8 @@ namespace _Project._Code.System
 
         public void Dispose()
         {
-            _inputSystem.OnAttackEvent -= Attack;
-            _inputSystem.OnHeavyAttackEvent -= HeavyAttack;
+            _inputSystem.OnAttackEvent -= BulletAttack;
+            _inputSystem.OnHeavyAttackEvent -= LaserAttack;
             _inputSystem.OnLookEvent -= ShootDirection;
         }
 
@@ -70,22 +70,6 @@ namespace _Project._Code.System
             _laserCharge = 2;
         }
 
-        private void Attack(bool isAttack)
-        {
-            if (isAttack)
-            {
-                BulletAttack();
-            }
-        }
-
-        private void HeavyAttack(bool isAttack)
-        {
-            if (isAttack)
-            {
-                LaserAttack();
-            }
-        }
-
         private void ShootDirection(Vector2 position)
         {
             Vector3 mousePosition = _mainCamera.ScreenToWorldPoint(position);
@@ -93,9 +77,9 @@ namespace _Project._Code.System
                 mousePosition.y - _cachedTransform.position.y).normalized;
         }
 
-        private void LaserAttack()
+        private void LaserAttack(bool isAttack)
         {
-            if (_laserCharge > 0 && !_laserGameObject.activeSelf)
+            if (isAttack && _laserCharge > 0 && !_laserGameObject.activeSelf)
             {
                 _asyncProcessor.StartCoroutine(ActivateLaser());
                 _asyncProcessor.StartCoroutine(RestoreLaser());
@@ -124,9 +108,12 @@ namespace _Project._Code.System
             }
         }
 
-        private void BulletAttack()
+        private void BulletAttack(bool isAttack)
         {
-            _bulletsPool.Spawn(_cachedTransform.position, _direction);
+            if (isAttack)
+            {
+                _bulletsPool.Spawn(_cachedTransform.position, _direction);
+            }
         }
     }
 }
