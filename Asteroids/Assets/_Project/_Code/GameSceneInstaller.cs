@@ -1,3 +1,4 @@
+using _Project._Code.CollisionObjects;
 using _Project._Code.MemoryPools;
 using _Project._Code.Signals;
 using _Project._Code.System;
@@ -17,15 +18,23 @@ namespace _Project._Code
         {
             SignalBusInstaller.Install(Container);
             DeclareSignals();
-
-            Container.BindInterfacesTo<InputSystem>().FromNew().AsSingle().NonLazy();
+            BindSystems();
+            DeclarePools();
             Container.Bind<SpaceShip>().FromInstance(_spaceShip).AsSingle().NonLazy();
-            Container.BindInterfacesTo<MovementSystem>().FromNew().AsSingle().NonLazy();
             Container.Bind<AsyncProcessor>().FromNewComponentOnNewGameObject().AsSingle();
+        }
+
+        private void BindSystems()
+        {
+            Container.BindInterfacesTo<InputSystem>().FromNew().AsSingle().NonLazy();
+            Container.BindInterfacesTo<MovementSystem>().FromNew().AsSingle().NonLazy();
             Container.BindInterfacesTo<RespawnSystem>().FromNew().AsSingle().NonLazy();
             Container.BindInterfacesTo<ShootingSystem>().FromNew().AsSingle().NonLazy();
             Container.BindInterfacesTo<ScoreSystem>().FromNew().AsSingle().NonLazy();
-            
+        }
+
+        private void DeclarePools()
+        {
             Container.BindMemoryPool<Bullet, BulletsPool>().FromComponentInNewPrefab(_bullet);
             Container.BindMemoryPool<Asteroid, LittleAsteroidPool>().FromComponentInNewPrefab(_asteroid);
             Container.BindMemoryPool<Asteroid, AsteroidPool>().FromComponentInNewPrefab(_asteroid);

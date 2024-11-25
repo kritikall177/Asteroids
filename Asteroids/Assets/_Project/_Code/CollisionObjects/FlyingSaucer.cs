@@ -1,12 +1,10 @@
-﻿using System;
-using _Project._Code.CollisionComponents;
+﻿using _Project._Code.CollisionComponents;
 using _Project._Code.MemoryPools;
 using _Project._Code.Signals;
 using UnityEngine;
 using Zenject;
-using Random = UnityEngine.Random;
 
-namespace _Project._Code
+namespace _Project._Code.CollisionObjects
 {
     public class FlyingSaucer : MonoBehaviour, IDestructibleComponent, ITeleportableComponent
     {

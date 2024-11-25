@@ -1,4 +1,5 @@
 ﻿using System;
+using _Project._Code.CollisionObjects;
 using _Project._Code.Signals;
 using UnityEngine;
 using Zenject;

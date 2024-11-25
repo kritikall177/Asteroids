@@ -4,7 +4,7 @@ using _Project._Code.Signals;
 using UnityEngine;
 using Zenject;
 
-namespace _Project._Code
+namespace _Project._Code.CollisionObjects
 {
     public class Asteroid : MonoBehaviour, IDestructibleComponent, ITeleportableComponent
     {

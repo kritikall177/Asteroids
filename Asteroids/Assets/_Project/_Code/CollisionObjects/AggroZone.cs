@@ -1,7 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace _Project._Code
+namespace _Project._Code.CollisionObjects
 {
     public class AggroZone : MonoBehaviour
     {

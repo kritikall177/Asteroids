@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections;
-using _Project._Code.CollisionComponents;
+﻿using _Project._Code.CollisionComponents;
 using _Project._Code.MemoryPools;
 using UnityEngine;
 using Zenject;
 
-namespace _Project._Code
+namespace _Project._Code.CollisionObjects
 {
     public class Bullet : MonoBehaviour, IProjectileComponent
     {
