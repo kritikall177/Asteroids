@@ -24,6 +24,7 @@ namespace _Project._Code
             Container.Bind<AsyncProcessor>().FromNewComponentOnNewGameObject().AsSingle();
             Container.BindInterfacesTo<RespawnSystem>().FromNew().AsSingle().NonLazy();
             Container.BindInterfacesTo<ShootingSystem>().FromNew().AsSingle().NonLazy();
+            Container.BindInterfacesTo<ScoreSystem>().FromNew().AsSingle().NonLazy();
             
             Container.BindMemoryPool<Bullet, BulletsPool>().FromComponentInNewPrefab(_bullet);
             Container.BindMemoryPool<Asteroid, LittleAsteroidPool>().FromComponentInNewPrefab(_asteroid);
@@ -38,6 +39,7 @@ namespace _Project._Code
             Container.DeclareSignal<AddScoreSignal>();
             Container.DeclareSignal<UpdateTransformSignal>();
             Container.DeclareSignal<UpdateLaserCountSignal>();
+            Container.DeclareSignal<UpdateScoreUI>();
         }
     }
 }

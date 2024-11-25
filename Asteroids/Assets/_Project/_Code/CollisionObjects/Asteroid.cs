@@ -12,13 +12,13 @@ namespace _Project._Code
         [SerializeField] private Collider2D _collider;
 
 
+        [SerializeField] private int _scoreCount  = 40;
+
         public Rigidbody2D Rigidbody2D
         {
             get => _rigidbody2D;
             private set => _rigidbody2D = value;
         }
-
-        [SerializeField] private int _scoreCount  = 40;
 
         private AsteroidPool _asteroidPool;
         private SignalBus _signalBus;
@@ -37,18 +37,13 @@ namespace _Project._Code
 
         private void OnCollisionEnter2D(Collision2D other)
         {
-            if (_collider.enabled && other.gameObject.TryGetComponent<IProjectileComponent>(out _))
+            if (_collider.enabled && 
+                (other.gameObject.TryGetComponent<IProjectileComponent>(out _) || 
+                 other.gameObject.TryGetComponent<IPlayerComponent>(out _)))
             {
                 _collider.enabled = false;
                 _signalBus.Fire(new AddScoreSignal(_scoreCount));
                 _asteroidPool.Despawn(this);
-            }
-            else if (other.gameObject.TryGetComponent<IPlayerComponent>(out _))
-            {
-                _collider.enabled = false;
-                _signalBus.Fire(new AddScoreSignal(_scoreCount));
-                _asteroidPool.Despawn(this);
-                
             }
         }
 

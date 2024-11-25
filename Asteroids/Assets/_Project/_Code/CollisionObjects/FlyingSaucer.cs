@@ -13,13 +13,13 @@ namespace _Project._Code
         [SerializeField] private Rigidbody2D _rigidbody2D;
         [SerializeField] private Collider2D _collider;
 
+        [SerializeField] private int _scoreCount = 80;
+
         public Rigidbody2D Rigidbody2D
         {
             get => _rigidbody2D;
             private set => _rigidbody2D = value;
         }
-        
-        [SerializeField] private int _scoreCount = 80;
 
         private SaucerPool _saucerPool;
         private SignalBus _signalBus;
