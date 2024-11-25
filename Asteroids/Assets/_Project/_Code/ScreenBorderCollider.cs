@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using _Project._Code.CollisionComponents;
+using UnityEngine;
 
 namespace _Project._Code
 {
@@ -19,8 +20,8 @@ namespace _Project._Code
             
             UpdateCollider();
         
-            Vector2 screenBottomLeft = _mainCamera.ScreenToWorldPoint(new Vector2(0, 0)); // Используем кешированную камеру
-            Vector2 screenTopRight = _mainCamera.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height)); // Используем кешированную камеру
+            Vector2 screenBottomLeft = _mainCamera.ScreenToWorldPoint(new Vector2(0, 0));
+            Vector2 screenTopRight = _mainCamera.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
         
             _screenWidth = Mathf.Abs(screenTopRight.x - screenBottomLeft.x) / 2;
             _screenHeight = Mathf.Abs(screenTopRight.y - screenBottomLeft.y) / 2;
@@ -38,7 +39,7 @@ namespace _Project._Code
 
         private void OnTriggerEnter2D(Collider2D collider)
         {
-            if (collider.gameObject.layer == LayerMask.NameToLayer("Teleportable"))
+            if (collider.gameObject.TryGetComponent<ITeleportableComponent>(out _))
             {
                 ScreenWrapping(collider);
             }

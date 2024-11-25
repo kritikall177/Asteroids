@@ -5,7 +5,7 @@ using Zenject;
 
 namespace _Project._Code
 {
-    public class SpaceShip : MonoBehaviour, IPlayerComponent
+    public class SpaceShip : MonoBehaviour, IPlayerComponent, ITeleportableComponent
     {
         [SerializeField] private Rigidbody2D _rigidbody2D;
         [SerializeField] private GameObject _laserGameObject;

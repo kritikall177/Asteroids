@@ -6,7 +6,7 @@ using Zenject;
 
 namespace _Project._Code
 {
-    public class Asteroid : MonoBehaviour, IDestructibleComponent
+    public class Asteroid : MonoBehaviour, IDestructibleComponent, ITeleportableComponent
     {
         [SerializeField] private Rigidbody2D _rigidbody2D;
         [SerializeField] private Collider2D _collider;

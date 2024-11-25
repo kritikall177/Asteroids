@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 
 namespace _Project._Code
 {
-    public class FlyingSaucer : MonoBehaviour, IDestructibleComponent
+    public class FlyingSaucer : MonoBehaviour, IDestructibleComponent, ITeleportableComponent
     {
         [SerializeField] private Rigidbody2D _rigidbody2D;
         [SerializeField] private Collider2D _collider;
