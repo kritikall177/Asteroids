@@ -49,8 +49,6 @@ namespace _Project._Code.System
         {
             _gameStateActions.OnGameStart -= EnableSpawn;
             _gameStateActions.OnGameOver -= DisableSpawn;
-            
-            _asyncProcessor.StopAllCoroutines();
         }
 
         private void DisableSpawn()
