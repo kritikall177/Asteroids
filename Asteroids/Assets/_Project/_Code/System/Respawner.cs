@@ -9,7 +9,7 @@ using Zenject;
 
 namespace _Project._Code.System
 {
-    public class RespawnSystem : IInitializable, IDisposable
+    public class Respawner : IInitializable, IDisposable
     {
         private AsteroidPool _asteroidPool;
         private SaucerPool _saucerPool;
@@ -26,7 +26,7 @@ namespace _Project._Code.System
         private List<Vector2> _spawnPosition = new List<Vector2>();
 
         [Inject]
-        public RespawnSystem(AsteroidPool asteroidPool, SaucerPool saucerPool, SignalBus signalBus, AsyncProcessor asyncProcessor)
+        public Respawner(AsteroidPool asteroidPool, SaucerPool saucerPool, SignalBus signalBus, AsyncProcessor asyncProcessor)
         {
             _asteroidPool = asteroidPool;
             _saucerPool = saucerPool;

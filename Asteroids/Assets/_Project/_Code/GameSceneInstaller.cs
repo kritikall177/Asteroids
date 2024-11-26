@@ -27,10 +27,10 @@ namespace _Project._Code
         private void BindSystems()
         {
             Container.BindInterfacesTo<InputSystem>().FromNew().AsSingle().NonLazy();
-            Container.BindInterfacesTo<MovementSystem>().FromNew().AsSingle().NonLazy();
-            Container.BindInterfacesTo<RespawnSystem>().FromNew().AsSingle().NonLazy();
-            Container.BindInterfacesTo<ShootingSystem>().FromNew().AsSingle().NonLazy();
-            Container.BindInterfacesTo<ScoreSystem>().FromNew().AsSingle().NonLazy();
+            Container.BindInterfacesTo<PlayerMovement>().FromNew().AsSingle().NonLazy();
+            Container.BindInterfacesTo<Respawner>().FromNew().AsSingle().NonLazy();
+            Container.BindInterfacesTo<PlayerShooting>().FromNew().AsSingle().NonLazy();
+            Container.BindInterfacesTo<Score>().FromNew().AsSingle().NonLazy();
         }
 
         private void DeclarePools()

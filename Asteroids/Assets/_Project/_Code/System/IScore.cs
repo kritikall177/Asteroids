@@ -1,6 +1,6 @@
 namespace _Project._Code.System
 {
-    public interface IScoreSystem
+    public interface IScore
     {
         public int GetScore();
     }

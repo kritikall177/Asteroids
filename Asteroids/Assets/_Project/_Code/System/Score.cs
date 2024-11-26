@@ -4,14 +4,14 @@ using NotImplementedException = System.NotImplementedException;
 
 namespace _Project._Code.System
 {
-    public class ScoreSystem : IInitializable, IScoreSystem
+    public class Score : IInitializable, IScore
     {
         private SignalBus _signalBus;
         
         private int _score;
 
         [Inject]
-        public ScoreSystem(SignalBus signalBus)
+        public Score(SignalBus signalBus)
         {
             _signalBus = signalBus;
         }

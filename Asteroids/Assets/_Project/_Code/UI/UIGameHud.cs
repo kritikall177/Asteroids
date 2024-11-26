@@ -12,7 +12,7 @@ namespace _Project._Code.UI
         [SerializeField] private TMP_Text _stats;
         
         private SignalBus _signalBus;
-        private IScoreSystem _scoreSystem;
+        private IScore _scoreSystem;
         
         private int _score = 0;
         private Vector2 _position = Vector2.zero;
@@ -20,7 +20,7 @@ namespace _Project._Code.UI
         private int _laserCount;
         
         [Inject]
-        public void Construct(SignalBus signalBus, IScoreSystem scoreSystem)
+        public void Construct(SignalBus signalBus, IScore scoreSystem)
         {
             _signalBus = signalBus;
             _scoreSystem = scoreSystem;

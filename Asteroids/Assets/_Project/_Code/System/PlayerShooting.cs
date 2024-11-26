@@ -9,7 +9,7 @@ using Zenject;
 
 namespace _Project._Code.System
 {
-    public class ShootingSystem : IInitializable, IDisposable
+    public class PlayerShooting : IInitializable, IDisposable
     {
         private BulletsPool _bulletsPool;
         private IInputSystem _inputSystem;
@@ -29,7 +29,7 @@ namespace _Project._Code.System
         private Transform _cachedTransform;
 
         [Inject]
-        public ShootingSystem(IInputSystem inputSystem, BulletsPool bulletsPool, SignalBus signalBus,
+        public PlayerShooting(IInputSystem inputSystem, BulletsPool bulletsPool, SignalBus signalBus,
             AsyncProcessor asyncProcessor, SpaceShip spaceShip)
         {
             _inputSystem = inputSystem;

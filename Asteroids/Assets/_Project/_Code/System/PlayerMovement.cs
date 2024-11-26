@@ -6,7 +6,7 @@ using Zenject;
 
 namespace _Project._Code.System
 {
-    public class MovementSystem : IInitializable, IFixedTickable, IDisposable
+    public class PlayerMovement : IInitializable, IFixedTickable, IDisposable
     {
         private readonly float _acceleration = 10f;
 
@@ -22,7 +22,7 @@ namespace _Project._Code.System
         private Rigidbody2D _cachedrigidbody2D;
 
         [Inject]
-        public MovementSystem(IInputSystem inputSystem, SignalBus signalBus, SpaceShip ship)
+        public PlayerMovement(IInputSystem inputSystem, SignalBus signalBus, SpaceShip ship)
         {
             _inputSystem = inputSystem;
             _signalBus = signalBus;

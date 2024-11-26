@@ -13,13 +13,13 @@ namespace _Project._Code.System
         [SerializeField] private TMP_Text _finalScore;
         
         private SignalBus _signalBus;
-        private IScoreSystem _scoreSystem;
+        private IScore _score;
         
         [Inject]
-        public void Construct(SignalBus signalBus, IScoreSystem scoreSystem)
+        public void Construct(SignalBus signalBus, IScore score)
         {
             _signalBus = signalBus;
-            _scoreSystem = scoreSystem;
+            _score = score;
         }
 
         private void Start()
@@ -35,7 +35,7 @@ namespace _Project._Code.System
         {
             _resetButton.gameObject.SetActive(true);
             _finalScore.gameObject.SetActive(true);
-            _finalScore.SetText($"Score:\n{_scoreSystem.GetScore()}");
+            _finalScore.SetText($"Score:\n{_score.GetScore()}");
         }
         
         private void HideGameStartUI()
