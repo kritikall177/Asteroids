@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using _Project._Code.MemoryPools;
 using _Project._Code.Signals;
+using _Project._Code.SpawnParameters;
 using UnityEngine;
 using Zenject;
 
@@ -83,13 +84,18 @@ namespace _Project._Code.System
         private void AsteroidSpawn()
         {
             if (_asteroidPool.NumActive >= _maxAsteroidCount) return;
-            _asteroidPool.Spawn(_spawnPosition[UnityEngine.Random.Range(0, _spawnPosition.Count)], false);
+            _asteroidPool.Spawn(GetSpawnParams());
         }
 
         private void SaucerRespawn()
         {
             if (_saucerPool.NumActive >= _maxSoucerCount) return;
-            _saucerPool.Spawn(_spawnPosition[UnityEngine.Random.Range(0, _spawnPosition.Count)]);
+            _saucerPool.Spawn(GetSpawnParams());
+        }
+
+        private SpawnParams GetSpawnParams()
+        {
+            return new SpawnParams(_spawnPosition[UnityEngine.Random.Range(0, _spawnPosition.Count)]);
         }
     }
 }

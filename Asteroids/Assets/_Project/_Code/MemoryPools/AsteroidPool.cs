@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using _Project._Code.CollisionObjects;
+using _Project._Code.SpawnParameters;
 using UnityEngine;
 using Zenject;
 
 namespace _Project._Code.MemoryPools
 {
-    public class AsteroidPool : MemoryPool<Vector2, bool, Asteroid>
+    public class AsteroidPool : MemoryPool<SpawnParams, Asteroid>
     {
         protected float AsteroidSpeed = 10f;
         protected List<Asteroid> ActiveAsteroids = new List<Asteroid>();
@@ -35,9 +36,9 @@ namespace _Project._Code.MemoryPools
             ActiveAsteroids.Add(asteroid);
         }
 
-        protected override void Reinitialize(Vector2 spawnPosition, bool isLittle, Asteroid asteroid)
+        protected override void Reinitialize(SpawnParams spawnParams, Asteroid asteroid)
         {
-            asteroid.transform.position = spawnPosition;
+            asteroid.transform.position = spawnParams.SpawnPosition;
             asteroid.Rigidbody2D.AddForce(Random.insideUnitCircle.normalized * AsteroidSpeed, ForceMode2D.Impulse);
         }
 
@@ -45,7 +46,7 @@ namespace _Project._Code.MemoryPools
         {
             for (int i = 0; i < _fragmentsCount; i++)
             {
-                _littleAsteroidPool.Spawn(asteroid.transform.position, true);
+                _littleAsteroidPool.Spawn(new SpawnParams(asteroid.transform.position));
             }
             
             DespawnAsteroid(asteroid);

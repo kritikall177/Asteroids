@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using _Project._Code.CollisionObjects;
+using _Project._Code.SpawnParameters;
 using UnityEngine;
 using Zenject;
 
 namespace _Project._Code.MemoryPools
 {
-    public class SaucerPool : MemoryPool<Vector2, FlyingSaucer>
+    public class SaucerPool : MemoryPool<SpawnParams, FlyingSaucer>
     {
         private float _saucerSpeed = 10f;
         
@@ -17,9 +18,9 @@ namespace _Project._Code.MemoryPools
             _activeSaucers.Add(saucer);
         }
 
-        protected override void Reinitialize(Vector2 spawnPosition, FlyingSaucer saucer)
+        protected override void Reinitialize(SpawnParams spawnParams, FlyingSaucer saucer)
         {
-            saucer.transform.position = spawnPosition;
+            saucer.transform.position = spawnParams.SpawnPosition;
             saucer.Rigidbody2D.AddForce(Random.insideUnitCircle.normalized * _saucerSpeed, ForceMode2D.Impulse);
         }
 

@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using _Project._Code.CollisionObjects;
+using _Project._Code.SpawnParameters;
 using UnityEngine;
 using Zenject;
 
 namespace _Project._Code.MemoryPools
 {
-    public class BulletsPool : MemoryPool<Vector2, Vector2, Bullet>
+    public class BulletsPool : MemoryPool<BulletParams, Bullet>
     {
         private float _bulletSpeed = 20f;
         private float _despawnTime = 1f;
@@ -15,10 +16,10 @@ namespace _Project._Code.MemoryPools
             bullet.gameObject.SetActive(true);
         }
 
-        protected override void Reinitialize(Vector2 shootPosition, Vector2 shootDirection, Bullet bullet)
+        protected override void Reinitialize(BulletParams bulletParams, Bullet bullet)
         {
-            bullet.transform.position = shootPosition;
-            bullet.Rigidbody2D.AddForce(shootDirection * _bulletSpeed, ForceMode2D.Impulse);
+            bullet.transform.position = bulletParams.SpawnPosition;
+            bullet.Rigidbody2D.AddForce(bulletParams.ShootDirection * _bulletSpeed, ForceMode2D.Impulse);
             bullet.StartCoroutine(DespawnTimer(bullet));
         }
 

@@ -3,6 +3,7 @@ using System.Collections;
 using _Project._Code.CollisionObjects;
 using _Project._Code.MemoryPools;
 using _Project._Code.Signals;
+using _Project._Code.SpawnParameters;
 using UnityEngine;
 using Zenject;
 
@@ -113,7 +114,7 @@ namespace _Project._Code.System
         {
             if (isAttack)
             {
-                _bulletsPool.Spawn(_cachedTransform.position, _direction);
+                _bulletsPool.Spawn(new BulletParams(_cachedTransform.position, _direction));
             }
         }
     }

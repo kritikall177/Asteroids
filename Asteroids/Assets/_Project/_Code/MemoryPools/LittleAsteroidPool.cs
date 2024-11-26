@@ -1,4 +1,5 @@
 ﻿using _Project._Code.CollisionObjects;
+using _Project._Code.SpawnParameters;
 using UnityEngine;
 
 namespace _Project._Code.MemoryPools
@@ -12,10 +13,10 @@ namespace _Project._Code.MemoryPools
         {
         }
 
-        protected override void Reinitialize(Vector2 spawnPosition, bool isLittle, Asteroid asteroid)
+        protected override void Reinitialize(SpawnParams spawnParams, Asteroid asteroid)
         {
             asteroid.transform.localScale = Vector3.one * _asteroidScaleSize;
-            base.Reinitialize(spawnPosition, isLittle, asteroid);
+            base.Reinitialize(spawnParams, asteroid);
         }
 
         protected override void OnDespawned(Asteroid asteroid)
