@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using _Project._Code.CollisionComponents;
+using UnityEngine;
 
 namespace _Project._Code.CollisionObjects
 {
@@ -27,7 +28,7 @@ namespace _Project._Code.CollisionObjects
 
         private void OnTriggerEnter2D(Collider2D collider)
         {
-            if (collider.gameObject.CompareTag("Player"))
+            if (collider.gameObject.TryGetComponent<IPlayerComponent>(out _))
             {
                 _targetTransform = collider.gameObject.transform;
                 _isEnemyDetect = true;

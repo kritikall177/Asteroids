@@ -2,8 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using _Project._Code.MemoryPools;
-using _Project._Code.Signals;
-using _Project._Code.SpawnParameters;
+using _Project._Code.Parameters;
+using _Project._Code.System.GameState;
 using UnityEngine;
 using Zenject;
 
@@ -26,7 +26,8 @@ namespace _Project._Code.System
         private List<Vector2> _spawnPosition = new List<Vector2>();
 
         [Inject]
-        public Respawner(AsteroidPool asteroidPool, SaucerPool saucerPool, IGameStateActionsSubscriber gameStateActions, AsyncProcessor asyncProcessor)
+        public Respawner(AsteroidPool asteroidPool, SaucerPool saucerPool, IGameStateActionsSubscriber gameStateActions,
+            AsyncProcessor asyncProcessor)
         {
             _asteroidPool = asteroidPool;
             _saucerPool = saucerPool;

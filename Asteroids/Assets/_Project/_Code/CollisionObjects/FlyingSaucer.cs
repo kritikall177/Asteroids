@@ -1,6 +1,6 @@
 ﻿using _Project._Code.CollisionComponents;
 using _Project._Code.MemoryPools;
-using _Project._Code.Signals;
+using _Project._Code.System.Score;
 using UnityEngine;
 using Zenject;
 
@@ -20,13 +20,13 @@ namespace _Project._Code.CollisionObjects
         }
 
         private SaucerPool _saucerPool;
-        private SignalBus _signalBus;
+        private IAddScore _score;
 
         [Inject]
-        public void Construct(SaucerPool saucerPool, SignalBus signalBus)
+        public void Construct(SaucerPool saucerPool, IAddScore score)
         {
-            _signalBus = signalBus;
             _saucerPool = saucerPool;
+            _score = score;
         }
 
         private void OnEnable()
@@ -41,7 +41,7 @@ namespace _Project._Code.CollisionObjects
                                       other.gameObject.TryGetComponent<IPlayerComponent>(out _)))
             {
                 _collider.enabled = false;
-                _signalBus.Fire(new AddScoreSignal(_scoreCount));
+                _score.AddScore(_scoreCount);
                 _saucerPool.Despawn(this);
             }
         }

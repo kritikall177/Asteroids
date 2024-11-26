@@ -1,11 +1,11 @@
-using System;
-using _Project._Code.Signals;
+using _Project._Code.System.GameState;
+using _Project._Code.System.Score;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-namespace _Project._Code.System
+namespace _Project._Code.UI
 {
     public class UIStartGame : MonoBehaviour
     {
@@ -13,10 +13,10 @@ namespace _Project._Code.System
         [SerializeField] private TMP_Text _finalScore;
         
         private IGameStateActions _gameStateActions;
-        private IScore _score;
+        private IGetScore _score;
         
         [Inject]
-        public void Construct(IGameStateActions gameStateActions, IScore score)
+        public void Construct(IGameStateActions gameStateActions, IGetScore score)
         {
             _gameStateActions = gameStateActions;
             _score = score;

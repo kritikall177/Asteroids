@@ -1,5 +1,9 @@
-using _Project._Code.Signals;
+using _Project._Code.Parameters;
 using _Project._Code.System;
+using _Project._Code.System.GameState;
+using _Project._Code.System.PlayerMovement;
+using _Project._Code.System.PlayerShooting;
+using _Project._Code.System.Score;
 using TMPro;
 using UnityEngine;
 using Zenject;
@@ -13,6 +17,8 @@ namespace _Project._Code.UI
         
         private IGameStateActionsSubscriber _gameStateActions;
         private IScore _scoreSystem;
+        private ILaserChargeChange _laserCharge;
+        private IPlayerPositionChange _playerPosition;
         
         private int _score = 0;
         private Vector2 _position = Vector2.zero;
@@ -20,27 +26,39 @@ namespace _Project._Code.UI
         private int _laserCount;
         
         [Inject]
-        public void Construct(IGameStateActionsSubscriber gameStateActions, IScore scoreSystem)
+        public void Construct(IGameStateActionsSubscriber gameStateActions, IScore scoreSystem,
+            ILaserChargeChange laserCharge, IPlayerPositionChange playerPosition)
         {
             _gameStateActions = gameStateActions;
             _scoreSystem = scoreSystem;
+            _laserCharge = laserCharge;
+            _playerPosition = playerPosition;
         }
         
         private void Start()
         {
             _gameStateActions.OnGameStart += ShowHud;
             _gameStateActions.OnGameOver += HideHud;
+
+            _scoreSystem.OnScoreChanged += UpdateScore;
+            
+            _laserCharge.OnLaserChargeChanged += UpdateLaserCount;
+            
+            _playerPosition.OnPositionChange += UpdatePlayerPosition;
             
             _stats.gameObject.SetActive(false);
-            //_signalBus.Subscribe<UpdateTransformSignal>(UpdatePlayerPosition);
-            //_signalBus.Subscribe<UpdateLaserCountSignal>(UpdateLaserCount);
-            //_signalBus.Subscribe<UpdateScoreUI>(UpdateScore);
         }
 
         private void OnDestroy()
         {
             _gameStateActions.OnGameStart -= ShowHud;
             _gameStateActions.OnGameOver -= HideHud;
+            
+            _scoreSystem.OnScoreChanged -= UpdateScore;
+            
+            _laserCharge.OnLaserChargeChanged -= UpdateLaserCount;
+            
+            _playerPosition.OnPositionChange -= UpdatePlayerPosition;
         }
 
         private void ShowHud()
@@ -60,16 +78,16 @@ namespace _Project._Code.UI
             UpdateText();
         }
 
-        private void UpdatePlayerPosition(UpdateTransformSignal transformSignal)
+        private void UpdatePlayerPosition(PlayerPositionParams transformSignal)
         {
             _position = transformSignal.Position;
             _rotation = transformSignal.Rotation;
             UpdateText();
         }
         
-        private void UpdateLaserCount(UpdateLaserCountSignal laserCount)
+        private void UpdateLaserCount(int laserCount)
         {
-            _laserCount = laserCount.LaserCount;
+            _laserCount = laserCount;
             UpdateText();
         }
         

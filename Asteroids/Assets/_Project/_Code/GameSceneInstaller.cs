@@ -1,7 +1,11 @@
 using _Project._Code.CollisionObjects;
 using _Project._Code.MemoryPools;
-using _Project._Code.Signals;
 using _Project._Code.System;
+using _Project._Code.System.GameState;
+using _Project._Code.System.InputSystem;
+using _Project._Code.System.PlayerMovement;
+using _Project._Code.System.PlayerShooting;
+using _Project._Code.System.Score;
 using UnityEngine;
 using Zenject;
 
@@ -16,8 +20,6 @@ namespace _Project._Code
         
         public override void InstallBindings()
         {
-            SignalBusInstaller.Install(Container);
-            DeclareSignals();
             BindSystems();
             DeclarePools();
             Container.Bind<SpaceShip>().FromInstance(_spaceShip).AsSingle().NonLazy();
@@ -27,9 +29,11 @@ namespace _Project._Code
         private void BindSystems()
         {
             Container.BindInterfacesTo<InputSystem>().FromNew().AsSingle().NonLazy();
+            Container.BindInterfacesTo<GameStateActions>().FromNew().AsSingle().NonLazy();
             Container.BindInterfacesTo<PlayerMovement>().FromNew().AsSingle().NonLazy();
             Container.BindInterfacesTo<Respawner>().FromNew().AsSingle().NonLazy();
-            Container.BindInterfacesTo<PlayerShooting>().FromNew().AsSingle().NonLazy();
+            Container.BindInterfacesTo<BulletShooting>().FromNew().AsSingle().NonLazy();
+            Container.BindInterfacesTo<LaserShooting>().FromNew().AsSingle().NonLazy();
             Container.BindInterfacesTo<Score>().FromNew().AsSingle().NonLazy();
         }
 
@@ -39,20 +43,6 @@ namespace _Project._Code
             Container.BindMemoryPool<Asteroid, LittleAsteroidPool>().FromComponentInNewPrefab(_asteroid);
             Container.BindMemoryPool<Asteroid, AsteroidPool>().FromComponentInNewPrefab(_asteroid);
             Container.BindMemoryPool<FlyingSaucer, SaucerPool>().FromComponentInNewPrefab(_flyingSaucer);
-        }
-
-        private void DeclareSignals()
-        {
-            //Container.DeclareSignal<GameOverSignal>();
-            //Container.DeclareSignal<GameStartSignal>();
-            Container.BindInterfacesTo<GameStateActions>().FromNew().AsSingle().NonLazy();
-            
-            //
-            Container.DeclareSignal<AddScoreSignal>();
-            
-            Container.DeclareSignal<UpdateTransformSignal>();
-            Container.DeclareSignal<UpdateLaserCountSignal>();
-            Container.DeclareSignal<UpdateScoreUI>();
         }
     }
 }
