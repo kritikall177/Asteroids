@@ -11,7 +11,7 @@ namespace _Project._Code.System
         private readonly float _acceleration = 10f;
 
         private IInputSystem _inputSystem;
-        private SignalBus _signalBus;
+        private IGameStateActionsSubscriber _gameStateActions;
 
         private bool _isPlaying = true;
         private bool _isMoving;
@@ -22,10 +22,10 @@ namespace _Project._Code.System
         private Rigidbody2D _cachedrigidbody2D;
 
         [Inject]
-        public PlayerMovement(IInputSystem inputSystem, SignalBus signalBus, SpaceShip ship)
+        public PlayerMovement(IInputSystem inputSystem, IGameStateActionsSubscriber gameStateActions, SpaceShip ship)
         {
             _inputSystem = inputSystem;
-            _signalBus = signalBus;
+            _gameStateActions = gameStateActions;
             _cachedTransform = ship.transform;
             _cachedrigidbody2D = ship.Rigidbody2D;
         }
@@ -34,9 +34,9 @@ namespace _Project._Code.System
         {
             _inputSystem.OnMoveEvent += MoveVector;
             _inputSystem.OnLookEvent += RotationVector;
-            
-            _signalBus.Subscribe<GameStartSignal>(StartMoving);
-            _signalBus.Subscribe<GameOverSignal>(StopMoving);
+
+            _gameStateActions.OnGameStart += StartMoving;
+            _gameStateActions.OnGameOver += StopMoving;
             
             _mainCamera = Camera.main;
         }
@@ -45,6 +45,9 @@ namespace _Project._Code.System
         {
             _inputSystem.OnMoveEvent -= MoveVector;
             _inputSystem.OnLookEvent -= RotationVector;
+            
+            _gameStateActions.OnGameStart -= StartMoving;
+            _gameStateActions.OnGameOver -= StopMoving;
         }
 
         public void FixedTick()
@@ -57,7 +60,7 @@ namespace _Project._Code.System
 
         private void SendData()
         {
-            _signalBus.Fire(new UpdateTransformSignal(_cachedTransform.position, _cachedTransform.eulerAngles.z));
+            //_signalBus.Fire(new UpdateTransformSignal(_cachedTransform.position, _cachedTransform.eulerAngles.z));
         }
 
         private void RotationVector(Vector2 position)

@@ -13,7 +13,7 @@ namespace _Project._Code.System
     {
         private AsteroidPool _asteroidPool;
         private SaucerPool _saucerPool;
-        private SignalBus _signalBus;
+        private IGameStateActionsSubscriber _gameStateActions;
         private AsyncProcessor _asyncProcessor;
         
         private int _respawnAsteroidTime = 5;
@@ -26,18 +26,18 @@ namespace _Project._Code.System
         private List<Vector2> _spawnPosition = new List<Vector2>();
 
         [Inject]
-        public Respawner(AsteroidPool asteroidPool, SaucerPool saucerPool, SignalBus signalBus, AsyncProcessor asyncProcessor)
+        public Respawner(AsteroidPool asteroidPool, SaucerPool saucerPool, IGameStateActionsSubscriber gameStateActions, AsyncProcessor asyncProcessor)
         {
             _asteroidPool = asteroidPool;
             _saucerPool = saucerPool;
-            _signalBus = signalBus;
+            _gameStateActions = gameStateActions;
             _asyncProcessor = asyncProcessor;
         }
 
         public void Initialize()
         {
-            _signalBus.Subscribe<GameOverSignal>(DisableSpawn);
-            _signalBus.Subscribe<GameStartSignal>(EnableSpawn);
+            _gameStateActions.OnGameStart += EnableSpawn;
+            _gameStateActions.OnGameOver += DisableSpawn;
             
             _mainCamera = Camera.main;
             
@@ -46,6 +46,9 @@ namespace _Project._Code.System
 
         public void Dispose()
         {
+            _gameStateActions.OnGameStart -= EnableSpawn;
+            _gameStateActions.OnGameOver -= DisableSpawn;
+            
             _asyncProcessor.StopAllCoroutines();
         }
 

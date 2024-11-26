@@ -13,7 +13,7 @@ namespace _Project._Code.System
     {
         private BulletsPool _bulletsPool;
         private IInputSystem _inputSystem;
-        private SignalBus _signalBus;
+        private IGameStateActionsSubscriber _gameStateActions;
         private AsyncProcessor _asyncProcessor;
         
         private GameObject _laserGameObject;
@@ -29,12 +29,12 @@ namespace _Project._Code.System
         private Transform _cachedTransform;
 
         [Inject]
-        public PlayerShooting(IInputSystem inputSystem, BulletsPool bulletsPool, SignalBus signalBus,
+        public PlayerShooting(IInputSystem inputSystem, BulletsPool bulletsPool, IGameStateActionsSubscriber gameStateActions,
             AsyncProcessor asyncProcessor, SpaceShip spaceShip)
         {
             _inputSystem = inputSystem;
             _bulletsPool = bulletsPool;
-            _signalBus = signalBus;
+            _gameStateActions = gameStateActions;
             _asyncProcessor = asyncProcessor;
 
             _cachedTransform = spaceShip.transform;
@@ -47,8 +47,8 @@ namespace _Project._Code.System
             _inputSystem.OnHeavyAttackEvent += LaserAttack;
             _inputSystem.OnLookEvent += ShootDirection;
             
-            _signalBus.Subscribe<GameStartSignal>(EnableShoot);
-            _signalBus.Subscribe<GameOverSignal>(DisableShoot);
+            _gameStateActions.OnGameStart += EnableShoot;
+            _gameStateActions.OnGameOver += DisableShoot;
             
             _mainCamera = Camera.main;
         }
@@ -58,11 +58,14 @@ namespace _Project._Code.System
             _inputSystem.OnAttackEvent -= BulletAttack;
             _inputSystem.OnHeavyAttackEvent -= LaserAttack;
             _inputSystem.OnLookEvent -= ShootDirection;
+            
+            _gameStateActions.OnGameStart -= EnableShoot;
+            _gameStateActions.OnGameOver -= DisableShoot;
         }
 
         private void EnableShoot()
         {
-            _signalBus.Fire(new UpdateLaserCountSignal(_laserCharge));
+            //_signalBus.Fire(new UpdateLaserCountSignal(_laserCharge));
         }
 
         private void DisableShoot()
@@ -92,7 +95,7 @@ namespace _Project._Code.System
         {
             _laserGameObject.SetActive(true);
             _laserCharge -= 1;
-            _signalBus.Fire(new UpdateLaserCountSignal(_laserCharge));
+            //_signalBus.Fire(new UpdateLaserCountSignal(_laserCharge));
 
             yield return new WaitForSeconds(_laserActiveTime);
 
@@ -106,7 +109,7 @@ namespace _Project._Code.System
             if (_laserCharge < _maxLaserCharge)
             {
                 _laserCharge += 1;
-                _signalBus.Fire(new UpdateLaserCountSignal(_laserCharge));
+                //_signalBus.Fire(new UpdateLaserCountSignal(_laserCharge));
             }
         }
 

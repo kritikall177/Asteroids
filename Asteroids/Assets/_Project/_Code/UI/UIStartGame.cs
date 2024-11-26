@@ -12,23 +12,30 @@ namespace _Project._Code.System
         [SerializeField] private Button _resetButton;
         [SerializeField] private TMP_Text _finalScore;
         
-        private SignalBus _signalBus;
+        private IGameStateActions _gameStateActions;
         private IScore _score;
         
         [Inject]
-        public void Construct(SignalBus signalBus, IScore score)
+        public void Construct(IGameStateActions gameStateActions, IScore score)
         {
-            _signalBus = signalBus;
+            _gameStateActions = gameStateActions;
             _score = score;
         }
 
         private void Start()
         {
-            _signalBus.Subscribe<GameOverSignal>(ShowGameStartUI);
-            _signalBus.Subscribe<GameStartSignal>(HideGameStartUI);
+            _gameStateActions.OnGameStart += HideGameStartUI;
+            _gameStateActions.OnGameOver += ShowGameStartUI;
+
             _resetButton.onClick.AddListener(RestartGame);
             
             _finalScore.gameObject.SetActive(false);
+        }
+
+        private void OnDestroy()
+        {
+            _gameStateActions.OnGameStart -= HideGameStartUI;
+            _gameStateActions.OnGameOver -= ShowGameStartUI;
         }
 
         private void ShowGameStartUI()
@@ -46,7 +53,7 @@ namespace _Project._Code.System
         
         private void RestartGame()
         {
-            _signalBus.Fire<GameStartSignal>();
+            _gameStateActions.StartGame();
         }
     }
 }

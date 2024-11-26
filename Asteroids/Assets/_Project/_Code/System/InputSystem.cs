@@ -6,11 +6,11 @@ using Zenject;
 
 namespace _Project._Code.System
 {
-    public class InputSystem : IInputSystem, InputSystem_Actions.IPlayerActions, IInitializable
+    public class InputSystem : IInputSystem, InputSystem_Actions.IPlayerActions, IInitializable, IDisposable
     {
         private readonly InputSystem_Actions _inputSystemActions;
         
-        private SignalBus _signalBus;
+        private IGameStateActionsSubscriber _gameStateActions;
         
         public event Action<bool> OnMoveEvent;
         public event Action<Vector2> OnLookEvent;
@@ -19,18 +19,24 @@ namespace _Project._Code.System
         
         
         [Inject]
-        public InputSystem(SignalBus signalBus)
+        public InputSystem(IGameStateActionsSubscriber gameStateActions)
         {
             _inputSystemActions = new InputSystem_Actions();
-            _signalBus = signalBus;
+            _gameStateActions = gameStateActions;
         }
 
         public void Initialize()
         {
-            _signalBus.Subscribe<GameStartSignal>(OnGameStart);
-            _signalBus.Subscribe<GameOverSignal>(OnGameOver);
+            _gameStateActions.OnGameStart += OnGameStart;
+            _gameStateActions.OnGameOver += OnGameOver;
             _inputSystemActions.Enable();
             _inputSystemActions.Player.SetCallbacks(this);
+        }
+
+        public void Dispose()
+        {
+            _gameStateActions.OnGameStart -= OnGameStart;
+            _gameStateActions.OnGameOver -= OnGameOver;
         }
 
         private void OnGameStart()
@@ -42,7 +48,7 @@ namespace _Project._Code.System
         {
             _inputSystemActions.Player.Disable();
         }
-            
+
 
         public void OnMove(InputAction.CallbackContext context) => 
             OnMoveEvent?.Invoke(context.ReadValueAsButton());

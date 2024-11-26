@@ -12,19 +12,19 @@ namespace _Project._Code.CollisionObjects
         public Rigidbody2D Rigidbody2D => _rigidbody2D;
         public GameObject LaserGameObject => _laserGameObject;
 
-        private SignalBus _signalBus;
+        private IGameStateActionsInvoker _gameStateActionsInvoker;
 
         [Inject]
-        public void Construct(SignalBus signalBus)
+        public void Construct(IGameStateActionsInvoker gameStateActionsInvoker)
         {
-            _signalBus = signalBus;
+            _gameStateActionsInvoker = gameStateActionsInvoker;
         }
         
         private void OnCollisionEnter2D(Collision2D other)
         {
             if (other.gameObject.TryGetComponent<IDestructibleComponent>(out _))
             {
-                _signalBus.Fire<GameOverSignal>();
+                _gameStateActionsInvoker.StopGame();
             }
         }
     }

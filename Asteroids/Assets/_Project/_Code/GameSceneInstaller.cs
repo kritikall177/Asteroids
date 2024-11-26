@@ -43,9 +43,13 @@ namespace _Project._Code
 
         private void DeclareSignals()
         {
-            Container.DeclareSignal<GameOverSignal>();
-            Container.DeclareSignal<GameStartSignal>();
+            //Container.DeclareSignal<GameOverSignal>();
+            //Container.DeclareSignal<GameStartSignal>();
+            Container.BindInterfacesTo<GameStateActions>().FromNew().AsSingle().NonLazy();
+            
+            //
             Container.DeclareSignal<AddScoreSignal>();
+            
             Container.DeclareSignal<UpdateTransformSignal>();
             Container.DeclareSignal<UpdateLaserCountSignal>();
             Container.DeclareSignal<UpdateScoreUI>();

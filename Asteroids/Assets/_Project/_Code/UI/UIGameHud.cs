@@ -11,7 +11,7 @@ namespace _Project._Code.UI
     {
         [SerializeField] private TMP_Text _stats;
         
-        private SignalBus _signalBus;
+        private IGameStateActionsSubscriber _gameStateActions;
         private IScore _scoreSystem;
         
         private int _score = 0;
@@ -20,20 +20,27 @@ namespace _Project._Code.UI
         private int _laserCount;
         
         [Inject]
-        public void Construct(SignalBus signalBus, IScore scoreSystem)
+        public void Construct(IGameStateActionsSubscriber gameStateActions, IScore scoreSystem)
         {
-            _signalBus = signalBus;
+            _gameStateActions = gameStateActions;
             _scoreSystem = scoreSystem;
         }
         
         private void Start()
         {
+            _gameStateActions.OnGameStart += ShowHud;
+            _gameStateActions.OnGameOver += HideHud;
+            
             _stats.gameObject.SetActive(false);
-            _signalBus.Subscribe<GameOverSignal>(HideHud);
-            _signalBus.Subscribe<GameStartSignal>(ShowHud);
-            _signalBus.Subscribe<UpdateTransformSignal>(UpdatePlayerPosition);
-            _signalBus.Subscribe<UpdateLaserCountSignal>(UpdateLaserCount);
-            _signalBus.Subscribe<UpdateScoreUI>(UpdateScore);
+            //_signalBus.Subscribe<UpdateTransformSignal>(UpdatePlayerPosition);
+            //_signalBus.Subscribe<UpdateLaserCountSignal>(UpdateLaserCount);
+            //_signalBus.Subscribe<UpdateScoreUI>(UpdateScore);
+        }
+
+        private void OnDestroy()
+        {
+            _gameStateActions.OnGameStart -= ShowHud;
+            _gameStateActions.OnGameOver -= HideHud;
         }
 
         private void ShowHud()
