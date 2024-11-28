@@ -1,4 +1,7 @@
 using _Project._Code.CollisionObjects;
+using _Project._Code.CollisionObjects.Asteroid;
+using _Project._Code.CollisionObjects.Bullet;
+using _Project._Code.CollisionObjects.Saucer;
 using _Project._Code.MemoryPools;
 using _Project._Code.System;
 using _Project._Code.System.GameState;
@@ -8,6 +11,7 @@ using _Project._Code.System.PlayerShooting;
 using _Project._Code.System.Score;
 using UnityEngine;
 using Zenject;
+using NotImplementedException = System.NotImplementedException;
 
 namespace _Project._Code
 {
@@ -22,6 +26,7 @@ namespace _Project._Code
         {
             BindSystems();
             DeclarePools();
+            BindDependencies();
             Container.Bind<SpaceShip>().FromInstance(_spaceShip).AsSingle().NonLazy();
             Container.Bind<AsyncProcessor>().FromNewComponentOnNewGameObject().AsSingle();
         }
@@ -43,6 +48,14 @@ namespace _Project._Code
             Container.BindMemoryPool<Asteroid, LittleAsteroidPool>().FromComponentInNewPrefab(_asteroid);
             Container.BindMemoryPool<Asteroid, AsteroidPool>().FromComponentInNewPrefab(_asteroid);
             Container.BindMemoryPool<FlyingSaucer, SaucerPool>().FromComponentInNewPrefab(_flyingSaucer);
+        }
+
+        private void BindDependencies()
+        {
+            Container.Bind<AsteroidDependencies>().FromNew().AsSingle();
+            Container.Bind<SaucerDependencies>().FromNew().AsSingle();
+            Container.Bind<SpaceShipDependencies>().FromNew().AsSingle();
+            Container.Bind<BulletDependencies>().FromNew().AsSingle();
         }
     }
 }

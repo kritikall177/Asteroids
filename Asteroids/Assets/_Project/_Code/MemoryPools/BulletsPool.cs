@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using _Project._Code.CollisionObjects;
+using _Project._Code.CollisionObjects.Bullet;
 using _Project._Code.Parameters;
 using UnityEngine;
 using Zenject;

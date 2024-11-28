@@ -12,19 +12,19 @@ namespace _Project._Code.CollisionObjects
         public Rigidbody2D Rigidbody2D => _rigidbody2D;
         public GameObject LaserGameObject => _laserGameObject;
 
-        private IGameStateActionsInvoker _gameStateActionsInvoker;
+        private SpaceShipDependencies _dependencies;
 
         [Inject]
-        public void Construct(IGameStateActionsInvoker gameStateActionsInvoker)
+        public void Construct(SpaceShipDependencies dependencies)
         {
-            _gameStateActionsInvoker = gameStateActionsInvoker;
+            _dependencies = dependencies;
         }
         
         private void OnCollisionEnter2D(Collision2D other)
         {
             if (other.gameObject.TryGetComponent<IDestructibleComponent>(out _))
             {
-                _gameStateActionsInvoker.StopGame();
+                _dependencies.HandleDestroyed();
             }
         }
     }

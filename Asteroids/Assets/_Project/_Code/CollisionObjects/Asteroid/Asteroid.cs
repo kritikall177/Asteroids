@@ -1,16 +1,13 @@
 ﻿using _Project._Code.CollisionComponents;
-using _Project._Code.MemoryPools;
-using _Project._Code.System.Score;
 using UnityEngine;
 using Zenject;
 
-namespace _Project._Code.CollisionObjects
+namespace _Project._Code.CollisionObjects.Asteroid
 {
     public class Asteroid : MonoBehaviour, IDestructibleComponent, ITeleportableComponent
     {
         [SerializeField] private Rigidbody2D _rigidbody2D;
         [SerializeField] private Collider2D _collider;
-
 
         [SerializeField] private int _scoreCount  = 40;
 
@@ -19,15 +16,14 @@ namespace _Project._Code.CollisionObjects
             get => _rigidbody2D;
             private set => _rigidbody2D = value;
         }
-
-        private AsteroidPool _asteroidPool;
-        private IAddScore _score;
+        
+        private AsteroidDependencies _dependencies;
 
 
         [Inject]
-        public void Construct(IAddScore score)
+        public void Construct(AsteroidDependencies dependencies)
         {
-            _score = score;
+            _dependencies = dependencies;
         }
 
         private void OnEnable()
@@ -42,14 +38,8 @@ namespace _Project._Code.CollisionObjects
                  other.gameObject.TryGetComponent<IPlayerComponent>(out _)))
             {
                 _collider.enabled = false;
-                _score.AddScore(_scoreCount);
-                _asteroidPool.Despawn(this);
+                _dependencies.HandleDestroyed(this, _scoreCount);
             }
-        }
-
-        public void SetPool(AsteroidPool asteroidPool)
-        {
-            _asteroidPool = asteroidPool;
         }
     }
 }

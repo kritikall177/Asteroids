@@ -242,7 +242,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 4
+  m_Radius: 5
 --- !u!114 &6291048207793501932
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,7 +257,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _collider2D: {fileID: 1762142407312211008}
   _flyingSaucer: {fileID: 1024567994243681835}
-  _triggerRadius: 3
+  _triggerRadius: 5
+  _saucerSpeed: 10
 --- !u!1 &7261422628045122249
 GameObject:
   m_ObjectHideFlags: 0
@@ -344,10 +345,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd7ade749ac9446eb883caeae1a04081, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _aggroZone: {fileID: 6291048207793501932}
   _rigidbody2D: {fileID: 5443616531426415299}
   _collider: {fileID: 84460790863687271}
-  _saucerSpeed: 10
   _scoreCount: 80
 --- !u!50 &5443616531426415299
 Rigidbody2D:

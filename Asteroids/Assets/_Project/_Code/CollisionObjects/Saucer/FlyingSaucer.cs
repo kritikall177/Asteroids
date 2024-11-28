@@ -1,27 +1,28 @@
 ﻿using _Project._Code.CollisionComponents;
-using _Project._Code.MemoryPools;
 using UnityEngine;
 using Zenject;
 
-namespace _Project._Code.CollisionObjects
+namespace _Project._Code.CollisionObjects.Saucer
 {
-    public class Bullet : MonoBehaviour, IProjectileComponent
+    public class FlyingSaucer : MonoBehaviour, IDestructibleComponent, ITeleportableComponent
     {
         [SerializeField] private Rigidbody2D _rigidbody2D;
         [SerializeField] private Collider2D _collider;
-        
+
+        [SerializeField] private int _scoreCount = 80;
+
         public Rigidbody2D Rigidbody2D
         {
             get => _rigidbody2D;
             private set => _rigidbody2D = value;
         }
-        
-        private BulletsPool _bulletsPool;
+
+        private SaucerDependencies _dependencies;
 
         [Inject]
-        public void Construct(BulletsPool bulletsPool)
+        public void Construct(SaucerDependencies dependencies)
         {
-            _bulletsPool = bulletsPool;
+            _dependencies = dependencies;
         }
 
         private void OnEnable()
@@ -29,12 +30,14 @@ namespace _Project._Code.CollisionObjects
             _collider.enabled = true;
         }
         
+
         private void OnCollisionEnter2D(Collision2D other)
         {
-            if (_collider.enabled && other.gameObject.TryGetComponent<IDestructibleComponent>(out _))
+            if (_collider.enabled && (other.gameObject.TryGetComponent<IProjectileComponent>(out _) ||
+                                      other.gameObject.TryGetComponent<IPlayerComponent>(out _)))
             {
                 _collider.enabled = false;
-                _bulletsPool.Despawn(this);
+                _dependencies.HandleDestroyed(this, _scoreCount);
             }
         }
     }
