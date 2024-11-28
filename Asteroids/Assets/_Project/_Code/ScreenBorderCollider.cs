@@ -7,7 +7,7 @@ namespace _Project._Code
     {
         [SerializeField] private EdgeCollider2D _edgeCollider;
     
-        [SerializeField] private float _screenWrapBuffer = 1f;
+        [SerializeField] private float _screenWrapBuffer = 5f;
 
         private float _screenWidth;
         private float _screenHeight;

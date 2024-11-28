@@ -28,13 +28,13 @@ namespace _Project._Code
 
         private void BindSystems()
         {
-            Container.BindInterfacesTo<InputSystem>().FromNew().AsSingle().NonLazy();
-            Container.BindInterfacesTo<GameStateActions>().FromNew().AsSingle().NonLazy();
-            Container.BindInterfacesTo<PlayerMovement>().FromNew().AsSingle().NonLazy();
-            Container.BindInterfacesTo<Respawner>().FromNew().AsSingle().NonLazy();
-            Container.BindInterfacesTo<BulletShooting>().FromNew().AsSingle().NonLazy();
-            Container.BindInterfacesTo<LaserShooting>().FromNew().AsSingle().NonLazy();
-            Container.BindInterfacesTo<Score>().FromNew().AsSingle().NonLazy();
+            Container.BindInterfacesTo<InputSystem>().AsSingle();
+            Container.BindInterfacesTo<GameStateActions>().AsSingle();
+            Container.BindInterfacesTo<PlayerMovement>().AsSingle();
+            Container.BindInterfacesTo<Respawner>().AsSingle();
+            Container.BindInterfacesTo<BulletShooting>().AsSingle();
+            Container.BindInterfacesTo<LaserShooting>().AsSingle();
+            Container.BindInterfacesTo<Score>().AsSingle();
         }
 
         private void DeclarePools()

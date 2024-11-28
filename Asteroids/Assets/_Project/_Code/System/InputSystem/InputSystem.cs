@@ -29,7 +29,6 @@ namespace _Project._Code.System.InputSystem
         {
             _gameStateActions.OnGameStart += OnGameStart;
             _gameStateActions.OnGameOver += OnGameOver;
-            _inputSystemActions.Enable();
             _inputSystemActions.Player.SetCallbacks(this);
         }
 

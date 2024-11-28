@@ -89,4 +89,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _edgeCollider: {fileID: 2005818223285135630}
-  _screenWrapBuffer: 1
+  _screenWrapBuffer: 5
