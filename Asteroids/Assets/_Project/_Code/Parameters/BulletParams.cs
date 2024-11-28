@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace _Project._Code.Parameters
 {
-    public struct BulletParams : IShootParams
+    public struct BulletParams
     {
         public Vector2 SpawnPosition { get; }
 

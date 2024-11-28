@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace _Project._Code.Parameters
 {
-    public struct SpawnParams : ISpawnParams
+    public struct SpawnParams
     {
         public Vector2 SpawnPosition { get; }
 
