@@ -11,9 +11,8 @@ using _Project._Code.System.PlayerShooting;
 using _Project._Code.System.Score;
 using UnityEngine;
 using Zenject;
-using NotImplementedException = System.NotImplementedException;
 
-namespace _Project._Code
+namespace _Project._Code._Installers
 {
     public class GameSceneInstaller : MonoInstaller
     {
@@ -28,13 +27,10 @@ namespace _Project._Code
             DeclarePools();
             BindDependencies();
             Container.Bind<SpaceShip>().FromInstance(_spaceShip).AsSingle().NonLazy();
-            Container.Bind<AsyncProcessor>().FromNewComponentOnNewGameObject().AsSingle();
         }
 
         private void BindSystems()
         {
-            Container.BindInterfacesTo<InputSystem>().AsSingle();
-            Container.BindInterfacesTo<GameStateActions>().AsSingle();
             Container.BindInterfacesTo<PlayerMovement>().AsSingle();
             Container.BindInterfacesTo<Respawner>().AsSingle();
             Container.BindInterfacesTo<BulletShooting>().AsSingle();
