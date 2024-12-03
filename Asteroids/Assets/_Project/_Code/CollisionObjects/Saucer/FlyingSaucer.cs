@@ -17,10 +17,10 @@ namespace _Project._Code.CollisionObjects.Saucer
             private set => _rigidbody2D = value;
         }
 
-        private SaucerDependencies _dependencies;
+        private IDependencies<FlyingSaucer> _dependencies;
 
         [Inject]
-        public void Construct(SaucerDependencies dependencies)
+        public void Construct(IDependencies<FlyingSaucer> dependencies)
         {
             _dependencies = dependencies;
         }

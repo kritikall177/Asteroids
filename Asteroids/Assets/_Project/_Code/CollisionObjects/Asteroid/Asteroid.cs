@@ -17,11 +17,11 @@ namespace _Project._Code.CollisionObjects.Asteroid
             private set => _rigidbody2D = value;
         }
         
-        private AsteroidDependencies _dependencies;
+        private IDependencies<Asteroid> _dependencies;
 
 
         [Inject]
-        public void Construct(AsteroidDependencies dependencies)
+        public void Construct(IDependencies<Asteroid> dependencies)
         {
             _dependencies = dependencies;
         }

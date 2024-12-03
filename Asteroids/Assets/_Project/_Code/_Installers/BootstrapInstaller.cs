@@ -1,3 +1,4 @@
+using _Project._Code.System.Analytics;
 using _Project._Code.System.GameState;
 using _Project._Code.System.InputSystem;
 using UnityEngine.SceneManagement;
@@ -10,6 +11,8 @@ namespace _Project._Code._Installers
         public override void InstallBindings()
         {
             Container.BindInterfacesTo<InputSystem>().AsSingle().NonLazy();
+            Container.BindInterfacesTo<FirebaseAnalytic>().AsSingle().NonLazy();
+            Container.BindInterfacesTo<GameAnalytics>().AsSingle().NonLazy();
             Container.BindInterfacesTo<GameStateActions>().AsSingle().NonLazy();
             Container.Bind<AsyncProcessor>().FromNewComponentOnNewGameObject().AsSingle().NonLazy();
             

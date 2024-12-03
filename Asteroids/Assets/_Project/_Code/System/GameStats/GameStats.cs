@@ -1,4 +1,7 @@
 using System;
+using _Project._Code.CollisionObjects;
+using _Project._Code.CollisionObjects.Asteroid;
+using _Project._Code.CollisionObjects.Saucer;
 using _Project._Code.Parameters;
 using _Project._Code.System.Analytics;
 using _Project._Code.System.GameState;
@@ -13,6 +16,9 @@ namespace _Project._Code.System.GameStats
         private IGameAnalytics _gameAnalytics;
         private IOnLaserInvoke _onLaserInvoke;
         private IOnBulletInvoke _onBulletInvoke;
+        private IOnAsteroidDestroyed _onAsteroidDestroy;
+        private IOnSaucerDestroyed _onSaucerDestroy;
+        
 
         private int _totalShots;
         private int _laserUses;
@@ -21,12 +27,15 @@ namespace _Project._Code.System.GameStats
 
         [Inject]
         public GameStats(IGameStateActionsSubscriber gameStateActions, IGameAnalytics gameAnalytics,
-            IOnLaserInvoke onLaserInvoke, IOnBulletInvoke onBulletInvoke)
+            IOnLaserInvoke onLaserInvoke, IOnBulletInvoke onBulletInvoke, IOnAsteroidDestroyed onAsteroidDestroy,
+            IOnSaucerDestroyed onSaucerDestroy)
         {
             _gameStateActions = gameStateActions;
             _gameAnalytics = gameAnalytics;
             _onLaserInvoke = onLaserInvoke;
             _onBulletInvoke = onBulletInvoke;
+            _onAsteroidDestroy = onAsteroidDestroy;
+            _onSaucerDestroy = onSaucerDestroy;
         }
 
 
@@ -36,6 +45,8 @@ namespace _Project._Code.System.GameStats
             _gameStateActions.OnGameOver += SendGameStats;
             _onLaserInvoke.OnLaserInvoke += OnLaserInvoke;
             _onBulletInvoke.OnBulletInvoke += OnBulletInvoke;
+            _onAsteroidDestroy.OnAsteroidDestroyed += OnAsteroidDestroyOnOnEnemyDestroy;
+            _onSaucerDestroy.OnSaucerDestroyed += OnSaucerDestroyOnOnEnemyDestroy;
         }
 
         public void Dispose()
@@ -44,11 +55,23 @@ namespace _Project._Code.System.GameStats
             _gameStateActions.OnGameOver -= SendGameStats;
             _onLaserInvoke.OnLaserInvoke -= OnLaserInvoke;
             _onBulletInvoke.OnBulletInvoke -= OnBulletInvoke;
+            _onAsteroidDestroy.OnAsteroidDestroyed -= OnAsteroidDestroyOnOnEnemyDestroy;
+            _onSaucerDestroy.OnSaucerDestroyed -= OnSaucerDestroyOnOnEnemyDestroy;
         }
 
         private void SendGameStats()
         {
             _gameAnalytics.SendStatistic(new GameOverParams(_totalShots, _laserUses, _destroyedAsteroids, _destroyedUFOs));
+        }
+
+        private void OnSaucerDestroyOnOnEnemyDestroy()
+        {
+            _destroyedAsteroids++;
+        }
+
+        private void OnAsteroidDestroyOnOnEnemyDestroy()
+        {
+            _destroyedUFOs++;
         }
 
         private void OnBulletInvoke()

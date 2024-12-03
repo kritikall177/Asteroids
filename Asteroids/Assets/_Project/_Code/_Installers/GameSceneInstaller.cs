@@ -5,6 +5,7 @@ using _Project._Code.CollisionObjects.Saucer;
 using _Project._Code.MemoryPools;
 using _Project._Code.System;
 using _Project._Code.System.GameState;
+using _Project._Code.System.GameStats;
 using _Project._Code.System.InputSystem;
 using _Project._Code.System.PlayerMovement;
 using _Project._Code.System.PlayerShooting;
@@ -36,6 +37,7 @@ namespace _Project._Code._Installers
             Container.BindInterfacesTo<BulletShooting>().AsSingle();
             Container.BindInterfacesTo<LaserShooting>().AsSingle();
             Container.BindInterfacesTo<Score>().AsSingle();
+            Container.BindInterfacesTo<GameStats>().AsSingle();
         }
 
         private void DeclarePools()
@@ -48,8 +50,8 @@ namespace _Project._Code._Installers
 
         private void BindDependencies()
         {
-            Container.Bind<AsteroidDependencies>().FromNew().AsSingle();
-            Container.Bind<SaucerDependencies>().FromNew().AsSingle();
+            Container.BindInterfacesTo<AsteroidDependencies>().FromNew().AsSingle();
+            Container.BindInterfacesTo<SaucerDependencies>().FromNew().AsSingle();
             Container.Bind<SpaceShipDependencies>().FromNew().AsSingle();
             Container.Bind<BulletDependencies>().FromNew().AsSingle();
         }

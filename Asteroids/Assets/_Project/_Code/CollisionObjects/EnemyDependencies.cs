@@ -1,9 +1,10 @@
+using System;
 using _Project._Code.System.Score;
 using Zenject;
 
 namespace _Project._Code.CollisionObjects
 {
-    public abstract class EnemyDependencies<TParams, TValue>
+    public abstract class EnemyDependencies<TParams, TValue> : IDependencies<TValue>
     {
         protected IAddScore ScoreSystem;
         protected MemoryPool<TParams, TValue> MemoryPool;
