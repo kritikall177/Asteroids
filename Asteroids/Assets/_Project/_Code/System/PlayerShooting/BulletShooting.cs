@@ -10,8 +10,10 @@ using Zenject;
 
 namespace _Project._Code.System.PlayerShooting
 {
-    public class BulletShooting : IInitializable, IDisposable
+    public class BulletShooting : IInitializable, IDisposable, IOnBulletInvoke
     {
+        public event Action OnBulletInvoke;
+        
         private BulletsPool _bulletsPool;
         private IInputSystem _inputSystem;
         
@@ -53,9 +55,15 @@ namespace _Project._Code.System.PlayerShooting
         private void BulletAttack(bool isAttack)
         {
             if (isAttack)
-            {
+            { 
+                OnBulletInvoke?.Invoke();
                 _bulletsPool.Spawn(new BulletParams(_cachedTransform.position, _direction));
             }
         }
+    }
+
+    public interface IOnBulletInvoke
+    {
+        public event Action OnBulletInvoke;
     }
 }

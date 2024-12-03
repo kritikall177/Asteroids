@@ -9,9 +9,10 @@ using Zenject;
 
 namespace _Project._Code.System.PlayerShooting
 {
-    public class LaserShooting : IInitializable, IDisposable, ILaserChargeChange
+    public class LaserShooting : IInitializable, IDisposable, ILaserChargeChange, IOnLaserInvoke
     {
         public event Action<int> OnLaserChargeChanged;
+        public event Action OnLaserInvoke;
         
         private GameObject _laserGameObject;
         private AsyncProcessor _asyncProcessor;
@@ -69,6 +70,7 @@ namespace _Project._Code.System.PlayerShooting
             _laserGameObject.SetActive(true);
             _laserCharge -= 1;
             OnLaserChargeChanged?.Invoke(_laserCharge);
+            OnLaserInvoke?.Invoke();
 
             yield return new WaitForSeconds(_laserActiveTime);
 
