@@ -1,3 +1,5 @@
+using System;
+using System.Threading.Tasks;
 using _Project._Code.Parameters;
 using UnityEngine;
 using Firebase;
@@ -9,10 +11,7 @@ namespace _Project._Code.System.Analytics
     {
         public void Initialize()
         {
-            FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task => {
-                FirebaseApp app =  FirebaseApp.DefaultInstance;
-                FirebaseAnalytics.SetAnalyticsCollectionEnabled(true);
-            });
+            FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(FirebaseCreate);
         }
 
         public void OnGameStart()
@@ -32,6 +31,23 @@ namespace _Project._Code.System.Analytics
         public void OnLaserUsed()
         {
             FirebaseAnalytics.LogEvent("laser_used");
+        }
+
+        private void FirebaseCreate(Task<DependencyStatus> task)
+        {
+            try
+            {
+                if (!task.IsCompletedSuccessfully)
+                {
+                    throw new Exception($"Could not resolve all dependencies: {task.Exception}");
+                }
+                FirebaseApp app = FirebaseApp.DefaultInstance;
+                FirebaseAnalytics.SetAnalyticsCollectionEnabled(true);
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+            }
         }
     }
 }

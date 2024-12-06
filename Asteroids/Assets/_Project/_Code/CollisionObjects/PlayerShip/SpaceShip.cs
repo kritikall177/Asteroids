@@ -1,4 +1,5 @@
 ﻿using _Project._Code.CollisionComponents;
+using _Project._Code.CollisionObjects.PlayerShip;
 using _Project._Code.System.GameState;
 using UnityEngine;
 using Zenject;

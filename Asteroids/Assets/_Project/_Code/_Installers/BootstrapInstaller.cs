@@ -1,3 +1,4 @@
+using _Project._Code.System.Ads;
 using _Project._Code.System.Analytics;
 using _Project._Code.System.GameState;
 using _Project._Code.System.InputSystem;
@@ -14,6 +15,7 @@ namespace _Project._Code._Installers
             Container.BindInterfacesTo<FirebaseAnalytic>().AsSingle().NonLazy();
             Container.BindInterfacesTo<GameAnalytics>().AsSingle().NonLazy();
             Container.BindInterfacesTo<GameStateActions>().AsSingle().NonLazy();
+            Container.BindInterfacesTo<AdsInitializer>().AsSingle().NonLazy();
             Container.Bind<AsyncProcessor>().FromNewComponentOnNewGameObject().AsSingle().NonLazy();
             
             Container.BindInterfacesTo<Bootstrap>().AsSingle().NonLazy();

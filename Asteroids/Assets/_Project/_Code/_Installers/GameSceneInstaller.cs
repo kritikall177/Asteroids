@@ -1,15 +1,18 @@
 using _Project._Code.CollisionObjects;
 using _Project._Code.CollisionObjects.Asteroid;
 using _Project._Code.CollisionObjects.Bullet;
+using _Project._Code.CollisionObjects.PlayerShip;
 using _Project._Code.CollisionObjects.Saucer;
 using _Project._Code.MemoryPools;
 using _Project._Code.System;
 using _Project._Code.System.GameState;
+using _Project._Code.System.GameState.GamePause;
 using _Project._Code.System.GameStats;
 using _Project._Code.System.InputSystem;
 using _Project._Code.System.PlayerMovement;
 using _Project._Code.System.PlayerShooting;
 using _Project._Code.System.Score;
+using _Project._Code.UI;
 using UnityEngine;
 using Zenject;
 
@@ -21,6 +24,7 @@ namespace _Project._Code._Installers
         [SerializeField] private Asteroid _asteroid;
         [SerializeField] private FlyingSaucer _flyingSaucer;
         [SerializeField] private SpaceShip _spaceShip;
+        [SerializeField] private UIAdsChoose _uiAdsChoose;
         
         public override void InstallBindings()
         {
@@ -28,6 +32,7 @@ namespace _Project._Code._Installers
             DeclarePools();
             BindDependencies();
             Container.Bind<SpaceShip>().FromInstance(_spaceShip).AsSingle().NonLazy();
+            Container.Bind<UIAdsChoose>().FromInstance(_uiAdsChoose).AsSingle().NonLazy();
         }
 
         private void BindSystems()
@@ -38,6 +43,7 @@ namespace _Project._Code._Installers
             Container.BindInterfacesTo<LaserShooting>().AsSingle();
             Container.BindInterfacesTo<Score>().AsSingle();
             Container.BindInterfacesTo<GameStats>().AsSingle();
+            Container.BindInterfacesTo<GamePauseHandler>().AsSingle();
         }
 
         private void DeclarePools()
