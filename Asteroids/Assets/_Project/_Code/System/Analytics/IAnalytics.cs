@@ -4,7 +4,7 @@ using Zenject;
 
 namespace _Project._Code.System.Analytics
 {
-    public interface IAnalytics : IInitializable
+    public interface IAnalytics
     {
         public void OnGameStart();
         public void OnGameEnd(GameOverParams gameOverParams);

@@ -4,10 +4,13 @@ using _Project._Code.Parameters;
 using UnityEngine;
 using Firebase;
 using Firebase.Analytics;
+using Firebase.Extensions;
+using Firebase.RemoteConfig;
+using Zenject;
 
 namespace _Project._Code.System.Analytics
 {
-    public class FirebaseAnalytic : IAnalytics
+    public class FirebaseAnalytic : IAnalytics, IInitializable
     {
         public void Initialize()
         {
@@ -33,6 +36,37 @@ namespace _Project._Code.System.Analytics
             FirebaseAnalytics.LogEvent("laser_used");
         }
 
+        public Task FetchDataAsync()
+        {
+            Task fetchTask = FirebaseRemoteConfig.DefaultInstance.FetchAsync(TimeSpan.Zero);
+            return fetchTask.ContinueWithOnMainThread(FetchComplete);
+        }
+
+        private void FetchComplete(Task fetchTask)
+        {
+            if (!fetchTask.IsCompleted)
+            {
+                Debug.LogError($"Task {fetchTask.IsFaulted}: {fetchTask.Exception}");
+            }
+            
+            var remoteConfig = FirebaseRemoteConfig.DefaultInstance;
+            var info = remoteConfig.Info;
+            if (info.LastFetchStatus != LastFetchStatus.Success)
+            {
+                Debug.LogError($"Failed to fetch data from Firebase: {info.LastFetchStatus}");
+                return;
+            }
+
+            remoteConfig.ActivateAsync().ContinueWithOnMainThread(task =>
+            {
+                Debug.Log($"Successfully fetched data from Firebase: {task.Result}");
+                //тест, потом убрать
+                var a = FirebaseRemoteConfig.DefaultInstance.GetValue("testValue").LongValue;
+                Debug.Log($"Got value: {a}");
+                //
+            });
+        }
+
         private void FirebaseCreate(Task<DependencyStatus> task)
         {
             try
@@ -43,6 +77,7 @@ namespace _Project._Code.System.Analytics
                 }
                 FirebaseApp app = FirebaseApp.DefaultInstance;
                 FirebaseAnalytics.SetAnalyticsCollectionEnabled(true);
+                FetchDataAsync();
             }
             catch (Exception e)
             {
