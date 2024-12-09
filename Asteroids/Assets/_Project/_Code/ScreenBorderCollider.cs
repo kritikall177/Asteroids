@@ -1,19 +1,26 @@
 ﻿using _Project._Code.CollisionComponents;
+using _Project._Code.DataConfig.Configs;
 using UnityEngine;
+using Zenject;
 
 namespace _Project._Code
 {
     public class ScreenBorderCollider : MonoBehaviour
     {
         [SerializeField] private EdgeCollider2D _edgeCollider;
-    
-        [SerializeField] private float _screenWrapBuffer = 5f;
 
+        private IScreenWrapBuffer _screenWrapBuffer;
+        
         private float _screenWidth;
         private float _screenHeight;
 
         private Camera _mainCamera;
-
+        [Inject]
+        public void Construct(IScreenWrapBuffer screenWrapBuffer)
+        {
+            _screenWrapBuffer = screenWrapBuffer;
+        }
+        
         private void Awake()
         {
             _mainCamera = Camera.main;
@@ -49,20 +56,20 @@ namespace _Project._Code
         {
             Vector3 newPos = collision.transform.position;
         
-            if (newPos.x > _screenWidth - _screenWrapBuffer)
+            if (newPos.x > _screenWidth - _screenWrapBuffer.ScreenWrapBuffer)
             {
                 newPos.x = -_screenWidth;
             }
-            else if (newPos.x < -_screenWidth + _screenWrapBuffer)
+            else if (newPos.x < -_screenWidth + _screenWrapBuffer.ScreenWrapBuffer)
             {
                 newPos.x = _screenWidth;
             }
         
-            if (newPos.y > _screenHeight - _screenWrapBuffer)
+            if (newPos.y > _screenHeight - _screenWrapBuffer.ScreenWrapBuffer)
             {
                 newPos.y = -_screenHeight;
             }
-            else if (newPos.y < -_screenHeight + _screenWrapBuffer)
+            else if (newPos.y < -_screenHeight + _screenWrapBuffer.ScreenWrapBuffer)
             {
                 newPos.y = _screenHeight;
             }

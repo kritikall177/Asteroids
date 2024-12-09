@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using _Project._Code.CollisionObjects;
 using _Project._Code.CollisionObjects.Asteroid;
+using _Project._Code.DataConfig.Configs;
 using _Project._Code.Parameters;
 using UnityEngine;
 using Zenject;
@@ -9,16 +10,18 @@ namespace _Project._Code.MemoryPools
 {
     public class AsteroidPool : MemoryPool<SpawnParams, Asteroid>
     {
-        protected float AsteroidSpeed = 10f;
         protected List<Asteroid> ActiveAsteroids = new List<Asteroid>();
 
-        private int _fragmentsCount  = 2;
+        private IAsteroidSpeed _asteroidSpeed;
+        
+        private const int FragmentsCount  = 2;
         private LittleAsteroidPool _littleAsteroidPool;
 
         [Inject]
-        public AsteroidPool(LittleAsteroidPool littleAsteroidPool)
+        public AsteroidPool(LittleAsteroidPool littleAsteroidPool, IAsteroidSpeed asteroidSpeed)
         {
             _littleAsteroidPool = littleAsteroidPool;
+            _asteroidSpeed = asteroidSpeed;
         }
 
         protected AsteroidPool()
@@ -36,14 +39,14 @@ namespace _Project._Code.MemoryPools
         {
             asteroid.transform.localScale = Vector3.one;
             asteroid.transform.position = spawnParams.SpawnPosition;
-            asteroid.Rigidbody2D.AddForce(Random.insideUnitCircle.normalized * AsteroidSpeed, ForceMode2D.Impulse);
+            asteroid.Rigidbody2D.AddForce(Random.insideUnitCircle.normalized * _asteroidSpeed.AsteroidSpeed, ForceMode2D.Impulse);
         }
 
         protected override void OnDespawned(Asteroid asteroid)
         {
             if (asteroid.transform.localScale == Vector3.one)
             {
-                for (int i = 0; i < _fragmentsCount; i++)
+                for (int i = 0; i < FragmentsCount; i++)
                 {
                     _littleAsteroidPool.Spawn(new SpawnParams(asteroid.transform.position));
                 }

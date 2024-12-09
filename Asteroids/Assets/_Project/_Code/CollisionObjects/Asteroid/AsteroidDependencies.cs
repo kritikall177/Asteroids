@@ -12,6 +12,7 @@ namespace _Project._Code.CollisionObjects.Asteroid
     {
         public event Action OnAsteroidDestroyed;
         
+        
         [Inject]
         public AsteroidDependencies(IAddScore scoreSystem, AsteroidPool memoryPool, IAsteroidScoreCount asteroidScoreCount) : base(scoreSystem, memoryPool)
         {

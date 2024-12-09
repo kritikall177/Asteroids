@@ -1,5 +1,7 @@
 using System;
 using System.Threading.Tasks;
+using _Project._Code._DataConfig;
+using _Project._Code._Installers;
 using _Project._Code.Parameters;
 using UnityEngine;
 using Firebase;
@@ -10,10 +12,10 @@ using Zenject;
 
 namespace _Project._Code.System.Analytics
 {
-    public class FirebaseAnalytic : IAnalytics, IInitializable, IFirebaseConfigInstance
+    public class FirebaseAnalytic : IAnalytics, IInitializable, IFirebaseConfigUpdated
     {
-        public FirebaseRemoteConfig Instance { get; private set; }
-
+        public event Action OnFirebaseConfigUpdated;
+        
         public void Initialize()
         {
             FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(FirebaseCreate);
@@ -79,14 +81,15 @@ namespace _Project._Code.System.Analytics
 
             remoteConfig.ActivateAsync().ContinueWithOnMainThread(task =>
             {
+                OnFirebaseConfigUpdated?.Invoke();
                 Debug.Log($"Successfully fetched data from Firebase: {task.Result}");
             });
         }
     }
 
-    public interface IFirebaseConfigInstance
+    public interface IFirebaseConfigUpdated
     {
-        public FirebaseRemoteConfig Instance { get; }
+        public event Action OnFirebaseConfigUpdated;
     }
 }
 

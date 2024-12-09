@@ -8,6 +8,7 @@ namespace _Project._Code.CollisionObjects
     {
         protected IAddScore ScoreSystem;
         protected MemoryPool<TParams, TValue> MemoryPool;
+        
         protected int Score = 0;
         
         [Inject]

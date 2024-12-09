@@ -1,3 +1,4 @@
+using System;
 using _Project._Code._DataConfig.Configs;
 using _Project._Code.DataConfig;
 using _Project._Code.DataConfig.Configs;
@@ -8,9 +9,9 @@ using Zenject;
 
 namespace _Project._Code._DataConfig
 {
-    public class ConfigsDataBase : IInitializable, IAdsIDsConfig, ILaserSettingsConfig, IAsteroidScoreCount, ISaucerScoreCount,
+    public class ConfigsDataBase : IAdsIDsConfig, ILaserSettingsConfig, IAsteroidScoreCount, ISaucerScoreCount,
         IAggroZoneConfig, IAsteroidSpeed, IBulletPoolConfig, IScreenWrapBuffer, ILittleAsteroidPoolConfig, ISaucerSpeed,
-        IPlayerMovementAcceleration
+        IPlayerMovementAcceleration, IInitializable, IDisposable
     {
         public AdsIDsConfig AdsIDsConfig { get; private set; }
         public LaserSettingsConfig LaserSettingsConfig { get; private set; }
@@ -51,17 +52,28 @@ namespace _Project._Code._DataConfig
         private const string PlayerMovementAccelerationID = "PlayerMovementAcceleration";
         private const string ScreenWrapBufferID = "ScreenWrapBuffer";
 
+        private IFirebaseConfigUpdated _firebaseConfigUpdated;
+        
         private FirebaseRemoteConfig _defaultInstance;
 
-        [Inject]
-        public ConfigsDataBase(IFirebaseConfigInstance firebaseConfigInstance)
+        public ConfigsDataBase(IFirebaseConfigUpdated firebaseConfigUpdated)
         {
-            _defaultInstance = firebaseConfigInstance.Instance;
+            _firebaseConfigUpdated = firebaseConfigUpdated;
         }
-        
+
         public void Initialize()
         {
-            //_defaultInstance = FirebaseRemoteConfig.DefaultInstance;
+            _firebaseConfigUpdated.OnFirebaseConfigUpdated += ConfigUpdated;
+        }
+        
+        public void Dispose()
+        {
+            _firebaseConfigUpdated.OnFirebaseConfigUpdated -= ConfigUpdated;
+        }
+
+        public void ConfigUpdated()
+        {
+            _defaultInstance = FirebaseRemoteConfig.DefaultInstance;
             
             AdsIDsConfig = InitializeConfig<AdsIDsConfig>(AdsInitializerIDs);
             LaserSettingsConfig = InitializeConfig<LaserSettingsConfig>(LaserShootingParamsID);

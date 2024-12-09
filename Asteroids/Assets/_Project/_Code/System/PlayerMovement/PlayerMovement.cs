@@ -1,6 +1,7 @@
 ﻿using System;
 using _Project._Code.CollisionObjects;
 using _Project._Code.CollisionObjects.PlayerShip;
+using _Project._Code.DataConfig.Configs;
 using _Project._Code.Parameters;
 using _Project._Code.System.GameState;
 using _Project._Code.System.InputSystem;
@@ -13,10 +14,9 @@ namespace _Project._Code.System.PlayerMovement
     {
         public event Action<PlayerPositionParams> OnPositionChange;
         
-        private readonly float _acceleration = 10f;
-
         private IInputSystem _inputSystem;
         private IGameStateActionsSubscriber _gameStateActions;
+        private IPlayerMovementAcceleration _playerMovementAcceleration;
 
         private bool _isPlaying = true;
         private bool _isMoving;
@@ -28,12 +28,14 @@ namespace _Project._Code.System.PlayerMovement
 
 
         [Inject]
-        public PlayerMovement(IInputSystem inputSystem, IGameStateActionsSubscriber gameStateActions, SpaceShip ship)
+        public PlayerMovement(IInputSystem inputSystem, IGameStateActionsSubscriber gameStateActions, SpaceShip ship, 
+            IPlayerMovementAcceleration playerMovementAcceleration)
         {
             _inputSystem = inputSystem;
             _gameStateActions = gameStateActions;
             _cachedTransform = ship.transform;
             _cachedrigidbody2D = ship.Rigidbody2D;
+            _playerMovementAcceleration = playerMovementAcceleration;
         }
 
         public void Initialize()
@@ -84,7 +86,7 @@ namespace _Project._Code.System.PlayerMovement
         private void HandleMovement()
         {
             if (_isMoving) 
-                _cachedrigidbody2D.AddForce(_lookDir * _acceleration);
+                _cachedrigidbody2D.AddForce(_lookDir * _playerMovementAcceleration.PlayerMovementAcceleration);
         }
 
         private void HandleRotation()
