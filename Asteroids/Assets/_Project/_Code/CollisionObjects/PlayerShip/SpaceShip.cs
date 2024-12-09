@@ -1,10 +1,8 @@
 ﻿using _Project._Code.CollisionComponents;
-using _Project._Code.CollisionObjects.PlayerShip;
-using _Project._Code.System.GameState;
 using UnityEngine;
 using Zenject;
 
-namespace _Project._Code.CollisionObjects
+namespace _Project._Code.CollisionObjects.PlayerShip
 {
     public class SpaceShip : MonoBehaviour, IPlayerComponent, ITeleportableComponent
     {

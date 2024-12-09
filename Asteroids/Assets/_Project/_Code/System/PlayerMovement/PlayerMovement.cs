@@ -1,5 +1,6 @@
 ﻿using System;
 using _Project._Code.CollisionObjects;
+using _Project._Code.CollisionObjects.PlayerShip;
 using _Project._Code.Parameters;
 using _Project._Code.System.GameState;
 using _Project._Code.System.InputSystem;

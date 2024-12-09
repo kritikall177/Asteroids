@@ -10,8 +10,10 @@ using Zenject;
 
 namespace _Project._Code.System.Analytics
 {
-    public class FirebaseAnalytic : IAnalytics, IInitializable
+    public class FirebaseAnalytic : IAnalytics, IInitializable, IFirebaseConfigInstance
     {
+        public FirebaseRemoteConfig Instance { get; private set; }
+
         public void Initialize()
         {
             FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(FirebaseCreate);
@@ -36,10 +38,28 @@ namespace _Project._Code.System.Analytics
             FirebaseAnalytics.LogEvent("laser_used");
         }
 
-        public Task FetchDataAsync()
+        private void FirebaseCreate(Task<DependencyStatus> task)
+        {
+            try
+            {
+                if (!task.IsCompletedSuccessfully)
+                {
+                    throw new Exception($"Could not resolve all dependencies: {task.Exception}");
+                }
+                
+                FirebaseAnalytics.SetAnalyticsCollectionEnabled(true);
+                FetchDataAsync();
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+            }
+        }
+
+        private void FetchDataAsync()
         {
             Task fetchTask = FirebaseRemoteConfig.DefaultInstance.FetchAsync(TimeSpan.Zero);
-            return fetchTask.ContinueWithOnMainThread(FetchComplete);
+            fetchTask.ContinueWithOnMainThread(FetchComplete);
         }
 
         private void FetchComplete(Task fetchTask)
@@ -60,30 +80,13 @@ namespace _Project._Code.System.Analytics
             remoteConfig.ActivateAsync().ContinueWithOnMainThread(task =>
             {
                 Debug.Log($"Successfully fetched data from Firebase: {task.Result}");
-                //тест, потом убрать
-                var a = FirebaseRemoteConfig.DefaultInstance.GetValue("testValue").LongValue;
-                Debug.Log($"Got value: {a}");
-                //
             });
         }
+    }
 
-        private void FirebaseCreate(Task<DependencyStatus> task)
-        {
-            try
-            {
-                if (!task.IsCompletedSuccessfully)
-                {
-                    throw new Exception($"Could not resolve all dependencies: {task.Exception}");
-                }
-                FirebaseApp app = FirebaseApp.DefaultInstance;
-                FirebaseAnalytics.SetAnalyticsCollectionEnabled(true);
-                FetchDataAsync();
-            }
-            catch (Exception e)
-            {
-                Debug.LogException(e);
-            }
-        }
+    public interface IFirebaseConfigInstance
+    {
+        public FirebaseRemoteConfig Instance { get; }
     }
 }
 

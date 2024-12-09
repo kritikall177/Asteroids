@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using _Project._Code.CollisionObjects;
+using _Project._Code.CollisionObjects.PlayerShip;
 using _Project._Code.MemoryPools;
 using _Project._Code.System.GameState;
 using _Project._Code.System.InputSystem;
@@ -20,9 +21,10 @@ namespace _Project._Code.System.PlayerShooting
         private IGameStateActionsSubscriber _gameStateActions;
         
         private int _maxLaserCharge = 2;
-        private int _laserCharge = 2;
         private float _laserActiveTime = 0.5f;
         private int _laserRestoreTime = 20;
+        
+        private int _laserCharge;
 
         [Inject]
         public LaserShooting(AsyncProcessor asyncProcessor, SpaceShip spaceShip, IInputSystem inputSystem, 

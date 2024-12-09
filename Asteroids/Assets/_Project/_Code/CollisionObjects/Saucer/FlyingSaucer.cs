@@ -9,8 +9,6 @@ namespace _Project._Code.CollisionObjects.Saucer
         [SerializeField] private Rigidbody2D _rigidbody2D;
         [SerializeField] private Collider2D _collider;
 
-        [SerializeField] private int _scoreCount = 80;
-
         public Rigidbody2D Rigidbody2D
         {
             get => _rigidbody2D;
@@ -37,7 +35,7 @@ namespace _Project._Code.CollisionObjects.Saucer
                                       other.gameObject.TryGetComponent<IPlayerComponent>(out _)))
             {
                 _collider.enabled = false;
-                _dependencies.HandleDestroyed(this, _scoreCount);
+                _dependencies.HandleDestroyed(this);
             }
         }
     }

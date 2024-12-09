@@ -1,6 +1,9 @@
 ﻿using _Project._Code.CollisionComponents;
 using _Project._Code.CollisionObjects.Saucer;
+using _Project._Code.DataConfig.Configs;
 using UnityEngine;
+using UnityEngine.Serialization;
+using Zenject;
 
 namespace _Project._Code.CollisionObjects
 {
@@ -8,16 +11,22 @@ namespace _Project._Code.CollisionObjects
     {
         [SerializeField] private CircleCollider2D _collider2D;
         [SerializeField] private FlyingSaucer _flyingSaucer;
-        [SerializeField] private float _triggerRadius = 3f;
-        [SerializeField] private float _saucerSpeed = 10f;
+        
+        private IAggroZoneConfig _aggroZoneConfig;
         
         private bool _isEnemyDetect;
         private Transform _targetTransform;
         private Transform _cachedTransform;
 
+        [Inject]
+        public void Construct(IAggroZoneConfig aggroZoneConfig)
+        {
+            _aggroZoneConfig = aggroZoneConfig;
+        }
+        
         private void Start()
         {
-            _collider2D.radius = _triggerRadius;
+            _collider2D.radius = _aggroZoneConfig.SaucerTriggerRadius;
             _cachedTransform = _flyingSaucer.transform;
         }
 
@@ -46,7 +55,7 @@ namespace _Project._Code.CollisionObjects
             if (_isEnemyDetect)
             {
                 Vector2 direction = (_targetTransform.position - _cachedTransform.position).normalized;
-                _flyingSaucer.Rigidbody2D.linearVelocity = direction * _saucerSpeed;
+                _flyingSaucer.Rigidbody2D.linearVelocity = direction * _aggroZoneConfig.SaucerChasingSpeed;
             }
         }
     }

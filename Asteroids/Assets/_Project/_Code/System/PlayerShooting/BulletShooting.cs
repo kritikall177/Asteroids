@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using _Project._Code.CollisionObjects;
+using _Project._Code.CollisionObjects.PlayerShip;
 using _Project._Code.MemoryPools;
 using _Project._Code.Parameters;
 using _Project._Code.System.GameState;

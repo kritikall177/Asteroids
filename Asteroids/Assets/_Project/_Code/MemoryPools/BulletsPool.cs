@@ -10,7 +10,7 @@ namespace _Project._Code.MemoryPools
     public class BulletsPool : MemoryPool<BulletParams, Bullet>
     {
         private float _bulletSpeed = 20f;
-        private float _despawnTime = 1f;
+        private int _despawnTime = 2;
         
         protected override void OnSpawned(Bullet bullet)
         {

@@ -8,6 +8,7 @@ namespace _Project._Code.CollisionObjects
     {
         protected IAddScore ScoreSystem;
         protected MemoryPool<TParams, TValue> MemoryPool;
+        protected int Score = 0;
         
         [Inject]
         protected EnemyDependencies(IAddScore scoreSystem, MemoryPool<TParams, TValue> memoryPool)
@@ -16,9 +17,9 @@ namespace _Project._Code.CollisionObjects
             MemoryPool = memoryPool;
         }
         
-        public void HandleDestroyed(TValue item, int score)
+        public void HandleDestroyed(TValue item)
         {
-            ScoreSystem.AddScore(score);
+            ScoreSystem.AddScore(Score);
             MemoryPool.Despawn(item);
         }
     }

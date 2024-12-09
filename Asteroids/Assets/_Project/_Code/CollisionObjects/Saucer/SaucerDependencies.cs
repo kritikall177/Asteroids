@@ -1,4 +1,6 @@
 using System;
+using _Project._Code._DataConfig.Configs;
+using _Project._Code.DataConfig.Configs;
 using _Project._Code.MemoryPools;
 using _Project._Code.Parameters;
 using _Project._Code.System.Score;
@@ -11,16 +13,17 @@ namespace _Project._Code.CollisionObjects.Saucer
         public event Action OnSaucerDestroyed;
         
         [Inject]
-        public SaucerDependencies(IAddScore scoreSystem, SaucerPool memoryPool) : base(scoreSystem, memoryPool)
+        public SaucerDependencies(IAddScore scoreSystem, SaucerPool memoryPool, ISaucerScoreCount saucerScoreCount) : base(scoreSystem, memoryPool)
         {
             ScoreSystem = scoreSystem;
             MemoryPool = memoryPool;
+            Score = saucerScoreCount.SaucerScoreCount;
         }
         
-        public new void HandleDestroyed(FlyingSaucer item, int score)
+        public new void HandleDestroyed(FlyingSaucer item)
         {
             OnSaucerDestroyed?.Invoke();
-            base.HandleDestroyed(item, score);
+            base.HandleDestroyed(item);
         }
     }
 
