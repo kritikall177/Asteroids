@@ -21,7 +21,7 @@ namespace _Project._Code.CollisionObjects.Asteroid
             Score = asteroidScoreCount.AsteroidScoreCount;
         }
 
-        public new void HandleDestroyed(Asteroid item)
+        public override void HandleDestroyed(Asteroid item)
         {
             OnAsteroidDestroyed?.Invoke();
             base.HandleDestroyed(item);

@@ -20,7 +20,7 @@ namespace _Project._Code.CollisionObjects.Saucer
             Score = saucerScoreCount.SaucerScoreCount;
         }
         
-        public new void HandleDestroyed(FlyingSaucer item)
+        public override void HandleDestroyed(FlyingSaucer item)
         {
             OnSaucerDestroyed?.Invoke();
             base.HandleDestroyed(item);

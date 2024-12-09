@@ -18,7 +18,7 @@ namespace _Project._Code.CollisionObjects
             MemoryPool = memoryPool;
         }
         
-        public void HandleDestroyed(TValue item)
+        public virtual void HandleDestroyed(TValue item)
         {
             ScoreSystem.AddScore(Score);
             MemoryPool.Despawn(item);
