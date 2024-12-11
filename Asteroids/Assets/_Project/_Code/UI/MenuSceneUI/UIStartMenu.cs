@@ -1,5 +1,6 @@
 using _Project._Code._Installers;
 using _Project._Code.System.Ads;
+using _Project._Code.System.GameStorage;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -18,12 +19,14 @@ namespace _Project._Code.UI.MenuSceneUI
         
         private ISceneLoad _sceneLoad;
         private IAdsToggle _adsToggle;
+        private IScoreStorage _scoreStorage;
 
         [Inject]
-        public void Construct(ISceneLoad sceneLoad, IAdsToggle adsToggle)
+        public void Construct(ISceneLoad sceneLoad, IAdsToggle adsToggle, IScoreStorage scoreStorage)
         {
             _sceneLoad = sceneLoad;
             _adsToggle = adsToggle;
+            _scoreStorage = scoreStorage;
         }
 
         
@@ -32,6 +35,19 @@ namespace _Project._Code.UI.MenuSceneUI
             _playButton.onClick.AddListener(LoadGame);
             _disableAdsButton.onClick.AddListener(DisableAds);
             _quitButton.onClick.AddListener(QuitGame);
+            UpdateScore();
+        }
+
+        private void UpdateScore()
+        {
+            var list = _scoreStorage.HighScores;
+            var str = "Лучший результат:";
+            foreach (var score in list)
+            {
+                str += "\n" + score;
+            }
+            
+            _bestScoreText.SetText(str);
         }
 
         private void LoadGame()

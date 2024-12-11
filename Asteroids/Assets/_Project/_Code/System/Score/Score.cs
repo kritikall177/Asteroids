@@ -1,5 +1,9 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using _Project._Code.System.GameState;
+using _Project._Code.System.GameStorage;
+using UnityEngine;
 using Zenject;
 
 namespace _Project._Code.System.Score
@@ -7,30 +11,34 @@ namespace _Project._Code.System.Score
     public class Score : IScore, IInitializable, IDisposable
     {
         public event Action OnScoreChanged;
+
+        private int _scoreBonusForTime = 1;
+        private int _scoreBonusInterval = 3;
         
         private  IGameStateActionsSubscriber _gameStateActions;
+        private  IScoreStorage _scoreStorage;
+        private AsyncProcessor _asyncProcessor;
 
         private int _score;
 
         [Inject]
-        public Score(IGameStateActionsSubscriber gameStateActions)
+        public Score(IGameStateActionsSubscriber gameStateActions, IScoreStorage scoreStorage, AsyncProcessor asyncProcessor)
         {
             _gameStateActions = gameStateActions;
+            _scoreStorage = scoreStorage;
+            _asyncProcessor = asyncProcessor;
         }
 
         public void Initialize()
         {
-            _gameStateActions.OnGameStart += ResetScore;
+            _gameStateActions.OnGameStart += OnGameStart;
+            _gameStateActions.OnGameOver += OnGameEnd;
         }
 
         public void Dispose()
         {
-            _gameStateActions.OnGameStart -= ResetScore;
-        }
-
-        private void ResetScore()
-        {
-            _score = 0;
+            _gameStateActions.OnGameStart -= OnGameStart;
+            _gameStateActions.OnGameOver += OnGameEnd;
         }
 
         public void AddScore(int score)
@@ -45,6 +53,28 @@ namespace _Project._Code.System.Score
         public int GetScore()
         {
             return _score;
+        }
+
+        private void OnGameEnd()
+        {
+            _scoreStorage.TryAddInBestScore(_score);
+            _asyncProcessor.StopCoroutine(AddTimeScore(_scoreBonusForTime, _scoreBonusInterval));
+        }
+
+        private void OnGameStart()
+        {
+            _score = 0;
+            _asyncProcessor.StartCoroutine(AddTimeScore(_scoreBonusForTime, _scoreBonusInterval));
+        }
+
+        private IEnumerator AddTimeScore(int scoreBonusForTime, int scoreBonusInterval)
+        {
+            while (true)
+            {
+                _score += scoreBonusForTime;
+                OnScoreChanged?.Invoke();
+                yield return new WaitForSeconds(scoreBonusInterval); 
+            }
         }
     }
 }

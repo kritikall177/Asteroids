@@ -3,6 +3,7 @@ using _Project._Code.DataConfig;
 using _Project._Code.System.Ads;
 using _Project._Code.System.Analytics;
 using _Project._Code.System.GameState;
+using _Project._Code.System.GameStorage;
 using _Project._Code.System.InputSystem;
 using UnityEngine.SceneManagement;
 using Zenject;
@@ -19,6 +20,7 @@ namespace _Project._Code._Installers
             Container.BindInterfacesTo<GameStateActions>().AsSingle().NonLazy();
             Container.BindInterfacesTo<AdsControl>().AsSingle().NonLazy();
             Container.BindInterfacesTo<ConfigsDataBase>().AsSingle().NonLazy();
+            Container.BindInterfacesTo<ScoreStorage>().AsSingle().NonLazy();
             
             Container.Bind<AsyncProcessor>().FromNewComponentOnNewGameObject().AsSingle().NonLazy();
             
