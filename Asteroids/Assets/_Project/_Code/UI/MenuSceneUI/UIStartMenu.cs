@@ -1,4 +1,5 @@
 using _Project._Code._Installers;
+using _Project._Code.System.Ads;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -16,11 +17,13 @@ namespace _Project._Code.UI.MenuSceneUI
         [SerializeField] private TMP_Text _bestScoreText;
         
         private ISceneLoad _sceneLoad;
+        private IAdsToggle _adsToggle;
 
         [Inject]
-        public void Construct(ISceneLoad sceneLoad)
+        public void Construct(ISceneLoad sceneLoad, IAdsToggle adsToggle)
         {
             _sceneLoad = sceneLoad;
+            _adsToggle = adsToggle;
         }
 
         
@@ -38,7 +41,8 @@ namespace _Project._Code.UI.MenuSceneUI
 
         private void DisableAds()
         {
-            throw new NotImplementedException();
+            //уточнить как реализовать покупку пока просто по нажатию реклама будет вылючаться
+            _adsToggle.DisableAds();
         }
 
         private void QuitGame()

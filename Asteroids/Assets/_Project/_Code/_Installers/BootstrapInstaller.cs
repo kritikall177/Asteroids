@@ -17,12 +17,12 @@ namespace _Project._Code._Installers
             Container.BindInterfacesTo<FirebaseAnalytic>().AsSingle().NonLazy();
             Container.BindInterfacesTo<GameAnalytics>().AsSingle().NonLazy();
             Container.BindInterfacesTo<GameStateActions>().AsSingle().NonLazy();
-            Container.BindInterfacesTo<AdsInitializer>().AsSingle().NonLazy();
+            Container.BindInterfacesTo<AdsControl>().AsSingle().NonLazy();
             Container.BindInterfacesTo<ConfigsDataBase>().AsSingle().NonLazy();
             
             Container.Bind<AsyncProcessor>().FromNewComponentOnNewGameObject().AsSingle().NonLazy();
             
-            Container.BindInterfacesTo<Bootstrap>().AsSingle().NonLazy();
+            Container.BindInterfacesTo<SceneLoader>().AsSingle().NonLazy();
         }
     }
 }

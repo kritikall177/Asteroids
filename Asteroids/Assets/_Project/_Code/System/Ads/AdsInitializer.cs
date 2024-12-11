@@ -7,23 +7,23 @@ using NotImplementedException = System.NotImplementedException;
 
 namespace _Project._Code.System.Ads
 {
-    public class AdsInitializer : IUnityAdsInitializationListener, IInitializable, IAdsInvoker, IUnityAdsShowListener
+    public class AdsInitializer : IUnityAdsInitializationListener, IAds, IUnityAdsShowListener
     {
+        public string AndroidBannerAdsId { get; private set; } = "Interstitial_Android";
+        public string AndroidRewardedAdsId { get; private set; } = "Rewarded_Android";
+        
         private string _androidGameId = "5742623";
-        private string _androidBannerAdsId = "Interstitial_Android";
-        private string _androidRewardedAdsId = "Rewarded_Android";
         private bool _testMode = true;
-        
-        private IGameStateActionsInvoker _gameStateActionsInvoker;
-        
-        private string _gameId;
 
-        [Inject]
-        public AdsInitializer(IGameStateActionsInvoker gameStateActionsInvoker)
-        {
-            _gameStateActionsInvoker = gameStateActionsInvoker;
-        }
+        private IOnAdsCompleted _onAdsCompleted;
+
+        private string _gameId;
         
+        public AdsInitializer(IOnAdsCompleted onAdsCompleted)
+        {
+            _onAdsCompleted = onAdsCompleted;
+        }
+
         public void Initialize()
         {
             InitializeAds();
@@ -44,28 +44,19 @@ namespace _Project._Code.System.Ads
 
         public void ShowBannerAds()
         {
-            Advertisement.Show(_androidBannerAdsId, this);
+            Advertisement.Show(AndroidBannerAdsId, this);
         }
         
         public void ShowRewardedAds()
         {
-            Advertisement.Show(_androidRewardedAdsId, this);
+            Advertisement.Show(AndroidRewardedAdsId, this);
         }
 
         public void OnUnityAdsShowComplete(string placementId, UnityAdsShowCompletionState showCompletionState)
         {
-            
-            if (placementId == _androidRewardedAdsId)
-            {
-                _gameStateActionsInvoker.ResumeGame();
-            }
-            else
-            {
-                _gameStateActionsInvoker.ResumeGame();
-                _gameStateActionsInvoker.GameOver();
-            }
+            _onAdsCompleted.AdComplete(placementId);
         }
-
+        
         public void OnUnityAdsShowFailure(string placementId, UnityAdsShowError error, string message)
         {
         }

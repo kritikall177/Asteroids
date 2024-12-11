@@ -1,8 +1,8 @@
 namespace _Project._Code.System.Ads
 {
-    public interface IAdsInvoker
+    public interface IAdsShow
     {
-        public void ShowBannerAds();
+        public void ShowDefaultAds();
         public void ShowRewardedAds();
     }
 }

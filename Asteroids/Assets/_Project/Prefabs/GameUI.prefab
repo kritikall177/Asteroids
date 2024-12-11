@@ -147,7 +147,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1728934807729754522}
   m_Layer: 5
-  m_Name: UI
+  m_Name: GameUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1011,9 +1011,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2193504569632594739}
-  - component: {fileID: 7516175630772855526}
+  - component: {fileID: 5878768613697715193}
   m_Layer: 5
-  m_Name: AdsUI
+  m_Name: RetryOrQuitPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1040,7 +1040,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 280}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &7516175630772855526
+--- !u!114 &5878768613697715193
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1049,11 +1049,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7827653213207059680}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2db24e3365c04e38a3957de33c1dd641, type: 3}
+  m_Script: {fileID: 11500000, guid: ba474c94558a4a139a9a48842760a567, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _showAdsAndContinueButton: {fileID: 3016220253601543696}
-  _showAdsAndLoseButton: {fileID: 8413908859162940601}
+  _ContinueButton: {fileID: 3016220253601543696}
+  _LoseButton: {fileID: 8413908859162940601}
 --- !u!1 &7840352634888941105
 GameObject:
   m_ObjectHideFlags: 0

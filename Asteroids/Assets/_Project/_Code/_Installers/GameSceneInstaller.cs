@@ -13,7 +13,9 @@ using _Project._Code.System.PlayerMovement;
 using _Project._Code.System.PlayerShooting;
 using _Project._Code.System.Score;
 using _Project._Code.UI;
+using _Project._Code.UI.GameSceneUI;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 namespace _Project._Code._Installers
@@ -24,7 +26,7 @@ namespace _Project._Code._Installers
         [SerializeField] private Asteroid _asteroid;
         [SerializeField] private FlyingSaucer _flyingSaucer;
         [SerializeField] private SpaceShip _spaceShip;
-        [SerializeField] private UIAdsChoose _uiAdsChoose;
+        [SerializeField] private UIRetryOrQuitPanel uiRetryOrQuitPanel;
         
         public override void InstallBindings()
         {
@@ -32,7 +34,7 @@ namespace _Project._Code._Installers
             DeclarePools();
             BindDependencies();
             Container.Bind<SpaceShip>().FromInstance(_spaceShip).AsSingle().NonLazy();
-            Container.Bind<UIAdsChoose>().FromInstance(_uiAdsChoose).AsSingle().NonLazy();
+            Container.Bind<UIRetryOrQuitPanel>().FromInstance(uiRetryOrQuitPanel).AsSingle().NonLazy();
         }
 
         private void BindSystems()

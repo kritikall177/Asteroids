@@ -5,13 +5,13 @@ using Zenject;
 
 namespace _Project._Code._Installers
 {
-    public class Bootstrap : IInitializable, IDisposable, ISceneLoad
+    public class SceneLoader : IInitializable, IDisposable, ISceneLoad
     {
         private ZenjectSceneLoader _sceneLoader;
         private IFirebaseConfigUpdated _firebaseConfigUpdated;
 
         [Inject]
-        public Bootstrap(ZenjectSceneLoader sceneLoader, IFirebaseConfigUpdated firebaseConfigUpdated)
+        public SceneLoader(ZenjectSceneLoader sceneLoader, IFirebaseConfigUpdated firebaseConfigUpdated)
         {
             _sceneLoader = sceneLoader;
             _firebaseConfigUpdated = firebaseConfigUpdated;
