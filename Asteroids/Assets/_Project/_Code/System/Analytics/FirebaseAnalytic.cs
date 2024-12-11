@@ -1,7 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using _Project._Code._DataConfig;
-using _Project._Code._Installers;
 using _Project._Code.Parameters;
 using UnityEngine;
 using Firebase;
@@ -85,11 +83,6 @@ namespace _Project._Code.System.Analytics
                 Debug.Log($"Successfully fetched data from Firebase: {task.Result}");
             });
         }
-    }
-
-    public interface IFirebaseConfigUpdated
-    {
-        public event Action OnFirebaseConfigUpdated;
     }
 }
 

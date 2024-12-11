@@ -5,7 +5,7 @@ using Zenject;
 
 namespace _Project._Code._Installers
 {
-    public class Bootstrap : IInitializable, IDisposable
+    public class Bootstrap : IInitializable, IDisposable, ISceneLoad
     {
         private ZenjectSceneLoader _sceneLoader;
         private IFirebaseConfigUpdated _firebaseConfigUpdated;
@@ -19,17 +19,28 @@ namespace _Project._Code._Installers
 
         public void Initialize()
         {
-            _firebaseConfigUpdated.OnFirebaseConfigUpdated += LoadGame;
+            _firebaseConfigUpdated.OnFirebaseConfigUpdated += LoadMenuScene;
         }
 
         public void Dispose()
         {
-            _firebaseConfigUpdated.OnFirebaseConfigUpdated -= LoadGame;
+            _firebaseConfigUpdated.OnFirebaseConfigUpdated -= LoadMenuScene;
         }
 
-        private void LoadGame()
+        public void LoadMenuScene()
+        {
+            _sceneLoader.LoadScene("MenuScene");
+        }
+
+        public void LoadGameScene()
         {
             _sceneLoader.LoadScene("GameScene");
         }
+    }
+
+    public interface ISceneLoad
+    {
+        public void LoadMenuScene();
+        public void LoadGameScene();
     }
 }
