@@ -57,7 +57,6 @@ namespace _Project._Code.UI.MenuSceneUI
 
         private void DisableAds()
         {
-            //уточнить как реализовать покупку пока просто по нажатию реклама будет вылючаться
             _adsToggle.DisableAds();
         }
 
