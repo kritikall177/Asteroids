@@ -47,10 +47,6 @@ ExportedObj/
 *.opendb
 *.VC.db
 
-#больше 100мб
-*.bundle
-*.so
-
 # Unity3D generated meta files
 *.pidb.meta
 *.pdb.meta
