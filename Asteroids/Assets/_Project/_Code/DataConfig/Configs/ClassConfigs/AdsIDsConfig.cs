@@ -1,5 +1,6 @@
 namespace _Project._Code.DataConfig.Configs
 {
+    [System.Serializable]
     public class AdsIDsConfig
     {
         public string AndroidGameId;

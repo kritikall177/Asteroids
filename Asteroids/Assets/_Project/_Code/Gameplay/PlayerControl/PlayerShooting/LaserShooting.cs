@@ -3,6 +3,7 @@ using System.Collections;
 using _Project._Code.Collision.CollisionObjects.PlayerShip;
 using _Project._Code.Core;
 using _Project._Code.Core.InputSystem;
+using _Project._Code.DataConfig.Configs;
 using _Project._Code.Gameplay.GameState;
 using UnityEngine;
 using Zenject;
@@ -18,21 +19,19 @@ namespace _Project._Code.Gameplay.PlayerControl.PlayerShooting
         private AsyncProcessor _asyncProcessor;
         private IInputSystem _inputSystem;
         private IGameStateActionsSubscriber _gameStateActions;
-
-        private int _maxLaserCharge = 2;
-        private float _laserActiveTime = 0.5f;
-        private int _laserRestoreTime = 20;
+        private LaserSettingsConfig _laserSettingsConfig;
 
         private int _laserCharge;
 
         [Inject]
         public LaserShooting(AsyncProcessor asyncProcessor, SpaceShip spaceShip, IInputSystem inputSystem,
-            IGameStateActionsSubscriber gameStateActions)
+            IGameStateActionsSubscriber gameStateActions, ILaserSettingsConfig laserSettingsConfig)
         {
             _inputSystem = inputSystem;
             _asyncProcessor = asyncProcessor;
             _laserGameObject = spaceShip.LaserGameObject;
             _gameStateActions = gameStateActions;
+            _laserSettingsConfig = laserSettingsConfig.LaserSettingsConfig;
         }
 
         public void Initialize()
@@ -53,7 +52,7 @@ namespace _Project._Code.Gameplay.PlayerControl.PlayerShooting
         {
             _asyncProcessor.StopAllCoroutines();
             _laserGameObject.SetActive(false);
-            _laserCharge = _maxLaserCharge;
+            _laserCharge = _laserSettingsConfig.MaxLaserCharge;
             OnLaserChargeChanged?.Invoke(_laserCharge);
         }
 
@@ -73,16 +72,16 @@ namespace _Project._Code.Gameplay.PlayerControl.PlayerShooting
             OnLaserChargeChanged?.Invoke(_laserCharge);
             OnLaserInvoke?.Invoke();
 
-            yield return new WaitForSeconds(_laserActiveTime);
+            yield return new WaitForSeconds(_laserSettingsConfig.LaserActiveTime);
 
             _laserGameObject.SetActive(false);
         }
 
         private IEnumerator RestoreLaser()
         {
-            yield return new WaitForSeconds(_laserRestoreTime);
+            yield return new WaitForSeconds(_laserSettingsConfig.LaserRestoreTime);
 
-            if (_laserCharge < _maxLaserCharge)
+            if (_laserCharge < _laserSettingsConfig.MaxLaserCharge)
             {
                 _laserCharge += 1;
                 OnLaserChargeChanged?.Invoke(_laserCharge);

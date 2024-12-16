@@ -11,16 +11,15 @@ namespace _Project._Code.MemoryPools
     {
         protected List<Asteroid> ActiveAsteroids = new List<Asteroid>();
 
-        private IAsteroidSpeed _asteroidSpeed;
-
-        private int _fragmentsCount = 2;
+        private IAsteroidPoolConfig _iAsteroidPoolConfig;
+        
         private LittleAsteroidPool _littleAsteroidPool;
 
         [Inject]
-        public AsteroidPool(LittleAsteroidPool littleAsteroidPool, IAsteroidSpeed asteroidSpeed)
+        public AsteroidPool(LittleAsteroidPool littleAsteroidPool, IAsteroidPoolConfig iAsteroidPoolConfig)
         {
             _littleAsteroidPool = littleAsteroidPool;
-            _asteroidSpeed = asteroidSpeed;
+            _iAsteroidPoolConfig = iAsteroidPoolConfig;
         }
 
         protected AsteroidPool()
@@ -37,7 +36,7 @@ namespace _Project._Code.MemoryPools
         {
             asteroid.transform.localScale = Vector3.one;
             asteroid.transform.position = spawnParams.SpawnPosition;
-            asteroid.Rigidbody2D.AddForce(Random.insideUnitCircle.normalized * _asteroidSpeed.AsteroidSpeed,
+            asteroid.Rigidbody2D.AddForce(Random.insideUnitCircle.normalized * _iAsteroidPoolConfig.AsteroidSpeed,
                 ForceMode2D.Impulse);
         }
 
@@ -45,7 +44,7 @@ namespace _Project._Code.MemoryPools
         {
             if (asteroid.transform.localScale == Vector3.one)
             {
-                for (int i = 0; i < _fragmentsCount; i++)
+                for (int i = 0; i < _iAsteroidPoolConfig.FragmentsCount; i++)
                 {
                     _littleAsteroidPool.Spawn(new SpawnParams(asteroid.transform.position));
                 }

@@ -1,5 +1,6 @@
 namespace _Project._Code.DataConfig.Configs
 {
+    [System.Serializable]
     public class LaserSettingsConfig
     {
         public int MaxLaserCharge;

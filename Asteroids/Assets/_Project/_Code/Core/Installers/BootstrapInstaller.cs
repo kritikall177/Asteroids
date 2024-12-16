@@ -16,7 +16,8 @@ namespace _Project._Code.Core.Installers
             Container.BindInterfacesTo<GameAnalytics>().AsSingle().NonLazy();
             Container.BindInterfacesTo<GameStateActions>().AsSingle().NonLazy();
             Container.BindInterfacesTo<AdsControl>().AsSingle().NonLazy();
-            Container.BindInterfacesTo<ConfigsDataBase>().AsSingle().NonLazy();
+            Container.BindInterfacesTo<ConfigsGameInitilizer>().AsSingle().NonLazy();
+            Container.BindInterfacesTo<GameConfigProvider>().AsSingle().NonLazy();
             Container.BindInterfacesTo<ScoreStorage>().AsSingle().NonLazy();
 
             Container.Bind<AsyncProcessor>().FromNewComponentOnNewGameObject().AsSingle().NonLazy();

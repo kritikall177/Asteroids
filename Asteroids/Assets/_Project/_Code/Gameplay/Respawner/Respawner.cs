@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using _Project._Code.Core;
+using _Project._Code.DataConfig;
+using _Project._Code.DataConfig.Configs.ClassConfigs;
 using _Project._Code.Gameplay.GameState;
 using _Project._Code.MemoryPools;
 using _Project._Code.Parameters;
@@ -16,24 +18,20 @@ namespace _Project._Code.Gameplay.Respawner
         private SaucerPool _saucerPool;
         private IGameStateActionsSubscriber _gameStateActions;
         private AsyncProcessor _asyncProcessor;
-
-        private int _respawnAsteroidTime = 5;
-        private int _respawnSaucerTime = 10;
-        private float _spawnRange = 4f;
-        private int _maxAsteroidCount = 5;
-        private int _maxSoucerCount = 2;
+        private RespawnerConfig _respawnerConfig;
 
         private Camera _mainCamera;
         private List<Vector2> _spawnPosition = new List<Vector2>();
 
         [Inject]
         public Respawner(AsteroidPool asteroidPool, SaucerPool saucerPool, IGameStateActionsSubscriber gameStateActions,
-            AsyncProcessor asyncProcessor)
+            AsyncProcessor asyncProcessor, IRespawnerConfig respawnerConfig)
         {
             _asteroidPool = asteroidPool;
             _saucerPool = saucerPool;
             _gameStateActions = gameStateActions;
             _asyncProcessor = asyncProcessor;
+            _respawnerConfig = respawnerConfig.RespawnerConfig;
         }
 
         public void Initialize()
@@ -64,17 +62,17 @@ namespace _Project._Code.Gameplay.Respawner
             Vector2 screenBottomLeft = _mainCamera.ScreenToWorldPoint(new Vector2(0, 0));
             Vector2 screenTopRight = _mainCamera.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
 
-            _spawnPosition.Add(new Vector2(screenBottomLeft.x + _spawnRange, screenBottomLeft.y + _spawnRange));
-            _spawnPosition.Add(new Vector2(screenBottomLeft.x + _spawnRange, screenTopRight.y - _spawnRange));
-            _spawnPosition.Add(new Vector2(screenTopRight.x - _spawnRange, screenTopRight.y - _spawnRange));
-            _spawnPosition.Add(new Vector2(screenTopRight.x - _spawnRange, screenBottomLeft.y + _spawnRange));
+            _spawnPosition.Add(new Vector2(screenBottomLeft.x + _respawnerConfig.SpawnRange, screenBottomLeft.y + _respawnerConfig.SpawnRange));
+            _spawnPosition.Add(new Vector2(screenBottomLeft.x + _respawnerConfig.SpawnRange, screenTopRight.y - _respawnerConfig.SpawnRange));
+            _spawnPosition.Add(new Vector2(screenTopRight.x - _respawnerConfig.SpawnRange, screenTopRight.y - _respawnerConfig.SpawnRange));
+            _spawnPosition.Add(new Vector2(screenTopRight.x - _respawnerConfig.SpawnRange, screenBottomLeft.y + _respawnerConfig.SpawnRange));
         }
 
         private void EnableSpawn()
         {
             AsteroidSpawn();
-            _asyncProcessor.StartCoroutine(StartRespawn(AsteroidSpawn, _respawnAsteroidTime));
-            _asyncProcessor.StartCoroutine(StartRespawn(SaucerRespawn, _respawnSaucerTime));
+            _asyncProcessor.StartCoroutine(StartRespawn(AsteroidSpawn, _respawnerConfig.RespawnAsteroidTime));
+            _asyncProcessor.StartCoroutine(StartRespawn(SaucerRespawn, _respawnerConfig.RespawnSaucerTime));
         }
 
         private IEnumerator StartRespawn(Action spawnAction, float respawnDelay)
@@ -86,13 +84,13 @@ namespace _Project._Code.Gameplay.Respawner
 
         private void AsteroidSpawn()
         {
-            if (_asteroidPool.NumActive >= _maxAsteroidCount) return;
+            if (_asteroidPool.NumActive >= _respawnerConfig.MaxAsteroidCount) return;
             _asteroidPool.Spawn(GetSpawnParams());
         }
 
         private void SaucerRespawn()
         {
-            if (_saucerPool.NumActive >= _maxSoucerCount) return;
+            if (_saucerPool.NumActive >= _respawnerConfig.MaxSoucerCount) return;
             _saucerPool.Spawn(GetSpawnParams());
         }
 
