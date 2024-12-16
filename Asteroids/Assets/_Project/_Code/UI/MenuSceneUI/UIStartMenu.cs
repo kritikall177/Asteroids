@@ -63,8 +63,11 @@ namespace _Project._Code.UI.MenuSceneUI
 
         private void QuitGame()
         {
-            //заменить на нормальный выход перед билдом
-            EditorApplication.isPlaying = false;
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
         }
     }
 }
