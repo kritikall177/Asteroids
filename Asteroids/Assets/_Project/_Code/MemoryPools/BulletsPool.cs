@@ -1,6 +1,5 @@
 ﻿using System.Collections;
-using _Project._Code.CollisionObjects;
-using _Project._Code.CollisionObjects.Bullet;
+using _Project._Code.Collision.CollisionObjects.Bullet;
 using _Project._Code.DataConfig.Configs;
 using _Project._Code.Parameters;
 using UnityEngine;
@@ -11,13 +10,13 @@ namespace _Project._Code.MemoryPools
     public class BulletsPool : MemoryPool<BulletParams, Bullet>
     {
         private IBulletPoolConfig _config;
-        
+
         [Inject]
         public BulletsPool(IBulletPoolConfig config)
         {
             _config = config;
         }
-        
+
         protected override void OnSpawned(Bullet bullet)
         {
             bullet.gameObject.SetActive(true);

@@ -1,5 +1,5 @@
-using _Project._Code.System.Ads;
-using _Project._Code.System.GameState;
+using _Project._Code.Gameplay.GameState;
+using _Project._Code.Services.Ads;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -10,12 +10,12 @@ namespace _Project._Code.UI.GameSceneUI
     {
         [SerializeField] private Button _ContinueButton;
         [SerializeField] private Button _LoseButton;
-        
-        private IGameStateActionsSubscriber _gameStateActions; 
+
+        private IGameStateActionsSubscriber _gameStateActions;
         private IAdsShow _adsShow;
-        
+
         private bool _isFirstDead = true;
-        
+
         [Inject]
         public void Construct(IGameStateActionsSubscriber gameStateActions, IAdsShow adsShow)
         {
@@ -29,7 +29,7 @@ namespace _Project._Code.UI.GameSceneUI
             HidePanel();
             _ContinueButton.onClick.AddListener(PressContinue);
             _LoseButton.onClick.AddListener(PressLose);
-            
+
             _gameStateActions.OnGameStart += OnGameStart;
         }
 

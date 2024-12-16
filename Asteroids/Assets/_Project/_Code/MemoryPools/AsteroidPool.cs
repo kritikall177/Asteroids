@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
-using _Project._Code.CollisionObjects;
-using _Project._Code.CollisionObjects.Asteroid;
+using _Project._Code.Collision.CollisionObjects.Asteroid;
 using _Project._Code.DataConfig.Configs;
 using _Project._Code.Parameters;
 using UnityEngine;
@@ -13,8 +12,8 @@ namespace _Project._Code.MemoryPools
         protected List<Asteroid> ActiveAsteroids = new List<Asteroid>();
 
         private IAsteroidSpeed _asteroidSpeed;
-        
-        private int _fragmentsCount  = 2;
+
+        private int _fragmentsCount = 2;
         private LittleAsteroidPool _littleAsteroidPool;
 
         [Inject]
@@ -26,7 +25,6 @@ namespace _Project._Code.MemoryPools
 
         protected AsteroidPool()
         {
-            
         }
 
         protected override void OnSpawned(Asteroid asteroid)
@@ -39,7 +37,8 @@ namespace _Project._Code.MemoryPools
         {
             asteroid.transform.localScale = Vector3.one;
             asteroid.transform.position = spawnParams.SpawnPosition;
-            asteroid.Rigidbody2D.AddForce(Random.insideUnitCircle.normalized * _asteroidSpeed.AsteroidSpeed, ForceMode2D.Impulse);
+            asteroid.Rigidbody2D.AddForce(Random.insideUnitCircle.normalized * _asteroidSpeed.AsteroidSpeed,
+                ForceMode2D.Impulse);
         }
 
         protected override void OnDespawned(Asteroid asteroid)
@@ -51,7 +50,7 @@ namespace _Project._Code.MemoryPools
                     _littleAsteroidPool.Spawn(new SpawnParams(asteroid.transform.position));
                 }
             }
-            
+
             DespawnAsteroid(asteroid);
         }
 
@@ -65,12 +64,12 @@ namespace _Project._Code.MemoryPools
         public void DespawnAll()
         {
             var list = new List<Asteroid>(ActiveAsteroids);
-            
+
             foreach (var asteroid in list)
             {
                 Despawn(asteroid);
             }
-            
+
             _littleAsteroidPool?.DespawnAll();
         }
     }

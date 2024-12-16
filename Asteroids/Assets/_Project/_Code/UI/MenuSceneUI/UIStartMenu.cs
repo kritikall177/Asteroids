@@ -1,6 +1,6 @@
-using _Project._Code._Installers;
-using _Project._Code.System.Ads;
-using _Project._Code.System.GameStorage;
+using _Project._Code.Core.Installers;
+using _Project._Code.Gameplay.Score.ScoreStorage;
+using _Project._Code.Services.Ads;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -30,7 +30,7 @@ namespace _Project._Code.UI.MenuSceneUI
             _scoreStorage = scoreStorage;
         }
 
-        
+
         private void Start()
         {
             _playButton.onClick.AddListener(LoadGame);
@@ -47,7 +47,7 @@ namespace _Project._Code.UI.MenuSceneUI
             {
                 str += "\n" + score;
             }
-            
+
             _bestScoreText.SetText(str);
         }
 

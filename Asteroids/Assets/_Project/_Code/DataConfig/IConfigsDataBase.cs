@@ -1,6 +1,6 @@
 using Firebase.RemoteConfig;
 
-namespace _Project._Code._DataConfig
+namespace _Project._Code.DataConfig
 {
     public interface IConfigsDataBase
     {

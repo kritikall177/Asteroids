@@ -1,5 +1,4 @@
-﻿using _Project._Code.CollisionObjects;
-using _Project._Code.CollisionObjects.Asteroid;
+﻿using _Project._Code.Collision.CollisionObjects.Asteroid;
 using _Project._Code.DataConfig.Configs;
 using _Project._Code.Parameters;
 using UnityEngine;
@@ -10,7 +9,7 @@ namespace _Project._Code.MemoryPools
     public class LittleAsteroidPool : AsteroidPool
     {
         private ILittleAsteroidPoolConfig asteroidPoolConfig;
-        
+
         [Inject]
         public LittleAsteroidPool(ILittleAsteroidPoolConfig poolConfig)
         {
@@ -21,7 +20,8 @@ namespace _Project._Code.MemoryPools
         {
             asteroid.transform.localScale = Vector3.one;
             asteroid.transform.position = spawnParams.SpawnPosition;
-            asteroid.Rigidbody2D.AddForce(Random.insideUnitCircle.normalized * asteroidPoolConfig.LittleAsteroidSpeed, ForceMode2D.Impulse);
+            asteroid.Rigidbody2D.AddForce(Random.insideUnitCircle.normalized * asteroidPoolConfig.LittleAsteroidSpeed,
+                ForceMode2D.Impulse);
             asteroid.transform.localScale = Vector3.one * asteroidPoolConfig.LittleAsteroidScaleSize;
         }
 

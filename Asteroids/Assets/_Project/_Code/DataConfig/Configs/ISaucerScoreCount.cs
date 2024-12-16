@@ -1,4 +1,4 @@
-namespace _Project._Code._DataConfig.Configs
+namespace _Project._Code.DataConfig.Configs
 {
     public interface ISaucerScoreCount
     {

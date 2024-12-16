@@ -1,13 +1,11 @@
 using System;
-using _Project._Code._DataConfig.Configs;
-using _Project._Code.DataConfig;
 using _Project._Code.DataConfig.Configs;
-using _Project._Code.System.Analytics;
+using _Project._Code.Services.Analytics;
 using Firebase.RemoteConfig;
 using UnityEngine;
 using Zenject;
 
-namespace _Project._Code._DataConfig
+namespace _Project._Code.DataConfig
 {
     public class ConfigsDataBase : IAdsIDsConfig, ILaserSettingsConfig, IAsteroidScoreCount, ISaucerScoreCount,
         IAggroZoneConfig, IAsteroidSpeed, IBulletPoolConfig, IScreenWrapBuffer, ILittleAsteroidPoolConfig, ISaucerSpeed,
@@ -17,24 +15,24 @@ namespace _Project._Code._DataConfig
         public LaserSettingsConfig LaserSettingsConfig { get; private set; }
 
         public int AsteroidScoreCount { get; private set; }
-        
+
         public int SaucerScoreCount { get; private set; }
-        
+
         public float SaucerTriggerRadius { get; private set; }
         public float SaucerChasingSpeed { get; private set; }
-        
+
         public float AsteroidSpeed { get; private set; }
-        
+
         public int BulletDespawnTime { get; private set; }
         public float BulletSpeed { get; private set; }
-        
+
         public float LittleAsteroidScaleSize { get; private set; }
         public float LittleAsteroidSpeed { get; private set; }
-        
+
         public float SaucerSpeed { get; private set; }
-        
+
         public float PlayerMovementAcceleration { get; private set; }
-        
+
         public float ScreenWrapBuffer { get; private set; }
 
         private const string ADS_INITIALIZER_IDS = "AdsInitializerIDs";
@@ -54,7 +52,7 @@ namespace _Project._Code._DataConfig
 
 
         private IFirebaseConfigUpdated _firebaseConfigUpdated;
-        
+
         private FirebaseRemoteConfig _defaultInstance;
 
         public ConfigsDataBase(IFirebaseConfigUpdated firebaseConfigUpdated)
@@ -66,7 +64,7 @@ namespace _Project._Code._DataConfig
         {
             _firebaseConfigUpdated.OnFirebaseConfigUpdated += ConfigUpdated;
         }
-        
+
         public void Dispose()
         {
             _firebaseConfigUpdated.OnFirebaseConfigUpdated -= ConfigUpdated;

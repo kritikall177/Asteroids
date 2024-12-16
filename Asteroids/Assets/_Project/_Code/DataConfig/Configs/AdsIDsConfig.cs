@@ -1,4 +1,4 @@
-namespace _Project._Code.DataConfig
+namespace _Project._Code.DataConfig.Configs
 {
     public class AdsIDsConfig
     {
