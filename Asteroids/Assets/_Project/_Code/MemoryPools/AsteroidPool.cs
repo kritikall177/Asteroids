@@ -14,7 +14,7 @@ namespace _Project._Code.MemoryPools
 
         private IAsteroidSpeed _asteroidSpeed;
         
-        private const int FragmentsCount  = 2;
+        private int _fragmentsCount  = 2;
         private LittleAsteroidPool _littleAsteroidPool;
 
         [Inject]
@@ -46,7 +46,7 @@ namespace _Project._Code.MemoryPools
         {
             if (asteroid.transform.localScale == Vector3.one)
             {
-                for (int i = 0; i < FragmentsCount; i++)
+                for (int i = 0; i < _fragmentsCount; i++)
                 {
                     _littleAsteroidPool.Spawn(new SpawnParams(asteroid.transform.position));
                 }

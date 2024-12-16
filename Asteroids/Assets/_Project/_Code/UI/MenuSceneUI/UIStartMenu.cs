@@ -4,6 +4,7 @@ using _Project._Code.System.GameStorage;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Purchasing;
 using UnityEngine.UI;
 using Zenject;
 using NotImplementedException = System.NotImplementedException;
@@ -13,10 +14,10 @@ namespace _Project._Code.UI.MenuSceneUI
     public class UIStartMenu : MonoBehaviour
     {
         [SerializeField] private Button _playButton;
-        [SerializeField] private Button _disableAdsButton;
         [SerializeField] private Button _quitButton;
         [SerializeField] private TMP_Text _bestScoreText;
-        
+        [SerializeField] private CodelessIAPButton _AdsButton;
+
         private ISceneLoad _sceneLoad;
         private IAdsToggle _adsToggle;
         private IScoreStorage _scoreStorage;
@@ -33,8 +34,8 @@ namespace _Project._Code.UI.MenuSceneUI
         private void Start()
         {
             _playButton.onClick.AddListener(LoadGame);
-            _disableAdsButton.onClick.AddListener(DisableAds);
             _quitButton.onClick.AddListener(QuitGame);
+            _AdsButton.onPurchaseComplete.AddListener(DisableAds);
             UpdateScore();
         }
 
@@ -55,7 +56,7 @@ namespace _Project._Code.UI.MenuSceneUI
             _sceneLoad.LoadGameScene();
         }
 
-        private void DisableAds()
+        private void DisableAds(Product arg0)
         {
             _adsToggle.DisableAds();
         }

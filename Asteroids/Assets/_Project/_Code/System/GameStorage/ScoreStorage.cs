@@ -8,7 +8,7 @@ namespace _Project._Code.System.GameStorage
 {
     public class ScoreStorage : IInitializable, IDisposable, IScoreStorage
     {
-        private const string HighScore = "HighScore";
+        private string _highScore = "HighScore";
         private int _maxHighScoreCount = 3;
 
         public List<int> HighScores { get; private set; } = new List<int>();
@@ -26,7 +26,7 @@ namespace _Project._Code.System.GameStorage
 
         private void LoadHighScores()
         {
-            var str = PlayerPrefs.GetString(HighScore);
+            var str = PlayerPrefs.GetString(_highScore);
             if (str != String.Empty)
             {
                 string[] parts = str.Split(',');
@@ -37,7 +37,7 @@ namespace _Project._Code.System.GameStorage
         private void SaveHighScores()
         {
             var str = string.Join(",", HighScores);
-            PlayerPrefs.SetString(HighScore, str);
+            PlayerPrefs.SetString(_highScore, str);
             PlayerPrefs.Save();
         }
 
