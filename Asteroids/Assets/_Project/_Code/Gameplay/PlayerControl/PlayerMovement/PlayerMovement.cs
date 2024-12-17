@@ -24,9 +24,7 @@ namespace _Project._Code.Gameplay.PlayerControl.PlayerMovement
         private Camera _mainCamera;
         private Transform _cachedTransform;
         private Rigidbody2D _cachedrigidbody2D;
-
-
-        [Inject]
+        
         public PlayerMovement(IInputSystem inputSystem, IGameStateActionsSubscriber gameStateActions, SpaceShip ship,
             IPlayerMovementAcceleration playerMovementAcceleration)
         {

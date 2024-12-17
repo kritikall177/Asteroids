@@ -22,8 +22,7 @@ namespace _Project._Code.Gameplay.PlayerControl.PlayerShooting
         private LaserSettingsConfig _laserSettingsConfig;
 
         private int _laserCharge;
-
-        [Inject]
+        
         public LaserShooting(AsyncProcessor asyncProcessor, SpaceShip spaceShip, IInputSystem inputSystem,
             IGameStateActionsSubscriber gameStateActions, ILaserSettingsConfig laserSettingsConfig)
         {

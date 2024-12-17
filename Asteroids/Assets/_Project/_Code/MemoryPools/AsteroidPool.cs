@@ -14,8 +14,7 @@ namespace _Project._Code.MemoryPools
         private IAsteroidPoolConfig _iAsteroidPoolConfig;
         
         private LittleAsteroidPool _littleAsteroidPool;
-
-        [Inject]
+        
         public AsteroidPool(LittleAsteroidPool littleAsteroidPool, IAsteroidPoolConfig iAsteroidPoolConfig)
         {
             _littleAsteroidPool = littleAsteroidPool;

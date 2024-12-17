@@ -10,8 +10,7 @@ namespace _Project._Code.Services.Analytics
     {
         private IAnalytics _analytics;
         private IGameStateActionsSubscriber _gameStateActions;
-
-        [Inject]
+        
         public GameAnalytics(IAnalytics analytics, IGameStateActionsSubscriber gameStateActions)
         {
             _analytics = analytics;

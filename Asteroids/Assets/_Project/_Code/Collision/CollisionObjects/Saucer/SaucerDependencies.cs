@@ -11,7 +11,7 @@ namespace _Project._Code.Collision.CollisionObjects.Saucer
     {
         public event Action OnSaucerDestroyed;
 
-        [Inject]
+        
         public SaucerDependencies(IAddScore scoreSystem, SaucerPool memoryPool, ISaucerScoreCount saucerScoreCount) :
             base(scoreSystem, memoryPool)
         {

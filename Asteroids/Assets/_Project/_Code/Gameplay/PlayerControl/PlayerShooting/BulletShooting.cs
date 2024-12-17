@@ -19,8 +19,7 @@ namespace _Project._Code.Gameplay.PlayerControl.PlayerShooting
 
         private Camera _mainCamera;
         private Transform _cachedTransform;
-
-        [Inject]
+        
         public BulletShooting(IInputSystem inputSystem, BulletsPool bulletsPool, SpaceShip spaceShip)
         {
             _inputSystem = inputSystem;

@@ -10,7 +10,7 @@ namespace _Project._Code.Collision.CollisionObjects
 
         protected int Score = 0;
 
-        [Inject]
+        
         protected EnemyDependencies(IAddScore scoreSystem, MemoryPool<TParams, TValue> memoryPool)
         {
             ScoreSystem = scoreSystem;

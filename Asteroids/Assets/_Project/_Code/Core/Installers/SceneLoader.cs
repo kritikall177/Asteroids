@@ -8,8 +8,7 @@ namespace _Project._Code.Core.Installers
     {
         private ZenjectSceneLoader _sceneLoader;
         private IFirebaseConfigUpdated _firebaseConfigUpdated;
-
-        [Inject]
+        
         public SceneLoader(ZenjectSceneLoader sceneLoader, IFirebaseConfigUpdated firebaseConfigUpdated)
         {
             _sceneLoader = sceneLoader;

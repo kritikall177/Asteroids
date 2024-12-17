@@ -7,8 +7,7 @@ namespace _Project._Code.Gameplay.GameState.GamePause
     public class GamePauseHandler : IInitializable, IDisposable
     {
         private IGameStateActionsSubscriber _gameStateActionsSubscriber;
-
-        [Inject]
+        
         public GamePauseHandler(IGameStateActionsSubscriber gameStateActionsSubscriber)
         {
             _gameStateActionsSubscriber = gameStateActionsSubscriber;

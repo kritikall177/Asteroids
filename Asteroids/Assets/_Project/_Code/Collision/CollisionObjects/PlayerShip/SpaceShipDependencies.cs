@@ -8,8 +8,7 @@ namespace _Project._Code.Collision.CollisionObjects.PlayerShip
     {
         private IGameStateActionsInvoker _gameStateActionsInvoker;
         private UIRetryOrQuitPanel _adsUIChoose;
-
-        [Inject]
+        
         public SpaceShipDependencies(IGameStateActionsInvoker gameStateActionsInvoker, UIRetryOrQuitPanel adsUIChoose)
         {
             _gameStateActionsInvoker = gameStateActionsInvoker;

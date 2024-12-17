@@ -22,8 +22,7 @@ namespace _Project._Code.Gameplay.Respawner
 
         private Camera _mainCamera;
         private List<Vector2> _spawnPosition = new List<Vector2>();
-
-        [Inject]
+        
         public Respawner(AsteroidPool asteroidPool, SaucerPool saucerPool, IGameStateActionsSubscriber gameStateActions,
             AsyncProcessor asyncProcessor, IRespawnerConfig respawnerConfig)
         {

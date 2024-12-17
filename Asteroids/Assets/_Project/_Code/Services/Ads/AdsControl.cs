@@ -10,7 +10,6 @@ namespace _Project._Code.Services.Ads
 
         private bool _isAdsEnabled = true;
 
-        [Inject]
         public AdsControl(IGameStateActionsInvoker gameStateActionsInvoker)
         {
             _gameStateActionsInvoker = gameStateActionsInvoker;

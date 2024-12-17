@@ -9,8 +9,7 @@ namespace _Project._Code.MemoryPools
     public class LittleAsteroidPool : AsteroidPool
     {
         private ILittleAsteroidPoolConfig asteroidPoolConfig;
-
-        [Inject]
+        
         public LittleAsteroidPool(ILittleAsteroidPoolConfig poolConfig)
         {
             asteroidPoolConfig = poolConfig;

@@ -12,8 +12,7 @@ namespace _Project._Code.MemoryPools
         private ISaucerSpeed _saucerSpeed;
 
         private List<FlyingSaucer> _activeSaucers = new List<FlyingSaucer>();
-
-        [Inject]
+        
         public SaucerPool(ISaucerSpeed saucerSpeed)
         {
             _saucerSpeed = saucerSpeed;

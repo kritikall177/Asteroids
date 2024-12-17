@@ -10,8 +10,7 @@ namespace _Project._Code.MemoryPools
     public class BulletsPool : MemoryPool<BulletParams, Bullet>
     {
         private IBulletPoolConfig _config;
-
-        [Inject]
+        
         public BulletsPool(IBulletPoolConfig config)
         {
             _config = config;

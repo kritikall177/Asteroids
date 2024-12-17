@@ -22,8 +22,7 @@ namespace _Project._Code.Services.Analytics.GameStats
         private int _laserUses;
         private int _destroyedAsteroids;
         private int _destroyedUFOs;
-
-        [Inject]
+        
         public GameStats(IGameStateActionsSubscriber gameStateActions, IGameAnalytics gameAnalytics,
             IOnLaserInvoke onLaserInvoke, IOnBulletInvoke onBulletInvoke, IOnAsteroidDestroyed onAsteroidDestroy,
             IOnSaucerDestroyed onSaucerDestroy)

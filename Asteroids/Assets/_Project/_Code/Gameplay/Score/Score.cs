@@ -20,8 +20,7 @@ namespace _Project._Code.Gameplay.Score
         private AsyncProcessor _asyncProcessor;
 
         private int _score;
-
-        [Inject]
+        
         public Score(IGameStateActionsSubscriber gameStateActions, IScoreStorage scoreStorage,
             AsyncProcessor asyncProcessor)
         {

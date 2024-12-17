@@ -2,12 +2,10 @@ using _Project._Code.Core.Installers;
 using _Project._Code.Gameplay.Score.ScoreStorage;
 using _Project._Code.Services.Ads;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Purchasing;
 using UnityEngine.UI;
 using Zenject;
-using NotImplementedException = System.NotImplementedException;
 
 namespace _Project._Code.UI.MenuSceneUI
 {

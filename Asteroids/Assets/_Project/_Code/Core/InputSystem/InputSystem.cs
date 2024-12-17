@@ -17,8 +17,7 @@ namespace _Project._Code.Core.InputSystem
         public event Action<bool> OnAttackEvent;
         public event Action<bool> OnHeavyAttackEvent;
 
-
-        [Inject]
+        
         public InputSystem(IGameStateActionsSubscriber gameStateActions)
         {
             _inputSystemActions = new InputSystem_Actions();
