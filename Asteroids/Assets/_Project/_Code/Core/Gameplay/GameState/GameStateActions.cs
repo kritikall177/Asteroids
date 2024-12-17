@@ -2,7 +2,7 @@ using System;
 
 namespace _Project._Code.Core.Gameplay.GameState
 {
-    public class GameStateActions : IGameStateActions
+    public class GameStateActions : IGameStateActionsSubscriber, IGameStateActionsInvoker
     {
         public event Action OnGameStart;
         public event Action OnGamePause;

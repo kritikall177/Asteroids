@@ -12,20 +12,23 @@ namespace _Project._Code.Meta.UI.GameSceneUI
         [SerializeField] private Button _resetButton;
         [SerializeField] private TMP_Text _finalScore;
 
-        private IGameStateActions _gameStateActions;
+        private IGameStateActionsSubscriber _gameStateActionsSubscriber;
+        private IGameStateActionsInvoker _gameStateActionsInvoker;
         private IGetScore _score;
 
         [Inject]
-        public void Construct(IGameStateActions gameStateActions, IGetScore score)
+        public void Construct(IGameStateActionsSubscriber gameStateActionsSubscriber, IGetScore score, 
+            IGameStateActionsInvoker gameStateActionsInvoker)
         {
-            _gameStateActions = gameStateActions;
             _score = score;
+            _gameStateActionsSubscriber = gameStateActionsSubscriber;
+            _gameStateActionsInvoker = gameStateActionsInvoker;
         }
 
         private void Start()
         {
-            _gameStateActions.OnGameStart += HideGameStartUI;
-            _gameStateActions.OnGameOver += ShowGameStartUI;
+            _gameStateActionsSubscriber.OnGameStart += HideGameStartUI;
+            _gameStateActionsSubscriber.OnGameOver += ShowGameStartUI;
 
             _resetButton.onClick.AddListener(RestartGame);
 
@@ -34,8 +37,8 @@ namespace _Project._Code.Meta.UI.GameSceneUI
 
         private void OnDestroy()
         {
-            _gameStateActions.OnGameStart -= HideGameStartUI;
-            _gameStateActions.OnGameOver -= ShowGameStartUI;
+            _gameStateActionsSubscriber.OnGameStart -= HideGameStartUI;
+            _gameStateActionsSubscriber.OnGameOver -= ShowGameStartUI;
         }
 
         private void ShowGameStartUI()
@@ -53,7 +56,7 @@ namespace _Project._Code.Meta.UI.GameSceneUI
 
         private void RestartGame()
         {
-            _gameStateActions.StartGame();
+            _gameStateActionsInvoker.StartGame();
         }
     }
 }
