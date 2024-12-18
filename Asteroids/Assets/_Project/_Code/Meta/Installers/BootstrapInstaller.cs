@@ -19,6 +19,7 @@ namespace _Project._Code.Meta.Installers
             Container.BindInterfacesTo<ConfigsGameInitilizer>().AsSingle().NonLazy();
             Container.BindInterfacesTo<GameConfigProvider>().AsSingle().NonLazy();
             Container.BindInterfacesTo<ScoreStorage>().AsSingle().NonLazy();
+            Container.BindInterfacesTo<IAPService>().AsSingle().NonLazy();
 
             Container.Bind<AsyncProcessor>().FromNewComponentOnNewGameObject().AsSingle().NonLazy();
 

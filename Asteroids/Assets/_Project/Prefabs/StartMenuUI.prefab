@@ -461,10 +461,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playButton: {fileID: 4462263388124148351}
-  _disableAdsButton: {fileID: 2905467823220770033}
   _quitButton: {fileID: 4330775582639889418}
   _bestScoreText: {fileID: 2389835224287176303}
-  _AdsButton: {fileID: 1624794093846445894}
+  _AdsButton: {fileID: 2905467823220770033}
 --- !u!1 &6927496299467425207
 GameObject:
   m_ObjectHideFlags: 0
@@ -855,7 +854,6 @@ GameObject:
   - component: {fileID: 7571612588143086495}
   - component: {fileID: 6219682861102590569}
   - component: {fileID: 2905467823220770033}
-  - component: {fileID: 1624794093846445894}
   m_Layer: 5
   m_Name: DisableAdsButton
   m_TagString: Untagged
@@ -965,31 +963,3 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &1624794093846445894
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9137374429212613068}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b79b5624d944058bd39aad2b90fb275, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  productId: com.google.firebase.asteroids.removeads
-  buttonType: 0
-  consumePurchase: 1
-  onTransactionsRestored:
-    m_PersistentCalls:
-      m_Calls: []
-  onPurchaseComplete:
-    m_PersistentCalls:
-      m_Calls: []
-  onPurchaseFailed:
-    m_PersistentCalls:
-      m_Calls: []
-  onProductFetched:
-    m_PersistentCalls:
-      m_Calls: []
-  button: {fileID: 2905467823220770033}

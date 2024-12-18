@@ -1,6 +1,7 @@
 using _Project._Code.Core.Gameplay.Score.ScoreStorage;
 using _Project._Code.Meta.Installers;
 using _Project._Code.Meta.Services.Ads;
+using _Project._Code.Meta.Services.Ads.IAP;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Purchasing;
@@ -14,18 +15,18 @@ namespace _Project._Code.Meta.UI.MenuSceneUI
         [SerializeField] private Button _playButton;
         [SerializeField] private Button _quitButton;
         [SerializeField] private TMP_Text _bestScoreText;
-        [SerializeField] private CodelessIAPButton _AdsButton;
+        [SerializeField] private Button _AdsButton;
 
         private ISceneLoad _sceneLoad;
-        private IAdsToggle _adsToggle;
         private IScoreStorage _scoreStorage;
+        private IIAPService _iapService;
 
         [Inject]
-        public void Construct(ISceneLoad sceneLoad, IAdsToggle adsToggle, IScoreStorage scoreStorage)
+        public void Construct(ISceneLoad sceneLoad, IScoreStorage scoreStorage, IIAPService iapService)
         {
             _sceneLoad = sceneLoad;
-            _adsToggle = adsToggle;
             _scoreStorage = scoreStorage;
+            _iapService = iapService;
         }
 
 
@@ -33,7 +34,7 @@ namespace _Project._Code.Meta.UI.MenuSceneUI
         {
             _playButton.onClick.AddListener(LoadGame);
             _quitButton.onClick.AddListener(QuitGame);
-            _AdsButton.onPurchaseComplete.AddListener(DisableAds);
+            _AdsButton.onClick.AddListener(DisableAds);
             UpdateScore();
         }
 
@@ -54,9 +55,9 @@ namespace _Project._Code.Meta.UI.MenuSceneUI
             _sceneLoad.LoadGameScene();
         }
 
-        private void DisableAds(Product arg0)
+        private void DisableAds()
         {
-            _adsToggle.DisableAds();
+            _iapService.BuyNoAds();
         }
 
         private void QuitGame()
