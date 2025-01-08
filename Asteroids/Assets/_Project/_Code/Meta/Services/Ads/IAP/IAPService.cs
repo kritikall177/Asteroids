@@ -23,7 +23,7 @@ public class IAPService : IStoreListener, IInitializable, IIAPService
     {
         var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
         builder.AddProduct(NoAdsProductId, ProductType.NonConsumable);
-        UnityPurchasing.Initialize(this, builder);
+        UnityPurchasing.Initialize(this, builder); 
     }
 
     private bool IsInitialized()
