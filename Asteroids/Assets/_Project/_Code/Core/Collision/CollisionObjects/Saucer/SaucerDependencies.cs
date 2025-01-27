@@ -10,13 +10,15 @@ namespace _Project._Code.Core.Collision.CollisionObjects.Saucer
     {
         public event Action OnSaucerDestroyed;
 
-        
-        public SaucerDependencies(IAddScore scoreSystem, SaucerPool memoryPool, ISaucerScoreCount saucerScoreCount) :
-            base(scoreSystem, memoryPool)
+
+        public SaucerDependencies(IAddScore scoreSystem, SaucerPool memoryPool, ISaucerScoreCount saucerScoreCount,
+            ExplodeEffectPool explodeEffectPool) :
+            base(scoreSystem, memoryPool, explodeEffectPool)
         {
             ScoreSystem = scoreSystem;
             MemoryPool = memoryPool;
             Score = saucerScoreCount.SaucerScoreCount;
+            ExplodeEffectPool = explodeEffectPool;
         }
 
         public override void HandleDestroyed(FlyingSaucer item)

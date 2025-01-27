@@ -2,6 +2,7 @@ using _Project._Code.Core.Collision.CollisionObjects.Asteroid;
 using _Project._Code.Core.Collision.CollisionObjects.Bullet;
 using _Project._Code.Core.Collision.CollisionObjects.PlayerShip;
 using _Project._Code.Core.Collision.CollisionObjects.Saucer;
+using _Project._Code.Core.Effects;
 using _Project._Code.Core.Gameplay.GameState.GamePause;
 using _Project._Code.Core.Gameplay.PlayerControl.PlayerMovement;
 using _Project._Code.Core.Gameplay.PlayerControl.PlayerShooting;
@@ -21,6 +22,7 @@ namespace _Project._Code.Meta.Installers
         [SerializeField] private Asteroid _asteroid;
         [SerializeField] private FlyingSaucer _flyingSaucer;
         [SerializeField] private SpaceShip _spaceShip;
+        [SerializeField] private ExplodeEffect _explodeEffect;
         [SerializeField] private UIRetryOrQuitPanel uiRetryOrQuitPanel;
 
         public override void InstallBindings()
@@ -49,6 +51,7 @@ namespace _Project._Code.Meta.Installers
             Container.BindMemoryPool<Asteroid, LittleAsteroidPool>().FromComponentInNewPrefab(_asteroid);
             Container.BindMemoryPool<Asteroid, AsteroidPool>().FromComponentInNewPrefab(_asteroid);
             Container.BindMemoryPool<FlyingSaucer, SaucerPool>().FromComponentInNewPrefab(_flyingSaucer);
+            Container.BindMemoryPool<ExplodeEffect, ExplodeEffectPool>().FromComponentInNewPrefab(_explodeEffect);
         }
 
         private void BindDependencies()

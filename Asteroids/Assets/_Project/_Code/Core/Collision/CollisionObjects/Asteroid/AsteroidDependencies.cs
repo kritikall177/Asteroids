@@ -13,11 +13,12 @@ namespace _Project._Code.Core.Collision.CollisionObjects.Asteroid
 
         
         public AsteroidDependencies(IAddScore scoreSystem, AsteroidPool memoryPool,
-            IAsteroidScoreCount asteroidScoreCount) : base(scoreSystem, memoryPool)
+            IAsteroidScoreCount asteroidScoreCount, ExplodeEffectPool explodeEffectPool) : base(scoreSystem, memoryPool, explodeEffectPool)
         {
             ScoreSystem = scoreSystem;
             MemoryPool = memoryPool;
             Score = asteroidScoreCount.AsteroidScoreCount;
+            ExplodeEffectPool = explodeEffectPool;
         }
 
         public override void HandleDestroyed(Asteroid item)

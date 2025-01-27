@@ -704,6 +704,7 @@ MonoBehaviour:
   _asteroid: {fileID: 9120638456958331870, guid: 54364263a4b1f9745b3c3901cecd8a9f, type: 3}
   _flyingSaucer: {fileID: 1024567994243681835, guid: f85d6a30986640843bd8d85c0750b50c, type: 3}
   _spaceShip: {fileID: 708491308}
+  _explodeEffect: {fileID: 6194223329492574278, guid: 97266d251560da45db39be6d9ebac1c0, type: 3}
   uiRetryOrQuitPanel: {fileID: 794353362}
 --- !u!1001 &1498786101
 PrefabInstance:
