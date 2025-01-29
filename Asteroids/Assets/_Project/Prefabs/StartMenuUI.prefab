@@ -418,6 +418,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7684455673744365922}
   - component: {fileID: 44855216166911850}
+  - component: {fileID: 9057555556244420978}
   m_Layer: 5
   m_Name: StartMenuUI
   m_TagString: Untagged
@@ -464,6 +465,19 @@ MonoBehaviour:
   _quitButton: {fileID: 4330775582639889418}
   _bestScoreText: {fileID: 2389835224287176303}
   _AdsButton: {fileID: 2905467823220770033}
+  _canvasGroup: {fileID: 9057555556244420978}
+--- !u!225 &9057555556244420978
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5565631541339009468}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &6927496299467425207
 GameObject:
   m_ObjectHideFlags: 0

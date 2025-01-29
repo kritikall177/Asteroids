@@ -29,6 +29,7 @@ namespace _Project._Code.Meta.Services.Ads
         {
 #if UNITY_ANDROID
             _gameId = _androidGameId;
+            _testMode = false;
 #elif UNITY_EDITOR
             _gameId = _androidGameId; //Only for testing the functionality in the Editor
 #endif
@@ -55,6 +56,8 @@ namespace _Project._Code.Meta.Services.Ads
 
         public void OnUnityAdsShowFailure(string placementId, UnityAdsShowError error, string message)
         {
+            Debug.LogError($"Ad failed: {placementId}, Error: {error}, Message: {message}");
+
         }
 
         public void OnUnityAdsShowStart(string placementId)

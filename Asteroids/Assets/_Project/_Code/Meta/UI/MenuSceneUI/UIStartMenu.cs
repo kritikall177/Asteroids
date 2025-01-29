@@ -16,22 +16,26 @@ namespace _Project._Code.Meta.UI.MenuSceneUI
         [SerializeField] private Button _quitButton;
         [SerializeField] private TMP_Text _bestScoreText;
         [SerializeField] private Button _AdsButton;
+        [SerializeField] private CanvasGroup _canvasGroup;
 
         private ISceneLoad _sceneLoad;
         private IScoreStorage _scoreStorage;
         private IIAPService _iapService;
+        private IFadeEffect _fadeEffect;
 
         [Inject]
-        public void Construct(ISceneLoad sceneLoad, IScoreStorage scoreStorage, IIAPService iapService)
+        public void Construct(ISceneLoad sceneLoad, IScoreStorage scoreStorage, IIAPService iapService, IFadeEffect fadeEffect)
         {
             _sceneLoad = sceneLoad;
             _scoreStorage = scoreStorage;
             _iapService = iapService;
+            _fadeEffect = fadeEffect;
         }
 
 
         private void Start()
         {
+            _fadeEffect.FadeAnimation(_canvasGroup);
             _playButton.onClick.AddListener(LoadGame);
             _quitButton.onClick.AddListener(QuitGame);
             _AdsButton.onClick.AddListener(DisableAds);
