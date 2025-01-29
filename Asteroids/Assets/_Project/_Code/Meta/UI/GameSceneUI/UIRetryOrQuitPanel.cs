@@ -10,17 +10,20 @@ namespace _Project._Code.Meta.UI.GameSceneUI
     {
         [SerializeField] private Button _ContinueButton;
         [SerializeField] private Button _LoseButton;
+        [SerializeField] private CanvasGroup _CanvasGroup;
 
         private IGameStateActionsSubscriber _gameStateActions;
         private IAdsShow _adsShow;
+        private IFadeEffect _fadeEffect;
 
         private bool _isFirstDead = true;
 
         [Inject]
-        public void Construct(IGameStateActionsSubscriber gameStateActions, IAdsShow adsShow)
+        public void Construct(IGameStateActionsSubscriber gameStateActions, IAdsShow adsShow, IFadeEffect fadeEffect)
         {
             _gameStateActions = gameStateActions;
             _adsShow = adsShow;
+            _fadeEffect = fadeEffect;
         }
 
         private void Awake()
@@ -72,6 +75,7 @@ namespace _Project._Code.Meta.UI.GameSceneUI
         {
             _ContinueButton.gameObject.SetActive(true);
             _LoseButton.gameObject.SetActive(true);
+            _fadeEffect.FadeAnimation(_CanvasGroup);
         }
 
         private void HidePanel()

@@ -11,18 +11,21 @@ namespace _Project._Code.Meta.UI.GameSceneUI
     {
         [SerializeField] private Button _resetButton;
         [SerializeField] private TMP_Text _finalScore;
+        [SerializeField] private CanvasGroup _canvasGroup;
 
         private IGameStateActionsSubscriber _gameStateActionsSubscriber;
         private IGameStateActionsInvoker _gameStateActionsInvoker;
         private IGetScore _score;
+        private IFadeEffect _fadeEffect;
 
         [Inject]
         public void Construct(IGameStateActionsSubscriber gameStateActionsSubscriber, IGetScore score, 
-            IGameStateActionsInvoker gameStateActionsInvoker)
+            IGameStateActionsInvoker gameStateActionsInvoker, IFadeEffect fadeEffect)
         {
             _score = score;
             _gameStateActionsSubscriber = gameStateActionsSubscriber;
             _gameStateActionsInvoker = gameStateActionsInvoker;
+            _fadeEffect = fadeEffect;
         }
 
         private void Start()
@@ -33,6 +36,7 @@ namespace _Project._Code.Meta.UI.GameSceneUI
             _resetButton.onClick.AddListener(RestartGame);
 
             _finalScore.gameObject.SetActive(false);
+            _fadeEffect.FadeAnimation(_canvasGroup);
         }
 
         private void OnDestroy()
@@ -46,6 +50,7 @@ namespace _Project._Code.Meta.UI.GameSceneUI
             _resetButton.gameObject.SetActive(true);
             _finalScore.gameObject.SetActive(true);
             _finalScore.SetText($"Score:\n{_score.GetScore()}");
+            _fadeEffect.FadeAnimation(_canvasGroup);
         }
 
         private void HideGameStartUI()

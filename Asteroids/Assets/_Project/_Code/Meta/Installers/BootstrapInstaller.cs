@@ -4,6 +4,7 @@ using _Project._Code.Meta.DataConfig;
 using _Project._Code.Meta.Services.Ads;
 using _Project._Code.Meta.Services.Analytics;
 using _Project._Code.Meta.Sounds;
+using _Project._Code.Meta.UI;
 using UnityEngine;
 using Zenject;
 
@@ -24,6 +25,7 @@ namespace _Project._Code.Meta.Installers
             Container.BindInterfacesTo<GameConfigProvider>().AsSingle().NonLazy();
             Container.BindInterfacesTo<ScoreStorage>().AsSingle().NonLazy();
             Container.BindInterfacesTo<IAPService>().AsSingle().NonLazy();
+            Container.BindInterfacesTo<FadeInEffect>().AsSingle().NonLazy();
 
             Container.Bind<AsyncProcessor>().FromNewComponentOnNewGameObject().AsSingle().NonLazy();
             Container.Bind<SoundBackGroundManager>().FromComponentInNewPrefab(_soundBackGroundManager).AsSingle().NonLazy();

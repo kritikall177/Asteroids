@@ -306,6 +306,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2060335557140370630}
   - component: {fileID: 279831365959824147}
+  - component: {fileID: 6271721124658286514}
   m_Layer: 5
   m_Name: StartGameUI
   m_TagString: Untagged
@@ -348,6 +349,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _resetButton: {fileID: 5623063105156034502}
   _finalScore: {fileID: 4156599991006402107}
+  _canvasGroup: {fileID: 6271721124658286514}
+--- !u!225 &6271721124658286514
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3023836084921707813}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 1
 --- !u!1 &4116010975695519406
 GameObject:
   m_ObjectHideFlags: 0
@@ -1012,6 +1026,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2193504569632594739}
   - component: {fileID: 5878768613697715193}
+  - component: {fileID: 712978042314317420}
   m_Layer: 5
   m_Name: RetryOrQuitPanel
   m_TagString: Untagged
@@ -1054,6 +1069,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ContinueButton: {fileID: 3016220253601543696}
   _LoseButton: {fileID: 8413908859162940601}
+  _CanvasGroup: {fileID: 712978042314317420}
+--- !u!225 &712978042314317420
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7827653213207059680}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 1
 --- !u!1 &7840352634888941105
 GameObject:
   m_ObjectHideFlags: 0
