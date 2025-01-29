@@ -75,6 +75,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03096e1931da4ecabc6240bdeea9e06f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _soundBackGroundManager: {fileID: 471355511764371250, guid: 2a65e2a0d7298be5ab550128980735dd, type: 3}
 --- !u!1 &1367158866280011136
 GameObject:
   m_ObjectHideFlags: 0

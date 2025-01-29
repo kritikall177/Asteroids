@@ -60,6 +60,7 @@ namespace _Project._Code.Meta.Installers
             Container.BindInterfacesTo<SaucerDependencies>().FromNew().AsSingle();
             Container.Bind<SpaceShipDependencies>().FromNew().AsSingle();
             Container.Bind<BulletDependencies>().FromNew().AsSingle();
+            Container.Bind<IOnExplodeInvoke>().To<ExplodeEffectPool>().FromResolve();
         }
     }
 }
