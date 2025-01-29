@@ -26,23 +26,27 @@ namespace _Project._Code.Meta.InputSystem
 
         public void Initialize()
         {
-            _gameStateActions.OnGameStart += OnGameStart;
-            _gameStateActions.OnGameOver += OnGameOver;
+            _gameStateActions.OnGameStart += EnableInput;
+            _gameStateActions.OnGameOver += DisableInput;
+            _gameStateActions.OnGamePause += DisableInput;
+            _gameStateActions.OnGameResume += EnableInput;
             _inputSystemActions.Player.SetCallbacks(this);
         }
 
         public void Dispose()
         {
-            _gameStateActions.OnGameStart -= OnGameStart;
-            _gameStateActions.OnGameOver -= OnGameOver;
+            _gameStateActions.OnGameStart -= EnableInput;
+            _gameStateActions.OnGameOver -= DisableInput;
+            _gameStateActions.OnGamePause -= DisableInput;
+            _gameStateActions.OnGameResume += EnableInput;
         }
 
-        private void OnGameStart()
+        private void EnableInput()
         {
             _inputSystemActions.Player.Enable();
         }
 
-        private void OnGameOver()
+        private void DisableInput()
         {
             _inputSystemActions.Player.Disable();
         }
