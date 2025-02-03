@@ -1,5 +1,6 @@
 using _Project._Code.Core.Gameplay.Score.ScoreStorage;
 using _Project._Code.Meta.Installers;
+using _Project._Code.Meta.Services;
 using _Project._Code.Meta.Services.Ads;
 using _Project._Code.Meta.Services.Ads.IAP;
 using TMPro;
@@ -22,14 +23,17 @@ namespace _Project._Code.Meta.UI.MenuSceneUI
         private IScoreStorage _scoreStorage;
         private IIAPService _iapService;
         private IFadeEffect _fadeEffect;
+        private ICloudDataControl _cloudDataControl;
 
         [Inject]
-        public void Construct(ISceneLoad sceneLoad, IScoreStorage scoreStorage, IIAPService iapService, IFadeEffect fadeEffect)
+        public void Construct(ISceneLoad sceneLoad, IScoreStorage scoreStorage, IIAPService iapService,
+            IFadeEffect fadeEffect, ICloudDataControl cloudDataControl)
         {
             _sceneLoad = sceneLoad;
             _scoreStorage = scoreStorage;
             _iapService = iapService;
             _fadeEffect = fadeEffect;
+            _cloudDataControl = cloudDataControl;
         }
 
 
@@ -51,6 +55,7 @@ namespace _Project._Code.Meta.UI.MenuSceneUI
                 str += "\n" + score;
             }
 
+            str += "\n" + _scoreStorage.SaveTime;
             _bestScoreText.SetText(str);
         }
 
@@ -64,8 +69,10 @@ namespace _Project._Code.Meta.UI.MenuSceneUI
             _iapService.BuyNoAds();
         }
 
-        private void QuitGame()
+        private async void QuitGame()
         {
+            await _cloudDataControl.SaveData();
+            
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
 #else

@@ -1,6 +1,7 @@
 using _Project._Code.Core.Gameplay.GameState;
 using _Project._Code.Core.Gameplay.Score.ScoreStorage;
 using _Project._Code.Meta.DataConfig;
+using _Project._Code.Meta.Services;
 using _Project._Code.Meta.Services.Ads;
 using _Project._Code.Meta.Services.Analytics;
 using _Project._Code.Meta.Sounds;
@@ -26,6 +27,8 @@ namespace _Project._Code.Meta.Installers
             Container.BindInterfacesTo<ScoreStorage>().AsSingle().NonLazy();
             Container.BindInterfacesTo<IAPService>().AsSingle().NonLazy();
             Container.BindInterfacesTo<FadeInEffect>().AsSingle().NonLazy();
+            Container.BindInterfacesTo<Authentication>().AsSingle().NonLazy();
+            Container.BindInterfacesTo<CloudDataControl>().AsSingle().NonLazy();
 
             Container.Bind<AsyncProcessor>().FromNewComponentOnNewGameObject().AsSingle().NonLazy();
             Container.Bind<SoundBackGroundManager>().FromComponentInNewPrefab(_soundBackGroundManager).AsSingle().NonLazy();

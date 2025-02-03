@@ -43,7 +43,6 @@ namespace _Project._Code.Meta.UI.GameSceneUI
 
         public void RetryOrQuitInvokeUI()
         {
-            Debug.Log(123);
             if (_isFirstDead)
             {
                 _isFirstDead = false;
